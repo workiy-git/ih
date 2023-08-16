@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>DF287722-53C5-4616-9BBC-D360A8D52126</title>
+    <defs>
+        <linearGradient x1="38.2403154%" y1="32.7449375%" x2="110.335071%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#005AA2" offset="0%"></stop>
+            <stop stop-color="#4DBBC6" offset="100%"></stop>
+        </linearGradient>
+        <filter color-interpolation-filters="auto" id="filter-2">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Content-Detail-Opt-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop.Content.Detail.Aboriginal-Health-Wellness2" transform="translate(-737.000000, -2889.000000)">
+            <g id="Group-11" transform="translate(737.000000, 2889.000000)">
+                <g id="icon" fill="url(#linearGradient-1)">
+                    <rect id="bg" x="0" y="0" width="60" height="60" rx="4"></rect>
+                </g>
+                <g filter="url(#filter-2)" id="Group-2">
+                    <g transform="translate(6.000000, 20.000000)">
+                        <circle id="Oval" stroke="#979797" stroke-width="1.5" cx="11.5" cy="10.5" r="9.75"></circle>
+                        <circle id="Oval" stroke="#979797" stroke-width="1.5" cx="36.5" cy="10.5" r="9.75"></circle>
+                        <rect id="Rectangle" fill="#979797" x="0" y="9" width="2" height="2"></rect>
+                        <rect id="Rectangle" fill="#979797" x="46" y="9" width="2" height="2"></rect>
+                        <path d="M22,8.825 C23.522286,8.025 24.8556193,8.025 26,8.825" id="Path-3" stroke="#979797" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

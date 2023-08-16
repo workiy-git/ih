@@ -1,0 +1,68 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+<div class="ih-tab-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 sidebar">
+        <div class="sidebar__widget">
+          <ul class="nav tabs-left" role="tablist">
+          {% for key,row in rows %}
+            {% if loop.first %}
+              {% if view.style_plugin.getField(key, 'field_about_description') %}
+                <li role="presentation"><a href="#tab-about" aria-controls="tab-about" role="tab" data-toggle="tab" class="active">About</a></li>
+              {% endif %}
+              {% if views_field_view_view == 1 %}
+                <li role="presentation"><a href="#tab-services" aria-controls="tab-services" role="tab" data-toggle="tab">Services</a></li>
+              {% endif %}
+              {% if view.style_plugin.getField(key, 'field_emergency_hours') %}
+                <li role="presentation"><a  class="hours-tab" href="#tab-visiting-hours" aria-controls="tab-visiting-hours" role="tab" data-toggle="tab">Hours</a></li>
+              {% endif %}
+              {% if view.style_plugin.getField(key, 'field_parking') %}
+                <li role="presentation"><a href="#tab-parking" aria-controls="tab-parking" role="tab" data-toggle="tab">Parking</a></li>
+              {% endif %}
+              {% if view.style_plugin.getField(key, 'field_address_geofield') %}
+                <li role="presentation"><a href="#tab-campus-map" aria-controls="tab-campus-map" role="tab" data-toggle="tab">Campus Map</a></li>
+              {% endif %}
+              {% if views_field_view_view_1 == 1 %}
+                <li role="presentation"><a href="#tab-amenities" aria-controls="tab-amenities" role="tab" data-toggle="tab">Amenities</a></li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% for row in rows %}
+        {%
+          set row_classes = [
+            default_row_class ? 'views-row',
+            'col-sm-9',
+            'right-content',
+          ]
+        %}
+        <div{{ row.attributes.addClass(row_classes) }}>
+          {{- row.content -}}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

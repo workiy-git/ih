@@ -1,0 +1,87 @@
+{#
+/**
+ * @file
+ * Theme override to display a block.
+ *
+ * Available variables:
+ * - plugin_id: The ID of the block implementation.
+ * - label: The configured label of the block if visible.
+ * - configuration: A list of the block's configuration values.
+ *   - label: The configured label for the block.
+ *   - label_display: The display settings for the label.
+ *   - provider: The module or other provider that provided this block plugin.
+ *   - Block plugin specific settings will also be stored here.
+ * - content: The content of this block.
+ * - attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
+ *   - id: A valid HTML ID and guaranteed unique.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_block()
+ */
+#}
+{%
+  set classes = [
+    'block',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+    'hero-banner',
+  ]
+%}
+{%
+  set caption_width_offset =
+    (content.field_description_width_.0 ? 'col-lg-' ~ content.field_description_width_.0['#markup']) ~ (content.field_description_offset_.0 ? ' offset-lg-' ~ content.field_description_offset_.0['#markup'])
+%}
+
+<section class="hero-banner-parent">
+  <div class="windchimes top"></div>
+  <div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+      <div class="banner-image">
+        <picture>
+          <source media="(min-width: 768px)" srcset="{{ file_url(content.field_banner_desktop_image[0]['#media'].field_media_image.entity.uri.value) }}">
+          <source media="(max-width: 767px)" srcset="{{ file_url(content.field_image[0]['#media'].field_media_image.entity.uri.value) }}">
+          <img src="{{ file_url(content.field_banner_desktop_image[0]['#media'].field_media_image.entity.uri.value) }}">
+        </picture>
+      </div>
+      <div class="container">
+        <div class="row ">
+          <div class="banner-content {{ caption_width_offset }}">
+            <div class="banner-info">
+              {% if label %}
+                <h3{{ title_attributes.addClass('banner-title') }}>{{ label }}</h3>
+              {% endif %}
+              {%if content.field_banner_subtitle %}
+                <h4 class="banner-sub-title">
+                  {{ content.field_banner_subtitle|render|striptags|trim }}
+                </h4>
+              {% endif %}
+              {% if content.body %}
+                <p class="banner-description">
+                  {{ content.body|render|striptags|trim }}
+                </p>
+              {% endif %}
+            </div>
+            {% if content.field_link.0['#url'] %}
+              <div class="banner-readmore">
+              {% if content.field_link.0['#url'].isExternal() %}
+                <a href="{{ content.field_link.0['#url'] }}" class="button-primary-default" target="_blank">{{ content.field_link.0['#title'] }}</a>
+              {% else %}
+                <a href="{{ content.field_link.0['#url'] }}" class="button-primary-default">{{ content.field_link.0['#title'] }}</a>
+              {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+  </div>
+  <div class="windchimes bottom"></div>
+</section>

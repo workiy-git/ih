@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: Insta Feed.
+ * */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ */
+function insta_feed_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context) {
+
+  if ($route_match->getRouteName() == 'entity.node.canonical') {
+    $node = \Drupal::request()->get('node');
+    if ($node && (in_array($node->bundle(), ['our_services']) || in_array($node->bundle(), ['blog'])) ) {
+      $breadcrumb_links = $breadcrumb->getLinks();
+      $breadcrumb_links[2] = $breadcrumb_links[1];
+      if (in_array($node->bundle(), ['our_services'])) {
+        $breadcrumb_links[1] = Link::fromTextAndUrl('Our Services', Url::fromUri('internal:/our-services'));      
+      }
+      else {
+        $breadcrumb_links[1] = Link::fromTextAndUrl('Our Blog', Url::fromUri('internal:/our-blog'));
+      }
+      $breadcrumb_tags = $breadcrumb->getCacheTags();
+      $breadcrumb = new Breadcrumb();
+      $breadcrumb->mergeCacheMaxAge(-1);
+      $breadcrumb->setLinks($breadcrumb_links);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function insta_feed_theme($existing, $type, $theme, $path) {
+  $variables = [
+    'custom_insta_feed_block' => [
+      'variables' => [
+        'output' => [],
+      ],
+    ],
+  ];
+  return $variables;
+}
+
+/**
+ * Implements hook_help().
+ */
+function insta_feed_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the instagram posts module.
+    case 'help.page.instagram_feed':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides Instagram Feeds on a custom block.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Get the refresh token once in 60 days.
+ */
+function getRefreshedToken($access_token) {
+  $client = \Drupal::httpClient();
+  $request = $client->get('https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $access_token, ['http_errors' => FALSE]);
+  $body = $request->getBody();
+  $response = json_decode($body, TRUE);
+  return $response['access_token'];
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function insta_feed_preprocess_block(&$variables) {
+  
+  // \Drupal::logger('my_module')->notice($variables['plugin_id']);
+  if ($variables['plugin_id'] == 'system_breadcrumb_block') {
+    $variables['#cache']['max-age'] = 0;
+  }
+  
+  if ($variables['plugin_id'] == 'insta_feed_block') {
+    if (isset($variables['elements']['#id'])) {
+      $block_id = $variables['elements']['#id'];
+      $config_factory = \Drupal::configFactory();
+      // Get token validity & access token of current feed block.
+      $tokenvalidity = $config_factory->getEditable('block.block.' . $block_id)->get('settings.tokenvalidity');
+      $current_token = $config_factory->getEditable('block.block.' . $block_id)->get('settings.accesstoken');
+      $from = $tokenvalidity + (57 * 24 * 60 * 60);
+      // Get refresh token using current token.
+      $refreshed_token = getRefreshedToken($current_token);
+      // Update current token with refresh token once in 57 days.
+      if (time() >= $from) {
+        $config = $config_factory->getEditable('block.block.' . $block_id);
+        $config->set('settings.accesstoken', $refreshed_token);
+        $config->set('settings.tokenvalidity', time());
+        $config->save(TRUE);
+      }
+      // $variables['block_visibility'] = 1;
+      // $taxonomy = \Drupal::request()->attributes->get('taxonomy_term');
+      // if (!empty($taxonomy) && ($taxonomy->bundle() == 'content_hub_content_listing')) {
+      //   $storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+      //   $parents = $storage->loadAllParents($taxonomy->id());
+      //   $parent_ids = array_keys($parents);
+      //   if (!empty($parent_ids) && (($taxonomy->id() == '79') || ($taxonomy->id() == '65') || (in_array('79', $parent_ids)))) {
+      //     $variables['block_visibility'] = 0;
+      //   }
+      //   // else{
+      //   //   $variables['block_visibility'] = 1;
+      //   // }
+      // }
+    }
+  }
+}

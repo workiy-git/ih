@@ -1,0 +1,190 @@
+.sign-up-content {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 90, 162, 1) 0%,
+    rgba(77, 187, 198, 1) 100%
+  );
+  padding: 44px;
+  max-width: calc(100% - 40px);
+  margin: 0 auto;
+  top: -90px;
+}
+.myPortal-title,
+.myPortal-quote-title {
+  font-size: 26px;
+  line-height: 1.33;
+  color: #fff;
+  font-family: 'Montserrat-bold';
+}
+
+.myPortal-title {
+  color: #a8f1f9;
+  font-size: 18px;
+  line-height: 32px;
+  margin-bottom: 17px;
+}
+
+.myPortal-description {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5em;
+  color: #fff;
+  margin: 30px 0px 20px 0px;
+}
+.myPortal-button a {
+  background: #efc041;
+  color: #4d4d4d;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  min-width: 200px;
+  font-family: 'Montserrat-bold';
+}
+@media (min-width: 992px) {
+  .sign-up-banner {
+    display: flex;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 90, 162, 1) 0%,
+      rgba(77, 187, 198, 1) 100%
+    );
+    flex-direction: row-reverse;
+    align-items: stretch;
+    margin-top: 30px;
+  }
+  .myPortal-title,
+  .myPortal-quote-title {
+    text-align: left;
+  }
+  .myPortal-quote-title {
+    font-size: 40px;
+    line-height: 1.3em;
+    margin-top: 30px;
+  }
+  .sign-up-image {
+    width: 40%;
+    clip-path: polygon(31% 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+  .sign-up-content {
+    background: none;
+    top: 0px;
+    width: 50%;
+  }
+  .myPortal-description {
+    text-align: left;
+  }
+  .myPortal-button a {
+    width: auto;
+  }
+  .myPortal-title {
+    font-size: 26px;
+    line-height: 32px;
+    color: #a8f1f9;
+  }
+}
+@media (min-width: 1200px) {
+  .sign-up-banner-wrapper {
+    position: relative;
+    margin-bottom: 5px;
+  }
+
+  .sign-up-banner-wrapper::before {
+    content: "";
+    position: absolute;
+    width: 111px;
+    height: 98%;
+    opacity: 0.9;
+    background: #005aa2;
+  }
+
+  .sign-up-banner-wrapper::after {
+    content: "";
+    position: absolute;
+    width: 26px;
+    height: 232px;
+    opacity: 0.28;
+    background: #edbf3f;
+    right: 0;
+    bottom: 0;
+  }
+
+  .sign-up-banner-wrapper .windchimes.top::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 420px;
+    background: linear-gradient(to left, #4dbbc6 65%, #005aa2 0%);
+    opacity: 0.3;
+    left: 40px;
+  }
+
+  .sign-up-banner-wrapper .windchimes.top::after {
+    left: 90px;
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 325px;
+    background: #edbf3f;
+    opacity: 0.17;
+  }
+
+  .windchimes.top::before {
+    left: 0px;
+    top: 0px;
+  }
+
+  .windchimes.bottom::before {
+    right: 0px;
+    bottom: 0px;
+  }
+
+  .sign-up-banner-wrapper .windchimes.bottom::after {
+    content: "";
+    position: absolute;
+    width: 118px;
+    height: 144px;
+    background-image: linear-gradient(to left, #4dbbc6 65%, #005aa2 0%);
+    opacity: 0.5;
+  }
+
+  .sign-up-banner-wrapper .windchimes.bottom::before {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 297px;
+    background: #005aa2;
+    opacity: 0.5;
+  }
+
+  .windchimes.top::after {
+    left: 0px;
+    top: 0px;
+  }
+
+  .windchimes.bottom::after {
+    right: 0px;
+    bottom: 0px;
+  }
+
+  .sign-up-banner {
+    align-items: center;
+  }
+  .sign-up-content {
+    width: 41%;
+    padding: 35px 0;
+  }
+
+  /* .sign-up-image img {
+    min-height: 600px;
+  } */
+}
+
+@media (min-width: 1400px) {
+  .myPortal-description {
+    margin-top: 60px;
+  }
+}

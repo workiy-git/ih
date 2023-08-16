@@ -1,0 +1,124 @@
+.stay-connected
+{
+  position: relative;
+}
+.stay-connected > .block-wrapper {
+  position: relative;
+  background: linear-gradient(to right, #005aa2 -11%, #4dbbc6 194%);
+  margin: 50px 0 50px;
+  padding: 50px 10px 50px 30px;
+  color: #fff;
+}
+
+.stay-connected:after {
+  content: "";
+  background-color: #fff;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 1;
+  position: absolute;
+}
+
+.stay-connected:before {
+  content: "";
+  background-color: #fff;
+  left: 0;
+  top: 0px;
+  width: 100%;
+  height: 80px;
+  z-index: 1;
+  position: absolute;
+}
+
+.stay-connected .connected-image {
+  width: 220px;
+  height: 210px;
+  position: relative;
+  z-index: 2;
+  margin: 0 0 0 auto;
+}
+
+.stay-connected img {
+  width: 100%;
+}
+
+.stay-connected .container {
+  padding: 0;
+}
+
+.stay-connected .connected-title {
+  margin-bottom: 10px;
+  font-family: "Montserrat-Regular";
+  letter-spacing: 1px;
+}
+
+.stay-connected .connected-message {
+  font-size: 18px;
+  line-height: 1.44em;
+}
+
+.stay-connected .connected-link a {
+  display: inline-block;
+  background: #efc041;
+  padding: 12px 46px;
+  margin: 40px 10px 10px 0;
+  border-radius: 10px;
+  color: #4d4d4d;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .stay-connected .connected-title {
+    letter-spacing: 2px;
+  }
+  .stay-connected .connected-image {
+    margin: 0px 0 0 auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stay-connected {
+    padding: 0px;
+  }
+  .stay-connected .container {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+  }
+
+  .stay-connected .connected-content {
+    padding: 50px 10px 50px 60px;
+    margin-top: 0px;
+    width: calc(100% - 330px);
+  }
+  .stay-connected .connected-link a {
+    margin: 0px 10px 0px 0px;
+  }
+  .stay-connected .connected-message {
+    margin-bottom: 15px;
+  }
+  .stay-connected .connected-image {
+    width: 310px;
+    height: 290px;
+    margin-top: 0px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .stay-connected .connected-link a {
+    padding: 13px 55px;
+    min-width: 200px;
+    text-align: center;
+  }
+}
+@media (max-width:767px)
+{
+  .stay-connected:before
+  {
+    height: 20px;
+  }
+}

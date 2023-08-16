@@ -1,0 +1,111 @@
+.benefits-wrapper {
+  max-width: calc(100% - 60px);
+  margin: 50px auto;
+  color: #4d4d4d;
+}
+
+.benefits-header-wrapper {
+  margin-bottom: 50px;
+}
+
+.benefits-title {
+  font-size: 32px;
+  line-height: 1.19em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.benefits-items, .benefits-items > .views-infinite-scroll-content-wrapper
+{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.benefits-item {
+  flex: 0 0 50%;
+  text-align: center;
+  margin-bottom: 90px;
+  cursor: pointer;
+}
+
+.benefits-item:hover .benefits-text {
+  color: #005aa2;
+}
+
+.benefits-image {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  display: inline-block;
+}
+
+.benefits-item:hover .benefits-image {
+  opacity: 1;
+  border-radius: 50px;
+  transform: scale(1.1);
+  /* background: linear-gradient(313deg, #9ebfc2 87%, #005aa2 13%); */
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  filter: drop-shadow(0px 0px 3px #4dbbc6);
+}
+
+.benefits-text {
+  font-size: 12px;
+  line-height: 1.5em;
+  max-width: calc(100% - 20%);
+  margin: 0 auto;
+  color: #005aa2;
+}
+
+.benefits-link {
+  text-align: center;
+}
+
+.benefits-link a {
+  background-size: 100% 60%;
+  color: #fff;
+  padding: 13px;
+  margin: 20px auto 30px auto;
+  border-radius: 10px;
+  font-family: "Montserrat-Bold";
+  font-weight: 600;
+  min-width: 200px;
+  text-align: center;
+  background-size: 200% auto;
+  background-image: linear-gradient(
+    to right,
+    #005aa2 20%,
+    #4dbbc6 50%,
+    #005aa2 50%,
+    #005aa2 150%
+  );
+  transition: 0.5s;
+  display: inline-block;
+}
+
+@media (min-width: 992px) {
+  .benefits-wrapper {
+    max-width: 1140px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .benefits-item {
+    flex: 0 0 33.33%;
+    text-align: center;
+  }
+  .benefits-item:hover {
+    transform: scale(1.1);
+    transition: 0.3s transform;
+  }
+  .benefits-desc {
+    max-width: 730px;
+    margin: 0 auto;
+  }
+  .benefits-text {
+    font-size: 16px;
+    line-height: 1.5em;
+    max-width: 250px;
+    margin: 0 auto;
+    color: #4e4e56;
+  }
+}

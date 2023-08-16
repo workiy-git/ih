@@ -1,0 +1,10 @@
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function workflow_cache_flush_node_update(Drupal\Core\Entity\EntityInterface $entity) {
+  // Check if the node has changed from Review to Published status.
+  if ($entity->getOriginalEntity()->get('moderation_state')->value === 'review' && $entity->get('moderation_state')->value === 'published') {
+    // Flush the cache for the updated node.
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache([$entity->id()]);
+  }
+}

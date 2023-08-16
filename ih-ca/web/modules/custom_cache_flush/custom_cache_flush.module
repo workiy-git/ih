@@ -1,0 +1,41 @@
+<?php
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
+/**
+ * Implements hook_cron().
+ */
+function custom_cache_flush_cron() {
+  // Get the current time.
+  $current_time = new \DateTime('now', new \DateTimeZone('America/Los_Angeles'));
+  
+  // Define the flush times.
+  $flush_times = [
+    new \DateTime('12:00 PM', new \DateTimeZone('America/Los_Angeles')),
+    new \DateTime('6:00 PM', new \DateTimeZone('America/Los_Angeles')),
+  ];
+  
+  // Check if the current time matches any flush time.
+  foreach ($flush_times as $flush_time) {
+    if ($current_time->format('H:i') === $flush_time->format('H:i')) {
+      // Flush all caches.
+      Cache::invalidateAll();
+      \Drupal::messenger()->addMessage(t('Caches flushed at @time.', ['@time' => $flush_time->format('H:i')]));
+      break;
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function custom_cache_flush_menu_local_tasks_alter(&$data, $route_name) {
+  // Add a custom access callback to disable cache flush on certain actions.
+  $disable_cache_flush_actions = ['my_module.some_action', 'my_module.another_action'];
+  if (in_array($route_name, $disable_cache_flush_actions)) {
+    foreach ($data as &$tab) {
+      $tab['access_callback'] = FALSE;
+    }
+  }
+}

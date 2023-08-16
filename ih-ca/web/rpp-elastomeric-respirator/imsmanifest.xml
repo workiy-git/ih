@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest identifier="_6pGWVHC3jWu_course_id" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+      <general>
+        <title>
+          <langstring xml:lang="x-none">Respiratory Protection Program - Elastomeric Respirator</langstring>
+        </title>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+      </metametadata>
+      <educational>
+        <typicallearningtime>
+          <datetime>PT0H0M0S</datetime>
+        </typicallearningtime>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations default="Respiratory_Protection_Program_-_Elastomeric_Respirator_ORG">
+    <organization identifier="Respiratory_Protection_Program_-_Elastomeric_Respirator_ORG">
+      <title>Respiratory Protection Program - Elastomeric Respirator</title>
+      <item identifier="Respiratory_Protection_Program_-_Elastomeric_Respirator_SCO" isvisible="true" identifierref="__6pGWVHC3jWu_course_id_RES">
+        <title>Respiratory Protection Program - Elastomeric Respirator</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="__6pGWVHC3jWu_course_id_RES" type="webcontent" href="index_lms.html" adlcp:scormtype="sco">
+      <file href="story_content/thumbnail.jpg" />
+      <file href="mobile/6bZl5y3twkp_80_DX764_DY764_CX382_CY76.png" />
+      <file href="mobile/6Mr0Psx3wNc_80_P_40_40_520_528_DX1210_DY1210_CX520_CY528.png" />
+      <file href="mobile/6HVUkm06wLs_80_P_17_8_535_605_DX1080_DY1080_CX536_CY606.png" />
+      <file href="mobile/6HVUkm06wLs_80_P_509_105_35_52_DX1080_DY1080_CX35_CY53.png" />
+      <file href="mobile/62gP9TVzmWD_80_P_24_24_411_160_DX564_DY564_CX378_CY147.png" />
+      <file href="mobile/5UwlnCdoqb3_80_P_28_21_395_264_DX498_DY498_CX324_CY216.png" />
+      <file href="mobile/6j4WpQ9bmoJ_80_P_16_16_224_256_DX356_DY356_CX210_CY240.png" />
+      <file href="mobile/6o8amCCwPBY_80_P_14_14_63_63_DX186_DY186_CX64_CY64.png" />
+      <file href="mobile/5p9A8jU1BlI_80_P_15_10_72_72_DX220_DY220_CX73_CY73.png" />
+      <file href="mobile/5wSnCu286U9_80_P_14_14_59_63_DX178_DY178_CX59_CY63.png" />
+      <file href="mobile/6HVUkm06wLs_80_P_535_289_193_351_DX1080_DY1080_CX161_CY292.png" />
+      <file href="mobile/6HVUkm06wLs_80_P_570_333_26_70_DX1080_DY1080_CX22_CY58.png" />
+      <file href="mobile/6HVUkm06wLs_80_P_544_8_175_272_DX1080_DY1080_CX176_CY272.png" />
+      <file href="story_content/Shape5u7WsQcyJoc.swf" />
+      <file href="story_content/video_5hO2B7AO35D_22_48_640x480.mp4" />
+      <file href="mobile/video_5hO2B7AO35D_22_48_640x480.jpg" />
+      <file href="story_content/Shape5h1fPoghHjW.swf" />
+      <file href="story_content/video_6chNcKV7mKA_22_48_640x480.mp4" />
+      <file href="mobile/video_6chNcKV7mKA_22_48_640x480.jpg" />
+      <file href="story_content/Shape6RbKEKApCFB.swf" />
+      <file href="story_content/video_6Jgnftzm7gg_22_48_640x480.mp4" />
+      <file href="mobile/video_6Jgnftzm7gg_22_48_640x480.jpg" />
+      <file href="story_content/Shape6R1CclUEgnw.swf" />
+      <file href="story_content/video_6TtvYaKUPWn_22_48_640x480.mp4" />
+      <file href="mobile/video_6TtvYaKUPWn_22_48_640x480.jpg" />
+      <file href="story_content/Shape6PoKkvUUX89.swf" />
+      <file href="story_content/video_6NypcrwoDE8_22_48_640x480.mp4" />
+      <file href="mobile/video_6NypcrwoDE8_22_48_640x480.jpg" />
+      <file href="story_content/Shape5tAJnlpoOKI.swf" />
+      <file href="story_content/video_61gfqHmDUjS_22_48_640x480.mp4" />
+      <file href="mobile/video_61gfqHmDUjS_22_48_640x480.jpg" />
+      <file href="mobile/6Mr0Psx3wNc_80_DX1210_DY1210_CX602_CY605.png" />
+      <file href="meta.xml" />
+      <file href="story_content/user.js" />
+      <file href="html5/data/css/output.min.css" />
+      <file href="html5/data/js/5a3m09lkjjO.js" />
+      <file href="html5/data/js/5ebUMKHLxle.js" />
+      <file href="html5/data/js/5fKJ2SmCRNc.js" />
+      <file href="html5/data/js/5fTDShbil8W.js" />
+      <file href="html5/data/js/5hfIWAXzRMh.js" />
+      <file href="html5/data/js/5mWbHfDtehw.js" />
+      <file href="html5/data/js/5nY9xrBXO9b.js" />
+      <file href="html5/data/js/5qMMd6jp2uO.js" />
+      <file href="html5/data/js/5sUW0EJSHVO.js" />
+      <file href="html5/data/js/5WW8uerCBjZ.js" />
+      <file href="html5/data/js/5yHrFH8jNjJ.js" />
+      <file href="html5/data/js/5Z5a5nKFUKM.js" />
+      <file href="html5/data/js/5zd9BnKgtkc.js" />
+      <file href="html5/data/js/65YDanvftrc.js" />
+      <file href="html5/data/js/6BYTGj4UwWj.js" />
+      <file href="html5/data/js/6hIiFAtaBxf.js" />
+      <file href="html5/data/js/6I3ypCiRFbE.js" />
+      <file href="html5/data/js/6jZi63A7WEq.js" />
+      <file href="html5/data/js/6LrVayVlDG8.js" />
+      <file href="html5/data/js/6ptktBfGa1Z.js" />
+      <file href="html5/data/js/6U3TfJkhc05.js" />
+      <file href="html5/data/js/6WDjBPYPFte.js" />
+      <file href="html5/data/js/6ZIdMOZ2mV4.js" />
+      <file href="html5/data/js/6ZMsLFCUaO4.js" />
+      <file href="html5/data/js/data.js" />
+      <file href="html5/data/js/frame.js" />
+      <file href="html5/data/js/paths.js" />
+      <file href="html5/lib/scripts/app.min.js" />
+      <file href="html5/lib/stylesheets/main.min.css" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-bold.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-light.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-regular.woff" />
+      <file href="story.html" />
+      <file href="story_html5.html" />
+      <file href="analytics-frame.html" />
+      <file href="story_content/blank.html" />
+      <file href="story_content/story.js" />
+      <file href="index_lms.html" />
+      <file href="index_lms_html5.html" />
+      <file href="lms/AICCComm.html" />
+      <file href="lms/AICCFunctions.js" />
+      <file href="lms/API.js" />
+      <file href="lms/APIConstants.js" />
+      <file href="lms/blank.html" />
+      <file href="lms/browsersniff.js" />
+      <file href="lms/Configuration.js" />
+      <file href="lms/goodbye.html" />
+      <file href="lms/lms.js" />
+      <file href="lms/LMSAPI.js" />
+      <file href="lms/NONEFunctions.js" />
+      <file href="lms/SCORM2004Functions.js" />
+      <file href="lms/SCORMFunctions.js" />
+      <file href="lms/UtilityFunctions.js" />
+    </resource>
+  </resources>
+</manifest>

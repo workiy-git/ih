@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest identifier="_60gm3SE5vlU_course_id" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+      <general>
+        <title>
+          <langstring xml:lang="x-none">Ceiling Track Lift Operation</langstring>
+        </title>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+      </metametadata>
+      <educational>
+        <typicallearningtime>
+          <datetime>PT0H0M0S</datetime>
+        </typicallearningtime>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations default="Ceiling_Track_Lift_Operation_ORG">
+    <organization identifier="Ceiling_Track_Lift_Operation_ORG">
+      <title>Ceiling Track Lift Operation</title>
+      <item identifier="Ceiling_Track_Lift_Operation_SCO" isvisible="true" identifierref="__60gm3SE5vlU_course_id_RES">
+        <title>Ceiling Track Lift Operation</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="__60gm3SE5vlU_course_id_RES" type="webcontent" href="index_lms.html" adlcp:scormtype="sco">
+      <file href="story_content/thumbnail.jpg" />
+      <file href="story_content/5eAxrLyz8XR_22050_48_0.mp3" />
+      <file href="story_content/6o48jwTRcAM_22050_48_0.mp3" />
+      <file href="mobile/6W4UoVx5YaP_80_DX598_DY598_CX346_CY448.jpg" />
+      <file href="mobile/5Znr8hSszc7_80_DX598_DY598_CX346_CY448.jpg" />
+      <file href="mobile/685IM4lsHSK_80_P_25_0_689_907_DX568_DY568_CX324_CY426.png" />
+      <file href="mobile/6hNh0WEQS26_80_DX598_DY598_CX352_CY448.jpg" />
+      <file href="story_content/6ooHkRHeN9b_22050_48_0.mp3" />
+      <file href="story_content/6jjKSsOR4OR_22050_48_0.mp3" />
+      <file href="mobile/6K6ZXQ0kN6T_80_DX960_DY960_CX720_CY540.jpg" />
+      <file href="mobile/60E5T9Fut99_80_DX964_DY964_CX721_CY541.jpg" />
+      <file href="mobile/5ZDQyfYoF2S_80_DX832_DY832_CX624_CY468.jpg" />
+      <file href="story_content/6FVMB9jyhGx_22050_48_0.mp3" />
+      <file href="mobile/5tHO2nbjpz2_80_DX954_DY954_CX296_CY477.png" />
+      <file href="mobile/6Kd3fE7Bqb9_80_DX368_DY368_CX160_CY184.png" />
+      <file href="story_content/5bYpwAG1hXt_22050_48_0.mp3" />
+      <file href="mobile/5iqJs5UZDQe_80_P_80_0_323_500_DX832_DY832_CX323_CY500.png" />
+      <file href="mobile/5cg9bzIsJ1c_80_DX366_DY366_CX163_CY183.png" />
+      <file href="mobile/6KuCn4Llo5F_80_DX762_DY762_CX381_CY286.png" />
+      <file href="story_content/6pKOXu0Zx1T_22050_48_0.mp3" />
+      <file href="story_content/6oWF1KcP2gi_22050_48_0.mp3" />
+      <file href="story_content/video_6R14801wDhv_22_48_640x480.mp4" />
+      <file href="mobile/video_6R14801wDhv_22_48_640x480.jpg" />
+      <file href="story_content/video_6OKx5JOuPNA_22_48_640x480.mp4" />
+      <file href="mobile/video_6OKx5JOuPNA_22_48_640x480.jpg" />
+      <file href="mobile/6Kd3fE7Bqb9_80_P_15_0_132_183_DX368_DY368_CX132_CY184.png" />
+      <file href="story_content/video_5s3LBqtnPdX_22_48_640x480.mp4" />
+      <file href="mobile/video_5s3LBqtnPdX_22_48_640x480.jpg" />
+      <file href="mobile/5cg9bzIsJ1c_80_P_11_0_130_183_DX366_DY366_CX130_CY183.png" />
+      <file href="story_content/video_6D8uUfdJoa3_22_48_640x480.mp4" />
+      <file href="mobile/video_6D8uUfdJoa3_22_48_640x480.jpg" />
+      <file href="story_content/video_6EIg5zOLBZC_22_48_640x480.mp4" />
+      <file href="mobile/video_6EIg5zOLBZC_22_48_640x480.jpg" />
+      <file href="mobile/6QP376b2XTW_80_P_1_141_592_420_DX830_DY830_CX568_CY403.png" />
+      <file href="story_content/video_6FUdQCP0h54_22_48_854x480.mp4" />
+      <file href="mobile/video_6FUdQCP0h54_22_48_854x480.jpg" />
+      <file href="mobile/6X0YQdoJUVg_80_DX1024_DY1024_CX511_CY767.jpg" />
+      <file href="mobile/5bod7MGYeTD_80_DX436_DY436_CX218_CY46.png" />
+      <file href="mobile/5f9rgRop4xj_80_DX440_DY440_CX220_CY44.png" />
+      <file href="mobile/6QP376b2XTW_80_P_1_141_592_420_DX830_DY830_CX423_CY300.png" />
+      <file href="story_content/5Zq6uSOXCNy_22050_48_0.mp3" />
+      <file href="mobile/5XukyDaAPEv_80_P_0_49_250_183_DX522_DY522_CX251_CY183.png" />
+      <file href="meta.xml" />
+      <file href="story_content/user.js" />
+      <file href="mobile/Shape5Z31vHHCAKp.png" />
+      <file href="mobile/Shape6bLqYXSqJLj.png" />
+      <file href="mobile/Shape6kpYWKmLLxn.png" />
+      <file href="mobile/Shape6A1Le7uVxUP.png" />
+      <file href="html5/data/js/frame.js" />
+      <file href="html5/data/js/6VJCUgjjBW3.js" />
+      <file href="html5/data/js/6Hj7fxzDDzP.js" />
+      <file href="html5/data/js/6q8MuxQfZuE.js" />
+      <file href="html5/data/js/5a5QKgIVe3h.js" />
+      <file href="html5/data/js/5dYeBHzoimH.js" />
+      <file href="html5/data/js/5e6jhSE6zCy.js" />
+      <file href="html5/data/js/5afqhUwmR4T.js" />
+      <file href="html5/data/js/6RCnmoKIPh3.js" />
+      <file href="html5/data/js/5bPeo4dlb1G.js" />
+      <file href="html5/data/js/5oNlmjo0N5B.js" />
+      <file href="html5/data/js/6Dl05AmdTnM.js" />
+      <file href="html5/data/js/5alyR7TdVed.js" />
+      <file href="html5/data/js/6WIJmgevNxx.js" />
+      <file href="html5/data/js/6ICDYtwl85o.js" />
+      <file href="html5/data/js/62z9tNO54CZ.js" />
+      <file href="html5/data/js/data.js" />
+      <file href="html5/data/js/paths.js" />
+      <file href="html5/data/css/output.min.css" />
+      <file href="html5/lib/scripts/app.min.js" />
+      <file href="html5/lib/stylesheets/main.min.css" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-bold.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-light.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-regular.woff" />
+      <file href="story.html" />
+      <file href="story_html5.html" />
+      <file href="analytics-frame.html" />
+      <file href="story_content/blank.html" />
+      <file href="story_content/story.js" />
+      <file href="index_lms.html" />
+      <file href="index_lms_html5.html" />
+      <file href="lms/AICCComm.html" />
+      <file href="lms/AICCFunctions.js" />
+      <file href="lms/API.js" />
+      <file href="lms/APIConstants.js" />
+      <file href="lms/blank.html" />
+      <file href="lms/browsersniff.js" />
+      <file href="lms/Configuration.js" />
+      <file href="lms/goodbye.html" />
+      <file href="lms/lms.js" />
+      <file href="lms/LMSAPI.js" />
+      <file href="lms/NONEFunctions.js" />
+      <file href="lms/SCORM2004Functions.js" />
+      <file href="lms/SCORMFunctions.js" />
+      <file href="lms/UtilityFunctions.js" />
+    </resource>
+  </resources>
+</manifest>

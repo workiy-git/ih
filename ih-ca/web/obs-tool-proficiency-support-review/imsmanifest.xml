@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest identifier="_5VoE1j75yF5_course_id" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+      <general>
+        <title>
+          <langstring xml:lang="x-none">2020 OBS Tool Refresher</langstring>
+        </title>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+      </metametadata>
+      <educational>
+        <typicallearningtime>
+          <datetime>PT0H0M0S</datetime>
+        </typicallearningtime>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations default="2020_OBS_Tool_Refresher_ORG">
+    <organization identifier="2020_OBS_Tool_Refresher_ORG">
+      <title>2020 OBS Tool Refresher</title>
+      <item identifier="OBS_Tool_Refresher_-c_SCO" isvisible="true" identifierref="__5VoE1j75yF5_course_id_RES">
+        <title>2020 OBS Tool Refresher</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="__5VoE1j75yF5_course_id_RES" type="webcontent" href="index_lms.html" adlcp:scormtype="sco">
+      <file href="story_content/thumbnail.jpg" />
+      <file href="mobile/6olQS6C7XvW_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5pJHwx9Velr_22050_128_1.mp3" />
+      <file href="mobile/5zojYe3K9Qt_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6f753vNG26k_22050_128_1.mp3" />
+      <file href="mobile/5jiXlX1R5O7_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6cKk35OlHCR_22050_128_1.mp3" />
+      <file href="mobile/5Ux1fhYk5HW_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5s6qKdUYYgP_22050_128_1.mp3" />
+      <file href="mobile/6r25Z0M9L8D_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5dEn71jJP2F_22050_128_1.mp3" />
+      <file href="mobile/5aWK3tsWJoI_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5mLa0hIGtJo_22050_128_1.mp3" />
+      <file href="mobile/6jOsQmjWe99_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/65V02Njh4Dg_22050_128_1.mp3" />
+      <file href="mobile/5YLPOQDWuJ2_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5rlYvxykibB_22050_128_1.mp3" />
+      <file href="mobile/6d5uI5KkkRf_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5jLPilrpDFU_22050_128_1.mp3" />
+      <file href="mobile/6BCdhyEVzxo_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6RSV9HchI0y_22050_128_1.mp3" />
+      <file href="mobile/5eoGrQrUqGB_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/69auCFzUsNa_22050_128_1.mp3" />
+      <file href="mobile/5pblfEKh0Uz_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6bv7RMzpERh_22050_128_1.mp3" />
+      <file href="mobile/6bQKUNcO2aC_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6m8GqRWicCa_22050_128_1.mp3" />
+      <file href="mobile/62cYQ2hR8oR_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/5dCbzZLFLwc_22050_128_1.mp3" />
+      <file href="mobile/6AoO09ccSZE_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/661B7JKs1Q6_22050_128_1.mp3" />
+      <file href="mobile/6gLVv6nBaAn_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6bZMGsollYo_22050_128_1.mp3" />
+      <file href="mobile/5b8aCbzzcZe_DX2880_DY2880_CX2048_CY1536.png" />
+      <file href="story_content/6C7DtvfesvU_22050_128_1.mp3" />
+      <file href="meta.xml" />
+      <file href="story_content/user.js" />
+      <file href="html5/data/css/output.min.css" />
+      <file href="html5/data/js/5cVz8fgUCRa.js" />
+      <file href="html5/data/js/5jUFWemsX54.js" />
+      <file href="html5/data/js/5mrkOPAlf3T.js" />
+      <file href="html5/data/js/5ncuLuhFuct.js" />
+      <file href="html5/data/js/5oHwQBvBCzN.js" />
+      <file href="html5/data/js/5qY9KFxnJtW.js" />
+      <file href="html5/data/js/5spkZj6zzdF.js" />
+      <file href="html5/data/js/5wnH52IxoCl.js" />
+      <file href="html5/data/js/5WW0zYCzZMm.js" />
+      <file href="html5/data/js/5XC4GbkN2V3.js" />
+      <file href="html5/data/js/60VlJUJqoQ0.js" />
+      <file href="html5/data/js/61RMgOjROlC.js" />
+      <file href="html5/data/js/64c3LZGMgq5.js" />
+      <file href="html5/data/js/65OoJ9KBDn8.js" />
+      <file href="html5/data/js/69LJGiBGAyc.js" />
+      <file href="html5/data/js/6biwsH2u2o9.js" />
+      <file href="html5/data/js/6dYoi48ZoAT.js" />
+      <file href="html5/data/js/6eB7KWIIYiO.js" />
+      <file href="html5/data/js/6FLFrIfYItR.js" />
+      <file href="html5/data/js/6hNdAFzneN0.js" />
+      <file href="html5/data/js/6hpx7njwqyn.js" />
+      <file href="html5/data/js/6HYR4Hmcl70.js" />
+      <file href="html5/data/js/6i3pAG5DbG9.js" />
+      <file href="html5/data/js/6Iww9IORDvH.js" />
+      <file href="html5/data/js/6k75aLMeA06.js" />
+      <file href="html5/data/js/6KedndQxb0W.js" />
+      <file href="html5/data/js/6lfVHnWvcPG.js" />
+      <file href="html5/data/js/6MngBc8FSC4.js" />
+      <file href="html5/data/js/6PrRIxVKw0p.js" />
+      <file href="html5/data/js/6qioWtEnL7n.js" />
+      <file href="html5/data/js/6r1KdhSktMM.js" />
+      <file href="html5/data/js/6Sh4YDXbyfy.js" />
+      <file href="html5/data/js/6SU7q1Q2UAr.js" />
+      <file href="html5/data/js/6TOf0bHP02H.js" />
+      <file href="html5/data/js/6Woz62nKtD6.js" />
+      <file href="html5/data/js/6Wve9PZxf1L.js" />
+      <file href="html5/data/js/6X7nQAsCq1y.js" />
+      <file href="html5/data/js/6ZihiC3Y93k.js" />
+      <file href="html5/data/js/data.js" />
+      <file href="html5/data/js/frame.js" />
+      <file href="html5/data/js/paths.js" />
+      <file href="html5/lib/scripts/app.min.js" />
+      <file href="html5/lib/stylesheets/main.min.css" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-bold.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-light.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-regular.woff" />
+      <file href="story.html" />
+      <file href="story_html5.html" />
+      <file href="analytics-frame.html" />
+      <file href="story_content/blank.html" />
+      <file href="story_content/story.js" />
+      <file href="index_lms.html" />
+      <file href="index_lms_html5.html" />
+      <file href="lms/AICCComm.html" />
+      <file href="lms/AICCFunctions.js" />
+      <file href="lms/API.js" />
+      <file href="lms/APIConstants.js" />
+      <file href="lms/blank.html" />
+      <file href="lms/browsersniff.js" />
+      <file href="lms/Configuration.js" />
+      <file href="lms/goodbye.html" />
+      <file href="lms/lms.js" />
+      <file href="lms/LMSAPI.js" />
+      <file href="lms/NONEFunctions.js" />
+      <file href="lms/SCORM2004Functions.js" />
+      <file href="lms/SCORMFunctions.js" />
+      <file href="lms/UtilityFunctions.js" />
+    </resource>
+  </resources>
+</manifest>

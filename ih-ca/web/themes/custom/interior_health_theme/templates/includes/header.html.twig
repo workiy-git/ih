@@ -1,0 +1,41 @@
+<header class="site-header">
+  <div class="top-header">
+    {% if page.top_bar %}
+      <!-- TOP BAR -->
+      {{ page.top_bar }}
+      <!-- TOP BAR -->
+    {% endif %}
+  </div>
+  {% if page.top_menu_bar %}
+    <div class="container-fluid global-search-header interior-health-top-menu">
+        {{ page.top_menu_bar }}
+    </div>
+  {% endif %}
+  <div class="main-header interior-health-main-menu">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <nav role="navigation" class="navbar navbar-expand-lg navbar-light">
+
+            {% if page.header_left %}
+              <!-- nav_main -->
+              {{ page.header_left }}
+              <!-- nav_main -->
+            {% endif %}
+
+            <!-- navbar collapse / mobile Menu -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <!-- HEADER RIGHT -->
+              {% if page.header_right %}
+                {{ page.header_right }}
+              {% endif %}
+              <!-- HEADER RIGHT -->
+            </div>
+            <!-- navbar collapse / mobile Menu -->
+
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

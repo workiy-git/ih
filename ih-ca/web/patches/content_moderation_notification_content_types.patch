@@ -1,0 +1,244 @@
+diff --git a/config/schema/content_moderation_notifications.schema.yml b/config/schema/content_moderation_notifications.schema.yml
+index d12e362..9611673 100644
+--- a/config/schema/content_moderation_notifications.schema.yml
++++ b/config/schema/content_moderation_notifications.schema.yml
+@@ -17,6 +17,11 @@ content_moderation_notifications.content_moderation_notification.*:
+       sequence:
+         type: string
+         label: 'Transitions'
++    content_types:
++      type: sequence
++      sequence:
++        type: string
++        label: 'Content Types'
+     roles:
+       type: sequence
+       sequence:
+diff --git a/src/ContentModerationNotificationInterface.php b/src/ContentModerationNotificationInterface.php
+index 6c2cf6e..4b12722 100644
+--- a/src/ContentModerationNotificationInterface.php
++++ b/src/ContentModerationNotificationInterface.php
+@@ -57,6 +57,13 @@ interface ContentModerationNotificationInterface extends ConfigEntityInterface {
+    */
+   public function getTransitions();
+ 
++  /**
++   * Get the content types relevant to this notification.
++   * @return string[]
++   *   The relevant content types
++   */
++  public function getContentTypes();
++
+   /**
+    * Gets the notification subject.
+    *
+diff --git a/src/Controller/ContentModerationNotificationsListBuilder.php b/src/Controller/ContentModerationNotificationsListBuilder.php
+index 2e1c653..e52f20c 100644
+--- a/src/Controller/ContentModerationNotificationsListBuilder.php
++++ b/src/Controller/ContentModerationNotificationsListBuilder.php
+@@ -41,6 +41,7 @@ class ContentModerationNotificationsListBuilder extends ConfigEntityListBuilder
+     $header['workflow'] = $this->t('Workflow');
+     $header['status'] = $this->t('Status');
+     $header['transition'] = $this->t('Transitions');
++    $header['content_types'] = $this->t('Content Types');
+     $header['roles'] = $this->t('Email Roles');
+     $header['author'] = $this->t('Email Author');
+     $header['emails'] = $this->t('Adhoc Emails');
+@@ -92,6 +93,12 @@ class ContentModerationNotificationsListBuilder extends ConfigEntityListBuilder
+       $roles = array_keys(array_filter($entity->roles));
+     }
+ 
++    $content_types = [];
++    if ($entity->content_types) {
++      $content_types = array_keys(array_filter($entity->content_types));
++    }
++
++    $row['content_types'] = implode(', ', $content_types);
+     $row['roles'] = implode(', ', $roles);
+     $row['author'] = $entity->author ? $this->t('Yes') : $this->t('No');
+     $row['emails'] = $entity->emails;
+diff --git a/src/Entity/ContentModerationNotification.php b/src/Entity/ContentModerationNotification.php
+index d25d729..522eecb 100644
+--- a/src/Entity/ContentModerationNotification.php
++++ b/src/Entity/ContentModerationNotification.php
+@@ -49,6 +49,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
+  *     "id",
+  *     "workflow",
+  *     "transitions",
++ *     "content_types",
+  *     "roles",
+  *     "author",
+  *     "site_mail",
+@@ -113,6 +114,11 @@ class ContentModerationNotification extends ConfigEntityBase implements ContentM
+    */
+   public $transitions = [];
+ 
++  /**
++   * The content types relevant to this notification.
++   */
++  public $content_types = [];
++
+   /**
+    * The associated workflow for these notifications.
+    *
+@@ -134,12 +140,20 @@ class ContentModerationNotification extends ConfigEntityBase implements ContentM
+     return $this->get('roles');
+   }
+ 
++  /**
++   * {@inheritdoc}
++   */
++  public function getContentTypes() {
++    return $this->get('content_types');
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+   public function preSave(EntityStorageInterface $storage) {
+     $this->set('roles', array_filter($this->get('roles')));
+-    $this->set('transitions', array_filter(($this->get('transitions'))));
++    $this->set('transitions', array_filter($this->get('transitions')));
++    $this->set('content_types', array_filter($this->get('content_types')));
+     parent::preSave($storage);
+   }
+ 
+diff --git a/src/Form/ContentModerationNotificationsFormBase.php b/src/Form/ContentModerationNotificationsFormBase.php
+index 0212a1c..9e147a5 100644
+--- a/src/Form/ContentModerationNotificationsFormBase.php
++++ b/src/Form/ContentModerationNotificationsFormBase.php
+@@ -57,6 +57,7 @@ class ContentModerationNotificationsFormBase extends EntityForm {
+     // Retrieve a list of all possible workflows.
+     /** @var \Drupal\workflows\WorkflowInterface[] $workflows */
+     $workflows = $this->entityTypeManager->getStorage('workflow')->loadMultiple();
++    $content_types = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
+ 
+     // Return early if there are no available workflows.
+     if (empty($workflows)) {
+@@ -67,6 +68,15 @@ class ContentModerationNotificationsFormBase extends EntityForm {
+       return $form;
+     }
+ 
++    // Return early if there are no available content types.
++    if (empty($content_types)) {
++      $form['no_content_types'] = [
++        '#type' => 'markup',
++        '#markup' => $this->t('No content types available. <a href=":url">Manage content types</a>.', [':url' => Url::fromRoute('node.type_add')->toString()]),
++      ];
++      return $form;
++    }
++
+     // Get anything we need from the base class.
+     $form = parent::buildForm($form, $form_state);
+ 
+@@ -155,6 +165,25 @@ class ContentModerationNotificationsFormBase extends EntityForm {
+       '#description' => $this->t('Select which transitions triggers this notification.'),
+     ];
+ 
++    // Content types.
++    $content_type_options = [];
++    $bundle = $workflows[$selected_workflow]->getTypePlugin()->getEntityTypes();
++    if (!empty($bundle) && (in_array('node', $bundle)) && ($key_value = array_search('node', $bundle))) {
++      $content_types_ids = $workflows[$selected_workflow]->getTypePlugin()->getBundlesForEntityType($bundle[$key_value]);
++      foreach ($content_types_ids as $content_type_id) {
++        $content_type_options[$content_type_id] = $content_types[$content_type_id]->label();
++      }
++    }
++
++    $form['transitions_wrapper']['content_types'] = [
++      '#type' => 'checkboxes',
++      '#title' => $this->t('Content Types'),
++      '#options' => $content_type_options,
++      '#default_value' => isset($content_moderation_notification->content_types) ? $content_moderation_notification->content_types : [],
++      '#required' => TRUE,
++      '#description' => $this->t('Select which content types it applies to.'),
++    ];
++
+     // Role selection.
+     $roles_options = user_role_names(TRUE);
+ 
+@@ -256,7 +285,7 @@ class ContentModerationNotificationsFormBase extends EntityForm {
+    *   An array of supported actions for the current entity form.
+    */
+   protected function actions(array $form, FormStateInterface $form_state) {
+-    // Get the basic actins from the base class.
++    // Get the basic actions from the base class.
+     $actions = parent::actions($form, $form_state);
+ 
+     // Change the submit button text.
+diff --git a/src/NotificationInformation.php b/src/NotificationInformation.php
+index 050a6e1..5545d80 100644
+--- a/src/NotificationInformation.php
++++ b/src/NotificationInformation.php
+@@ -93,6 +93,17 @@ class NotificationInformation implements NotificationInformationInterface {
+     return $transition;
+   }
+ 
++  public function getContentType(ContentEntityInterface $entity) {
++    $content_type = FALSE;
++    try{
++      $content_type = ($entity->getEntityTypeId() == 'node') ? $entity->getType() : FALSE;
++    }
++    catch (\Exception $e) {
++
++    }
++    return $content_type;
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+@@ -102,18 +113,21 @@ class NotificationInformation implements NotificationInformationInterface {
+     if ($this->isModeratedEntity($entity)) {
+       $workflow = $this->getWorkflow($entity);
+       if ($transition = $this->getTransition($entity)) {
+-        // Find out if we have a config entity that contains this transition.
+-        $query = $this->entityTypeManager->getStorage('content_moderation_notification')
+-          ->getQuery()
+-          ->condition('workflow', $workflow->id())
+-          ->condition('status', 1)
+-          ->condition('transitions.' . $transition->id(), $transition->id());
+-
+-        $notification_ids = $query->execute();
+-
+-        $notifications = $this->entityTypeManager
+-          ->getStorage('content_moderation_notification')
+-          ->loadMultiple($notification_ids);
++        if($content_type = $this->getContentType($entity)) {
++          // Find out if we have a config entity that contains this transition.
++          $query = $this->entityTypeManager->getStorage('content_moderation_notification')
++            ->getQuery()
++            ->condition('workflow', $workflow->id())
++            ->condition('status', 1)
++            ->condition('transitions.' . $transition->id(), $transition->id())
++            ->condition('content_types.' . $content_type, $content_type);
++
++          $notification_ids = $query->execute();
++
++          $notifications = $this->entityTypeManager
++            ->getStorage('content_moderation_notification')
++            ->loadMultiple($notification_ids);
++        }
+       }
+     }
+ 
+diff --git a/src/NotificationInformationInterface.php b/src/NotificationInformationInterface.php
+index 67c3587..5cbb709 100644
+--- a/src/NotificationInformationInterface.php
++++ b/src/NotificationInformationInterface.php
+@@ -43,6 +43,15 @@ interface NotificationInformationInterface {
+    */
+   public function getTransition(ContentEntityInterface $entity);
+ 
++  /**
++   * Checks for the current content type of moderated entity
++   *
++   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
++   *
++   * @return mixed
++   */
++  public function getContentType(ContentEntityInterface $entity);
++
+   /**
+    * Gets the from/previous state of the entity.
+    *

@@ -1,0 +1,93 @@
+{#
+/**
+ * @file
+ * Theme override to display a block.
+ *
+ * Available variables:
+ * - plugin_id: The ID of the block implementation.
+ * - label: The configured label of the block if visible.
+ * - configuration: A list of the block's configuration values.
+ *   - label: The configured label for the block.
+ *   - label_display: The display settings for the label.
+ *   - provider: The module or other provider that provided this block plugin.
+ *   - Block plugin specific settings will also be stored here.
+ * - content: The content of this block.
+ * - attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
+ *   - id: A valid HTML ID and guaranteed unique.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_block()
+ */
+#}
+{%
+  set classes = [
+    'block',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+    'hub-quick-link',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {% block content %}
+    {{ title_prefix }}
+    {% if label %}
+      <h2{{ title_attributes }}>{{ label }}</h2>
+    {% endif %}
+    {{ title_suffix }}
+    <div class="quicklinks-desc">
+      <p>{{ content.body|render|striptags|trim }}</p>
+    </div>
+    <div class="container-fluid quicklinks">
+      <div class="row">
+        {% if content.field_grid_items %}
+          {% for item in content.field_grid_items['#items'] %}
+            <div class="col-12 quicklinks-content">
+              <div class="quicklinks-single">
+                <div class="quicklinks-img">
+                {% if item.entity.field_image.entity.field_media_image.entity.fileuri or item.entity.field_grid_mobile_image.entity.field_media_image.entity.fileuri %}
+                  <picture>
+                    {% if item.entity.field_image.entity.field_media_image.entity.fileuri %}
+                      <source media="(min-width:992px)" srcset="{{ file_url(item.entity.field_image.entity.field_media_image.entity.fileuri) }}">
+                    {% endif %}
+                    {% if item.entity.field_grid_mobile_image.entity.field_media_image.entity.fileuri %}
+                      <img src="{{ (item.entity.field_grid_mobile_image.entity.field_media_image.entity.fileuri)|image_style('quick_links_200x255') }}" alt="{{ item.entity.field_image.entity.field_media_image.alt }}">
+                    {% endif %}
+                  </picture>
+                {% endif %}
+                </div>
+                <div class="quicklinks-caption">
+                  <h4 class="h4">
+                    {% if item.entity.field_title %}
+                      {{ item.entity.field_title.0.value }}
+                    {% endif %}
+                    <span class="quicklinks-arrow d-flex d-md-none"></span>
+                  </h4>
+                  <div class="quicklinks-desc">
+                    <p class="desc-para pb-3 pb-md-5">
+                    {% if item.entity.field_description %}
+                      {{ item.entity.field_description.0.value|render|striptags|trim|spaceless }}
+                    {% endif %}
+                    </p>
+                    {% if item.entity.field_link.get(0).getUrl().toString() %}
+                      {% if item.entity.field_link.get(0).getUrl().isExternal() %}
+                        <a href="{{ item.entity.field_link.get(0).getUrl().toString()}}" class="ih-link d-flex align-items-center" target="_blank">{{ item.entity.field_link.title }}</a>
+                      {% else %}
+                        <a href="{{ item.entity.field_link.get(0).getUrl().toString()}}" class="ih-link d-flex align-items-center">{{ item.entity.field_link.title }}</a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  {% endblock %}
+</div>

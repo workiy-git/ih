@@ -1,0 +1,653 @@
+/*Details page top banner*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tab-link-section {
+  background-image: linear-gradient(93deg, #005aa2 50%, #4dbbc6 112%);
+}
+.top-banner-header-section.navigator {
+  background: linear-gradient(103deg, #005aa2 50%, #4dbbc6 110%);
+}
+.yellow-btn , .btn-yellow , .hours {
+  background-size: 200% auto;
+  background-image: linear-gradient(to right, #efc041 20%, #efc041 50%, #ffd66b 0%,#ffba00 200% );
+  transition: 0.5s;
+  color: #4d4d4d;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 13px 25px;
+  border-radius: 10px;
+  display: flex;
+  margin-top: 30px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+.hours
+{
+  margin-top: 0;
+}
+.location-banner-wrapper .location-links a.hours {
+    display: inline-block;
+    margin-left: 0px;
+    padding: 12px 30px;
+    color: #4d4d4d;
+    margin-top: 10px;
+  }
+.yellow-btn:hover , .btn-yellow:hover , .hours:hover {
+  background-position: right center;
+  color: #4d4d4d;
+}
+.location-banner-wrapper .location-links a, .location-banner-wrapper .location-links div {
+  font-size: 16px;
+  line-height: 24px;
+  color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.location-item .icon {
+  width: 23px;
+  height: 20px;
+  background: url("/themes/custom/interior_health_theme/assets/images/sprite.png")
+    no-repeat left center;
+  margin-right: 10px;
+}
+.location-item .icon-phone {
+  background: url("/themes/custom/interior_health_theme/assets/images/telephone-white-fill.svg")
+    no-repeat left center;
+  background-size: 15px;
+}
+
+.location-item .icon-fax {
+  background: url("/themes/custom/interior_health_theme/assets/images/sprite.png")
+  no-repeat -104px -134px;
+}
+
+.location-item .icon-mail {
+  background: url("/themes/custom/interior_health_theme/assets/images/sprite.png?mail-icon")
+  no-repeat -118px -240px;
+  width: 30px;
+  padding-left: 25px !important;
+  margin-right: 8px;
+  padding-bottom: 3px;
+}
+
+.location-item .icon-location::before,
+.location-item .icon-location-health::before {
+  position: absolute;
+  left: 0;
+/*   content: ""; */
+  width: 20px;
+  height: 20px;
+  background: url("/themes/custom/interior_health_theme/assets/images/location-blue-dark.svg")
+    no-repeat left center;
+  background-size: 18px;
+}
+
+.location-item .icon-location-health::before {
+  background: url("/themes/custom/interior_health_theme/assets/images/direction-blue.svg")
+    no-repeat left center;
+  background-size: 18px;
+}
+
+.location-item .icon-location-health {
+  background-position: -128px -115px;
+}
+.tab-link-section {
+  display: flex;
+  align-items: center;
+  text-align: right;
+  width: 100%;
+  overflow-x: auto;
+  border-top: 2px solid #ffff;
+  border-bottom: 2px solid #ffff;
+}
+.tab-link-section .tab-link-item {
+  display: inline-block;
+}
+.tab-link-section .tab-link-item a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 600;
+  padding: 24px 21px;
+  display: inline-block;
+  /* border-top: 2px solid #ffff;
+  border-bottom: 2px solid #ffff; */
+}
+.top-banner-header-content {
+  position: relative;
+  width: calc(100% - 100px);
+}
+.top-banner-header-content:after {
+  position: absolute;
+  left: calc(100% - 8px);
+  clip-path: polygon(0% 0%, 100% 0%, 0% 100%, 0% 100%);
+  background-color: #1b4f86;
+  display: inline-block;
+  content: "";
+  right: 0;
+  width: 95px;
+  height: 95%;
+  top: 0;
+  z-index: 1;
+}
+.top-banner-header-content:before {
+  position: absolute;
+  left: 0;
+  background-color: #1b4f86;
+  display: inline-block;
+  content: "";
+  width: 100%;
+  height: 85px;
+  top: 85%;
+  z-index: -1;
+  border-bottom-right-radius: 114px;
+}
+.top-banner-header-content {
+  background: #1b4f86;
+  padding: 0px;
+  width: calc(100% - 90px);
+  margin-top: 2px;
+  position: relative;
+  border-bottom-right-radius: 32px;
+}
+.navigator .hopital-name a   {
+  color: #fff;
+}
+
+.phone-number a {
+  color: #4d4d4d;
+}
+.location-map {
+  display: none;
+  border-top: 8px solid #005aa2;
+  border-image-source: linear-gradient(
+270deg
+, #4dbbc6 8%, #005aa2 92%);
+  border-image-slice: 1;
+  position: relative;
+}
+.location-map .map-close-btn {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: inline-block;
+  top: 20px;
+  right: 30px;
+  background: #005aa2;
+  padding: 11px;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.location-map .map-close-btn::before {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  content: '';
+  background: url('/themes/custom/interior_health_theme/assets/images/sprite.png');
+  background-position: -74px 3px;
+  display: inline-block;
+}
+@media (max-width: 991px) {
+  .top-banner-header-content .h1,
+  .top-banner-header-content .location-banner-wrapper {
+    padding: 0px 0px 20px 30px;
+  }
+  .top-banner-header-content h1.h1 {
+    font-size: 24px;
+    line-height: 32px;
+    padding-top: 30px;
+  }
+  .top-banner-header-content .location-desc {
+    margin-bottom: 20px;
+    order: 1;
+  }
+  .top-banner-header-content .location-banner-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .location-contact {
+    order: 4;
+    background: #f4f8fb;
+    font-weight: bold;
+    padding: 20px 0px 20px 30px;
+    border: 0;
+    border-bottom: 8px solid #005aa2;
+    border-image-source: linear-gradient(
+270deg
+, #4dbbc6 8%, #005aa2 92%);
+    border-image-slice: 1;
+  }
+  .location-contact .phone-number,
+  .location-item span.icon {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 8px;
+    margin-right: 3px;
+  }
+  .location-contact .phone-number::before,
+  .location-item .icon-phone::before {
+    position: absolute;
+    left: 0;
+    content: "";
+    width: 22px;
+    height: 20px;
+    background: url("/themes/custom/interior_health_theme/assets/images/phone-blue.svg")
+      no-repeat left center;
+    background-size: 18px;
+  }
+
+  .location-item .icon-fax {
+    background: url("/themes/custom/interior_health_theme/assets/images/sprite.png")
+    no-repeat -149px -139px;
+    margin: 0px 5px;
+  }
+
+  .navigator .yellow-btn {
+    order: 2;
+    width: fit-content;
+    margin-top: 0px;
+    min-width: 140px;
+    text-align: center;
+    font-family: 'Montserrat-bold';
+  }
+  .location-links {
+    z-index: 10;
+    order: 3;
+    background: #f4f8fb;
+    left: 0px;
+    border: 0px;
+    padding: 75px 10px 20px 30px;
+    border-top: 8px solid #005aa2;
+    border-image-source: linear-gradient(270deg, #4dbbc6 8%, #005aa2 92%);
+    border-image-slice: 1;
+    border-bottom: 1px solid #979797;
+  }
+  .page-node-type-location .location-links {
+    border-bottom: 8px solid #979797;
+  }
+  .location-links ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .location-links ul li {
+    margin: 10px 0px;
+    flex: 1 0 50%;
+    text-indent: -2px;
+  }
+  .location-links .location-mail {
+    flex: 1 0 100%;
+  }
+  .location-mail .mail-link {
+    word-break: break-all;
+    padding-left: 30px;
+    width: calc(100% - 30px);
+  }
+  .location-mail .mail-link .icon-mail {
+    margin-left: -30px;
+  }
+
+  .location-links a, .location-links div {
+    color: #4d4d4d;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-block;
+  }
+  .top-banner-header-content {
+    position: absolute;
+    z-index: 1;
+    border-bottom-right-radius: 60px;
+  }
+  .top-banner-header-content:after {
+    z-index: 0;
+    width: 95px;
+    height: 95%;
+    left: calc(100% - 4px);
+  }
+  .navigator .location-image img {
+    display: none;
+  }
+  .navigator .location-image {
+    min-height: 250px;
+  }
+  .navigator .phone-number a {
+    color: #4d4d4d;
+  }
+
+  .navigator .location-map .geolocation-map-container {
+    min-height: 500px;
+  }
+  .location-links.show {
+    padding-top: 30px;
+  }
+  .top-banner-header-content .location-desc .address {
+    padding-bottom: 15px;
+}
+.location-item span.icon.icon-location {
+    background-position: -161px -65px;
+}
+
+.location-item span.icon.icon-location-health {
+    background-position: -173px -135px;
+    margin: 0;
+    margin-right: 8px;
+    width: 22px;
+}
+
+.location-links div {
+    display: flex;
+}
+}
+@media (min-width: 992px) {
+  .tab-link-section {
+    display: flex;
+    align-items: center;
+    text-align: right;
+    width: 100%;
+    padding-left: 45%;
+    border: 0;
+  }
+  .tab-link-section .tab-link-item {
+    display: inline-block;
+  }
+  .tab-link-section .tab-link-item a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 600;
+    padding: 16px 40px;
+    display: inline-block;
+    cursor: pointer;
+    border: 0px;
+  }
+  .top-banner-header-left,
+  .top-banner-header-section {
+    display: flex;
+    width: 100%;
+  }
+  .top-banner-header-content {
+    flex: 0 0 43%;
+    padding-left: 60px;
+    padding-top: 105px;
+    margin-top: 0;
+  }
+  .navigator .location-image,
+  .navigator .location-map {
+    flex: 0 0 57%;
+    position: relative;
+  }
+  .navigator .location-image img {
+    max-width: unset;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .top-banner-header-section {
+    flex-wrap: wrap;
+  }
+  .breadsrumb
+  {
+    order: 1;
+    position: absolute;
+    top: 55px;
+    left: 60px;
+    z-index: 3;
+  }
+  .breadsrumb ul
+  {
+    display: flex;
+  }
+  .breadsrumb-item a, .breadsrumb-item
+  {
+    font-size: 12px;
+    line-height: 22px;
+    color: #fff;
+  }
+  .breadsrumb-item a
+  {
+    padding-right: 15px;
+    margin-right: 10px;
+  }
+  .breadsrumb-item a:after
+  {
+    content: '/';
+    position: absolute;
+    display: inline-block;
+    padding-left: 10px;
+    color: #4dbbc6;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .breadsrumb-item:last-child a::after
+  {
+    display: none;
+  }
+  .tab-link-section {
+    order: 3;
+    overflow: auto;
+    z-index: 2;
+  }
+  .top-banner-header-left {
+    order: 2;
+  }
+  .top-banner-header-left.with-apn {
+    position: relative;
+  }
+  .top-banner-header-section .top-banner-header-left.with-apn .location-image {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 57%;
+    z-index: 1;
+  }
+
+  .navigator .top-banner-header-left.with-apn .windchimes-glb {
+    left: auto;
+    right: 0px;
+    z-index: 3;
+    bottom: 0px;
+  }
+
+  .top-banner-header-content .h1 {
+    margin-bottom: 30px;
+  }
+
+  .location-contact .phone-number {
+    background: url("/themes/custom/interior_health_theme/assets/images/telephone-white-fill.svg")
+      no-repeat left center;
+    padding-left: 30px;
+    padding-top: 0;
+    background-size: 15px;
+  }
+  .location-banner-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .location-banner-wrapper .location-desc {
+    order: 1;
+  }
+  .location-banner-wrapper .location-contact {
+    order: 3;
+  }
+  .location-banner-wrapper .yellow-btn, .location-banner-wrapper .btn-yellow {
+    order: 4;
+    margin: 0px auto 0px 5%;
+    min-width: 140px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    max-height: 50px;
+  }
+  .location-banner-wrapper .location-links {
+    order: 2;
+  }
+  .location-banner-wrapper .location-desc,
+  .location-banner-wrapper .location-contact {
+    flex: 0 0 50%;
+    padding-right: 2%;
+    border-right: 1px solid #ffffff80;
+  }
+  .location-banner-wrapper .location-desc {
+    padding-bottom: 2%;
+    min-height: 130px;
+  }
+  .location-banner-wrapper .location-links {
+    flex: 0 0 50%;
+  }
+  .location-banner-wrapper .location-desc .hopital-name,
+  .location-banner-wrapper .location-contact .help-text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5em;
+    margin-bottom: 5px;
+  }
+  .location-banner-wrapper .location-desc .para {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  .location-banner-wrapper .location-links {
+    flex: 0 0 50%;
+    padding-left: 5%;
+  }
+  .top-banner-header-content {
+    width: 100%;
+  }
+  .location-item .icon-location::before,
+  .location-item .icon-location-health::before {
+    display: none;
+  }
+  .top-banner-header-content:after {
+    width: 200px;
+    top: 0px;
+    height: 110%;
+    left: calc(100% - 10px);
+  }
+  .top-banner-header-content:before {
+    width: 100%;
+    height: 100px;
+    border-bottom-right-radius: 100px;
+    clip-path: unset;
+    top: 100%;
+    z-index: 0;
+  }
+  .location-item .icon-location {
+    background-position: -90px -90px;
+  }
+  .navigator .location-map {
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    min-height: 460px;
+    transition: left .3s;
+  }
+  .navigator .location-map.show {
+    left: 40%;
+    transition: left .3s;
+  }
+  .top-banner-header-content {
+    z-index: 2;
+    border-radius: 0;
+  }
+  .navigator .windchimes-glb {
+    bottom: -60px;
+  }
+  .navigator .yellow-btn {
+    font-family: 'Montserrat-bold';
+  }
+  .phone-number a {
+    color: #fff;
+  }
+  .location-map {
+    border-bottom: 8px solid #005aa2;
+    border-image-source: linear-gradient(
+  270deg
+  , #4dbbc6 8%, #005aa2 92%);
+    border-image-slice: 1;
+  }
+  .location-map .geolocation-map-container {
+    min-height: 462px;
+  }
+  .page-node-type-location .location-banner-wrapper .yellow-btn {
+    margin: 15px auto 0px 0%;
+    width: 60%;
+    min-width: 140px;
+    padding: 13px 20px;
+  }
+  .tab-link-section + .top-banner-header-left .location-image
+  {
+    height: 420px;
+    /* margin-bottom: 8px; */
+  }
+
+  .location-item .icon-location-health::before {
+    background: url("/themes/custom/interior_health_theme/assets/images/direction-blue.svg")
+      no-repeat left center;
+    background-size: 18px;
+  }
+
+  .location-item .mail-link {
+    word-break: break-all;
+    padding-right: 10px;
+  }
+  .location-item .icon-mail {
+    background: url("/themes/custom/interior_health_theme/assets/images/sprite.png?mail-icon")
+      no-repeat -117px -221px;
+    width: 25px;
+    margin-right: 8px;
+    padding: 0px !important;
+    height: 20px;
+    flex: 0 0 24px;
+  }
+}
+
+@media (min-width: 1200px) { 
+  .page-node-type-location .location-banner-wrapper .yellow-btn {
+  min-width: 200px;
+  }
+  .navigator .location-image,
+  .navigator .location-map {
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .navigator .location-map .geolocation-map-container {
+    min-height: 460px;
+  }
+  .navigator .location-image,
+  .navigator .location-map {
+    height: 460px;
+  }
+}
+@media (min-width: 1600px) {
+  .tab-link-section + .top-banner-header-left .location-image
+  {
+    height: 475px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .tab-link-section + .top-banner-header-left .location-image
+  {
+    height: 500px;
+  }
+}
+@media (min-width: 2560px)
+{
+  .tab-link-section + .top-banner-header-left .location-image
+  {
+    height: 550px;
+  }
+}

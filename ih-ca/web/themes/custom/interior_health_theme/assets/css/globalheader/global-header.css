@@ -1,0 +1,903 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    position: relative;
+}
+ul {
+    padding: 0;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+input {
+    max-width: 100%;
+}
+/* Common Overlay */
+
+.bg-overlay {
+    background: #36434d;
+    opacity: 0.5;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 9;
+    display: none;
+    top: 0px;
+}
+/* global search */
+
+.global-search .search {
+    border: 0px;
+    outline: 0px;
+    width: 26px;
+    height: 24px;
+    margin: 0px;
+    color: transparent;
+    background: transparent url(/themes/custom/interior_health_theme/assets/images/sprite.png);
+    background-position: -106px -58px;
+    padding: 0;
+}
+
+.fixed .main-header
+{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+    background: #fff;
+    box-shadow: 0 0 5px #ddd;
+    transition: background .2s;
+    /* max-width: 1440px; */
+}
+.site-header.fixed + main
+{
+    padding-top: 84px;
+}
+/* .region-header-right ul.menu .menu-item
+{
+     cursor: pointer; 
+} */
+.region-header-left .contextual-region .trigger
+{
+    position: absolute;
+}
+@media (max-width: 991px) {
+    .global-search .search
+    {
+        margin-right: 20px;
+    }
+    .site-logo {
+        max-width: 130px;
+        max-height: 30px;
+        margin: 10px;
+    }
+    .mobile-menu .menu {
+        margin: 0;
+    }
+    .mobile-menu {
+        position: fixed;
+        left: -100%;
+        z-index: 10;
+        width: 100%;
+        background: #fff;
+        top: 0;
+        height: 100%;
+    }
+    .mobile-menu.show {
+        left: 0;
+        transition: left 0.3s;
+        overflow: scroll;
+    }
+    .global-search-header, .primary-dark, .mobile-menu .menu-header {
+        background: linear-gradient( 90deg, rgba(0, 90, 162, 1) 0%, rgba(77, 187, 198, 1) 100%);
+        color: #fff;
+    }
+    .global-search-header {
+        padding: 0;
+    }
+    .global-search-header>div {
+        justify-content: space-between !important;
+    }
+    .mobile-menu .menu-header {
+        padding: 16px 36px;
+    }
+    .mobile-menu .menu-header span {
+        font-size: 18px;
+        color: #fff;
+    }
+    .mobile-menu .menu-title {
+        background: #1b4f86;
+        color: #fff;
+    }
+    .global-search {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 50%;
+        padding-right: 16px;
+    }
+    #hamburger {
+        background: transparent url("/themes/custom/interior_health_theme/assets/images/menu.svg") no-repeat center center;
+        width: 24px;
+        height: 24px;
+        border: 0;
+    }
+    .mobile-menu li, .mobile-menu .menu-header {
+        list-style: none;
+        position: relative;
+    }
+    .mobile-menu a, .mobile-menu span, .mobile-menu ul.menu a.is-active {
+        color: #4d4d4d;
+        text-decoration: none;
+        width: calc(100% - 24px);
+        display: block;
+    }
+
+    .mobile-menu .primary-dark ul.menu a.is-active {
+        color: #fff;
+    }
+    .mobile-menu .arrow, .mobile-menu .drop-arrow {
+        position: absolute;
+        border: 0;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        background-image: url("/themes/custom/interior_health_theme/assets/images/arrow-right.svg");
+        background-repeat: no-repeat;
+        right: 0px;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+    .mobile-menu .close-menu {
+        position: absolute;
+        border: 0;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        background-image: url("/themes/custom/interior_health_theme/assets/images/close.svg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        right: 30px;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+    .mobile-menu .previous-menu {
+        border: 0;
+        background: transparent;
+        position: relative;
+        color: #fff;
+        padding-left: 0px;
+    }
+    .mobile-menu .previous-menu::before {
+        content: "";
+        position: absolute;
+        border: 0;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        background-image: url("/themes/custom/interior_health_theme/assets/images/arrow-left-white.svg");
+        background-repeat: no-repeat;
+        right: auto;
+        left: -24px;
+        bottom: 3px;
+    }
+    .service-list, .mobile-menu .first-menu-block ul, .mobile-menu .middle-menu-block ul {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+    .mobile-menu .middle-menu-block ul {
+        padding: 25px 0px;
+    }
+    .service-list .service-item, .mobile-menu .menu>.menu-item, .mobile-menu .menu-item-wrapper>.menu-item, .mobile-menu .first-menu-block li, .mobile-menu .middle-menu-block li {
+        padding: 16px 36px;
+        font-size: 18px;
+        line-height: 1.44em;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .mobile-menu .primary-dark .menu>.menu-item:last-child {
+        border-bottom: 0px;
+    }
+
+    .primary-nav .menu > .menu-item,
+    .menu--top-menu-links-right .menu > .menu-item,
+    .primary-nav .menu-item-wrapper > .menu-item {
+        margin: 0 35px;
+        padding: 16px 0;
+    }
+    
+    .primary-nav .menu-item.menu-title {
+        margin: 0;
+        padding: 16px 35px;
+    }
+    
+    .mobile-menu .drop-arrow:before {
+        background: rgb(204 204 204 / .7);
+        content: "";
+        height: 32px;
+        width: 1px;
+        z-index: 9999;
+        position: absolute;
+        top: -4px;
+        left: -5px;
+    }
+
+    .mobile-menu .location {
+        order: 2;
+        margin: 0 35px;
+        padding: 16px 0;
+    }
+    .mobile-menu .service {
+        order: 1;
+        margin: 0 35px;
+        padding: 16px 0;
+    }
+    .mobile-menu .primary-dark .menu a {
+        color: #fff;
+    }
+    .mobile-menu .primary-dark li {
+        border-bottom: 0;
+    }
+    .menu-level-two, .menu-level-three, .menu-level-four, .menu-level-five, .menu-level-six {
+        position: fixed;
+        background: #fff;
+        top: 0;
+        width: 100%;
+        left: -105%;
+        height: 100vh;
+        z-index: 11;
+    }
+    .menu-item-wrapper {
+        height: 90%;
+        overflow: scroll;
+    }
+    .menu-level-three {
+        z-index: 12;
+    }
+    .menu-level-four {
+        z-index: 13;
+    }
+    .menu-level-five {
+        z-index: 14;
+    }
+    .menu-level-six {
+        z-index: 15;
+    }
+    .menu-level-two.show, 
+    .menu-level-three.show, 
+    .menu-level-four.show, 
+    .menu-level-five.show, 
+    .menu-level-six.show {
+        left: 0;
+        transition: left 0.3s;
+    }
+    .toolbar-vertical .menu-level-two.show, 
+    .toolbar-vertical .menu-level-three.show, 
+    .toolbar-vertical .menu-level-four.show, 
+    .toolbar-vertical .menu-level-five.show, 
+    .toolbar-vertical .menu-level-six.show {
+        top: 38px;
+        padding-bottom: 38px;
+    }
+    .menu {
+        margin-bottom: 0;
+    }
+    #block-globalsearch>div {
+        display: flex;
+        align-items: center;
+        min-height: 50px;
+    }
+    #block-interior-health-theme-branding {
+        width: 50%;
+    }
+    .mobile-menu .primary-nav {
+        overflow: auto;
+    }
+    .mobile-menu .primary-nav .find-a.d-none {
+        display: block !important;
+    }
+    .mobile-menu .primary-nav .find-a.d-block {
+        display: none !important;
+    }
+    a.menu-item.mobile-phone {
+        background: url("/themes/custom/interior_health_theme/assets/images/mobile-phone.svg") no-repeat left center;
+        padding-left: 30px;
+        padding-top: 0;
+        background-size: contain;
+    }
+    a.menu-item.pay-online {
+        background: url("/themes/custom/interior_health_theme/assets/images/payment.svg") no-repeat left center;
+        padding-left: 30px;
+        padding-top: 0;
+        background-size: contain;
+    }
+    a.menu-item.contact-us {
+        background: url("/themes/custom/interior_health_theme/assets/images/telephone.svg") no-repeat left center;
+        padding-left: 30px;
+        padding-top: 0;
+        background-size: contain;
+    }
+    .mobile-navigation {
+        position: fixed;
+        top: inherit;
+        bottom: 0;
+        width: 100%;
+        z-index: 5;
+    }
+    .mobile-navigation .service-list {
+        background: linear-gradient( 90deg, rgba(0, 90, 162, 1) 0%, rgba(77, 187, 198, 1) 100%);
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .mobile-navigation .service-item {
+        font-size: 10px;
+        line-height: 2.2em;
+        list-style: none;
+        padding: 30px 10px 10px 10px;
+        border: none;
+        position: relative;
+    }
+    .mobile-navigation .service-item::before {
+        position: absolute;
+        content: '';
+        width: 22px;
+        height: 22px;
+        background: url("/themes/custom/interior_health_theme/assets/images/alert-bell.svg") no-repeat;
+        background-size: contain;
+        top: 10px;
+        right: 50%;
+        transform: translate(50%, 0);
+    }
+    .mobile-navigation .location::before {
+        background: url("/themes/custom/interior_health_theme/assets/images/location-white.svg") no-repeat;
+        background-size: contain;
+    }
+    .mobile-navigation .service::before {
+        background: url("/themes/custom/interior_health_theme/assets/images/stethoscope-white.svg") no-repeat;
+        background-size: contain;
+    }
+    .mobile-navigation .stories::before {
+        background: url("/themes/custom/interior_health_theme/assets/images/stories.svg") no-repeat;
+        background-size: contain;
+    }
+    .mobile-navigation .feedback::before {
+        background: url("/themes/custom/interior_health_theme/assets/images/feedback.svg") no-repeat;
+        background-size: contain;
+    }
+    .mobile-navigation .service-item a {
+        text-decoration: none;
+        color: #fff;
+    }
+    /* hiding elements not needed in mobile */
+    .global-search-header .first-menu-block, .global-search-header .middle-menu-block.primary-dark, .mobile-menu .alerts, .mobile-menu .stories, .mobile-menu .feedback {
+        display: none;
+    }
+    .global-search-header.sticky {
+        position: fixed;
+        top: 0px;
+        z-index: 5;
+    }
+}
+@media (min-width: 992px) {
+    /* brand logo */
+    .site-logo {
+        max-width: 160px;
+        max-height: 50px;
+        display: block;
+    }
+    .site-logo img {
+        max-width: 100%;
+    }
+    /* global header */
+    .global-search-header {
+        background: linear-gradient( 90deg, rgba(77, 187, 198, 1) 0%, rgb(0 103 185) 64%, rgba(77, 187, 198, 1) 96%);
+        padding: 0px 50px;
+    }
+    ul {
+        padding: 0;
+    }
+    .global-search-header li {
+        list-style-type: none;
+        margin: 0 16px;
+        line-height: normal;
+    }
+    .global-search-header a, .global-search-header a:hover, .global-search-header .menu a.is-active, .global-search-header .menu a.is-active:hover {
+        color: #fff;
+        text-decoration: none;
+        position: relative;
+        font-size: 14px;
+        line-height: 22px;
+        /* font-family: 'Lato-Bold';
+        font-weight: bold; */
+        font-family: 'Montserrat-Regular';
+    }
+    .global-search-header .mobile-phone {
+        padding-left: 30px;
+        display: flex;
+        align-items: center;
+    }
+    .global-search-header .mobile-phone::before {
+        content: url("/themes/custom/interior_health_theme/assets/images/mobile-phone.svg");
+        position: absolute;
+        left: 0;
+        width: 24px;
+        height: 24px;
+    }
+    #block-globalsearch
+    {
+        width: 45px;
+    }
+    .global-search
+    {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .primary-dark {
+        background-color: #005aa2;
+        clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+        padding: 11px 24px;
+    }
+    .global-search-header .menu-item {
+        padding-top: 0px;
+    }
+    /* interior header */
+    .interior-health-main-menu
+    {
+        padding: 0 35px;
+    }
+    .interior-health-main-menu .navbar-light
+    {
+        padding: 0;
+    }
+    .interior-health-main-menu a {
+        text-decoration: none;
+    }
+    .interior-health-main-menu .bg-overlay {
+        display: none;
+    }
+    .interior-health-main-menu {
+        position: relative;
+    }
+    .interior-health-main-menu *, ul.menu a.is-active {
+        position: relative;
+        font-size: 14px;
+        font-weight: 500;
+        color: #4d4d4d;
+        line-height: 24px;
+        padding-top: 0;
+        font-family: 'Montserrat-Medium';
+    }
+    .interior-health-main-menu a:hover {
+        color: #005aa2;
+    }
+    .interior-health-main-menu ul.menu
+    {
+        margin-bottom: 0;
+        margin-left: 0;
+    }
+    .interior-health-main-menu .region-header-right, .interior-health-main-menu .menu--main .menu, .interior-health-main-menu .advanced-search-links {
+        display: flex;
+        align-items: center;
+    }
+    .interior-health-main-menu .region-header-right
+    {
+        padding: 20px 0;
+    }
+    .interior-health-main-menu #navbarNavDropdown {
+        justify-content: flex-end;
+    }
+    .interior-health-main-menu .menu--main .menu li,
+    .interior-health-top-menu .menu li {
+        margin: 0 14px;
+        list-style: none;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .interior-health-main-menu .menu-item .menu-level-two, 
+    .interior-health-top-menu .menu-item .menu-level-two {
+        display: block;
+        position: fixed;
+        background: #fff;
+        z-index: 10;
+        margin: 0;
+        width: 350px;
+        top: 0px;
+        left: auto;
+        text-align: left;
+        right: -350px;
+        transform: translate(0%, 0px);
+        transition: right 0.3s;
+        height: 100vh;
+    }
+
+    .toolbar-fixed .interior-health-main-menu .menu-item .menu-level-two, 
+    .toolbar-fixed .interior-health-top-menu .menu-item .menu-level-two {
+        top: 38px;
+    }
+
+    .toolbar-tray-open .interior-health-main-menu .menu-item .menu-level-two,
+    .toolbar-tray-open .interior-health-top-menu .menu-item .menu-level-two
+    {
+        top: 78px;
+    }
+
+
+    .toolbar-fixed .interior-health-main-menu .menu-item-wrapper, 
+    .toolbar-fixed .interior-health-top-menu .menu-item-wrapper {
+        padding-bottom: calc(50% + 40px);
+    }
+
+    .toolbar-tray-open .interior-health-main-menu .menu-item-wrapper, 
+    .toolbar-tray-open .interior-health-top-menu .menu-item-wrapper {
+        padding-bottom: calc(50% + 80px);
+    }
+
+    .interior-health-main-menu .menu-level-two .menu-level-three,
+    .interior-health-top-menu .menu-level-two .menu-level-three,
+    .interior-health-top-menu .menu-level-two .menu-level-four,
+    .interior-health-top-menu .menu-level-two .menu-level-five,
+    .interior-health-top-menu .menu-level-two .menu-level-six,
+    .interior-health-main-menu .menu-level-two .menu-level-four,  
+    .interior-health-main-menu .menu-level-two .menu-level-five,  
+    .interior-health-main-menu .menu-level-two .menu-level-six
+        {
+
+        display: none;
+        width: 100%;
+    }
+    .interior-health-main-menu .menu-level-two .menu-level-three,
+    .interior-health-main-menu .menu-level-two .menu-level-four,
+    .interior-health-main-menu .menu-level-two .menu-level-five,
+    .interior-health-main-menu .menu-level-two .menu-level-six,
+    .interior-health-top-menu .menu-level-two .menu-level-three ,
+    .interior-health-top-menu .menu-level-two .menu-level-four  ,
+    .interior-health-top-menu .menu-level-two .menu-level-five  ,
+    .interior-health-top-menu .menu-level-two .menu-level-six  {
+        display: block;
+        position: fixed;
+        background: #fff;
+        z-index: 10;
+        margin: 0;
+        width: 350px;
+        top: 0px;
+        left: auto;
+        text-align: left;
+        right: -350px;
+        transform: translate(0%, 0px);
+        transition: right 0.3s;
+        height: 100vh;
+    }
+    .interior-health-main-menu .menu-item .menu-level-two.show, 
+    .interior-health-main-menu .menu-item .menu-level-three.show ,
+    .interior-health-main-menu .menu-item .menu-level-four.show ,
+    .interior-health-main-menu .menu-item .menu-level-five.show ,
+    .interior-health-main-menu .menu-item .menu-level-six.show ,
+    .interior-health-top-menu .menu-item .menu-level-two.show, 
+    .interior-health-top-menu .menu-item .menu-level-three.show ,
+    .interior-health-top-menu .menu-item .menu-level-four.show ,
+    .interior-health-top-menu .menu-item .menu-level-five.show ,
+    .interior-health-top-menu .menu-item .menu-level-six.show {
+        right: 0px;
+        transition: right 0.3s;
+    }
+    .interior-health-main-menu .menu-header ,
+    .interior-health-top-menu .menu-header {   
+
+        background: linear-gradient( 90deg, rgba(0, 90, 162, 1) 0%, rgba(0, 90, 162, 1) 35%, rgba(77, 187, 198, 1) 100%);
+        min-height: 150px;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    .interior-health-main-menu .menu-header span, 
+    .interior-health-main-menu .menu-header .previous-menu ,
+    .interior-health-top-menu .menu-header span, 
+    .interior-health-top-menu .menu-header .previous-menu {
+        align-self: flex-end;
+        font-size: 24px;
+        line-height: 1.33em;
+        color: #fff;
+        position: absolute;
+        top: 60%;
+        left: 16px;
+        border: 0;
+        background: transparent;
+    }
+    .interior-health-main-menu .menu-header .close-menu ,
+    .interior-health-top-menu .menu-header .close-menu {
+
+        position: absolute;
+        border: 0;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        background-image: url("/themes/custom/interior_health_theme/assets/images/close.svg");
+        background-repeat: no-repeat;
+        right: 20px;
+        top: 20px;
+    }
+    .interior-health-main-menu .menu-level-two .menu-item-wrapper>.menu-item, 
+    .interior-health-main-menu .menu-level-three .menu-item-wrapper>.menu-item ,
+    .interior-health-main-menu .menu-level-four .menu-item-wrapper>.menu-item ,
+    .interior-health-main-menu .menu-level-five .menu-item-wrapper>.menu-item ,
+    .interior-health-main-menu .menu-level-six .menu-item-wrapper>.menu-item ,
+    .interior-health-top-menu .menu-level-two .menu-item-wrapper>.menu-item, 
+    .interior-health-top-menu .menu-level-three .menu-item-wrapper>.menu-item ,
+    .interior-health-top-menu .menu-level-four .menu-item-wrapper>.menu-item ,
+    .interior-health-top-menu .menu-level-five .menu-item-wrapper>.menu-item ,
+    .interior-health-top-menu .menu-level-six .menu-item-wrapper>.menu-item {
+        padding: 17px 30px 17px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .interior-health-main-menu .menu-level-two a ,
+    .interior-health-top-menu .menu-level-two a {
+        color: #4d4d4d;
+    }
+    .interior-health-main-menu .arrow, .interior-health-main-menu .drop-arrow ,
+    .interior-health-top-menu .arrow, .interior-health-top-menu .drop-arrow {
+        position: absolute;
+        border: 0;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        background-image: url("/themes/custom/interior_health_theme/assets/images/arrow-right.svg");
+        background-repeat: no-repeat;
+        right: 10px;
+        top: 20px;
+    }
+    .interior-health-main-menu .drop-arrow ,
+    .interior-health-top-menu .drop-arrow {
+        background-image: url("/themes/custom/interior_health_theme/assets/images/arrow-down.svg");
+        position: relative;
+        top: 0px;
+        left: 5px;
+        width: 24px;
+        height: 24px;
+        background-size: 100%;
+        background-position: center;
+    }
+    .menu-item--expanded > .menu-item--expanded.menu-toggle.menu-item-toggle {
+        width: calc(100% + 5px);
+    }
+    .interior-health-main-menu .menu-item-wrapper ,
+    .interior-health-top-menu .menu-item-wrapper {
+        overflow: auto;
+        height: inherit;
+        padding-bottom: 50%;
+        scrollbar-color: rgba(77, 77, 77, 0.5) #FFF;
+        scrollbar-width: thin;
+    }
+    .interior-health-main-menu .menu-item-wrapper::-webkit-scrollbar,
+    .interior-health-top-menu .menu-item-wrapper::-webkit-scrollbar
+     {
+        width: 14px;
+    }
+    .interior-health-main-menu .menu-item-wrapper::-webkit-scrollbar-thumb,
+    .interior-health-top-menu .menu-item-wrapper::-webkit-scrollbar-thumb
+     {
+        border: 4px solid #fff;
+        background-clip: padding-box;
+        border-radius: 9999px;
+        background-color: rgb(77 77 77 / 50%);
+    }
+    .interior-health-main-menu .previous-menu ,
+    .interior-health-top-menu .previous-menu {
+        padding-left: 30px;
+    }
+    .interior-health-main-menu .menu-level-three .previous-menu::before ,
+    .interior-health-main-menu .menu-level-four .previous-menu::before ,
+    .interior-health-main-menu .menu-level-five .previous-menu::before ,
+    .interior-health-main-menu .menu-level-six .previous-menu::before ,
+    .interior-health-top-menu .menu-level-three .previous-menu::before ,
+    .interior-health-top-menu .menu-level-four .previous-menu::before ,
+    .interior-health-top-menu .menu-level-five .previous-menu::before ,
+    .interior-health-top-menu .menu-level-six .previous-menu::before {
+        content: "";
+        position: absolute;
+        border: 0;
+        width: 24px;
+        height: 28px;
+        background-color: transparent;
+        background-image: url("/themes/custom/interior_health_theme/assets/images/arrow-left-white.svg");
+        background-repeat: no-repeat;
+        right: auto;
+        left: 0;
+        bottom: 3px;
+    }
+    .interior-health-main-menu .menu--main .menu .menu-item.menu-title,
+    .interior-health-top-menu .menu .menu-item.menu-title {
+        background: #1b4f86;
+        color: #fff;
+        margin: 0;
+        padding: 16px;
+    }
+    /* services */
+    .interior-health-main-menu .service-list {
+        display: flex;
+        margin-bottom: 0;
+    }
+    .interior-health-main-menu .service-item {
+        list-style-type: none;
+        padding: 0 16px;
+    }
+    .interior-health-main-menu .service {
+        order: 1;
+        width: 140px;
+        padding-right: 0;
+    }
+    .interior-health-main-menu .location {
+        order: 2;
+        /* width: 110px; */
+        padding: 0;
+    }
+    .interior-health-main-menu .stories {
+        display: none;
+    }
+    .interior-health-main-menu .alerts, .interior-health-main-menu .feedback {
+        position: fixed;
+        right: 0;
+        border: 2px solid #fff;
+        z-index: 8;
+        border-right: 0px;
+    }
+    /* alerts & feedback */
+    .interior-health-main-menu .alerts {
+        order: 3;
+        top: 30%;
+        width: 50px;
+        height: 40px;
+        background: #4dbbc6 url("/themes/custom/interior_health_theme/assets/images/alert-bell.svg") no-repeat center center;
+        background-size: 20px;
+        border-top-left-radius: 10px;
+        transition: width .5s;  
+        border-bottom: 0px solid #fff;
+    }
+    .interior-health-main-menu .alerts:hover {
+        border-bottom: 2px solid #fff;
+    }
+    .interior-health-main-menu .feedback {
+        order: 4;
+        top: calc(30% + 40px);
+        background-color: #1b4f86;
+        color: #fff;
+        width: 50px;
+        height: 40px;
+        background: #1b4f86 url("/themes/custom/interior_health_theme/assets/images/feedback.svg") no-repeat center center;
+        background-size: 20px;
+        border-bottom-left-radius: 10px;
+        transition: width .5s;
+    }
+    .interior-health-main-menu .feedback:hover, .interior-health-main-menu .alerts:hover {
+        display: flex;
+        width: 165px;
+        transition: width .5s;
+        background-position: 10% 55%;
+    }
+    .interior-health-main-menu .service-list .alerts a, .interior-health-main-menu .service-list .feedback a {
+        color: transparent;
+        font-size: 0;
+    }
+    .interior-health-main-menu .feedback:hover a, .interior-health-main-menu .alerts:hover a {
+        color: #fff;
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 400;
+        /* transition: font-size .5s; */
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 30px;
+    }
+    .interior-health-main-menu .service-list a, .interior-health-main-menu .location a {
+        color: #005aa2;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-left: 45px;
+        position: relative;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 20px;
+        text-align: left;
+        font-family: 'Montserrat-Bold';
+    }
+    .interior-health-main-menu .find-a, .interior-health-main-menu .find-a span {
+        color: #005aa2;
+        width: 100%;
+        font-family: 'Montserrat-semibold';
+    }
+    .interior-health-main-menu .service a::before, .interior-health-main-menu .location a::before {
+        content: "";
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        left: 0px;
+    }
+    .interior-health-main-menu .service a::before {
+        background: url("/themes/custom/interior_health_theme/assets/images/stethoscope.svg");
+        background-size: contain;
+    }
+    .interior-health-main-menu .location a::before {
+        background: url("/themes/custom/interior_health_theme/assets/images/location.svg");
+        background-size: contain;
+    }
+    .interior-health-main-menu .page-with-caution-bannner .alerts{
+        top: calc(30% + 100px);
+    }
+    .interior-health-main-menu .page-with-caution-bannner .feedback {
+        top: calc(30% + 140px);
+    }
+}
+@media (min-width: 1200px) {
+    .site-logo {
+        max-width: 250px;
+    }
+    .menu--main > div > .trigger
+    {
+        position: absolute!important;
+    }
+    .global-search-header li {
+        list-style-type: none;
+        margin: 0 14px;
+        line-height: normal;
+    }
+    .interior-health-main-menu .service {
+        width: 160px;
+    }
+    .interior-health-main-menu *, ul.menu a.is-active {
+        font-size: 16px;
+    }
+    .toolbar-fixed .fixed .main-header {
+        top: 40px;
+    }
+    
+    .toolbar-fixed.toolbar-tray-open .fixed .main-header {
+        top: 76px;
+    }
+
+    .signUpOpened .fixed .main-header {
+        z-index: 8;
+    }
+
+    .toolbar-fixed .signup-wrapper {
+        top: calc(100% - calc(50% - 25px));
+    }
+
+    .toolbar-fixed .toolbar-toggle-orientation .toolbar-icon-toggle-vertical,
+    .toolbar-icon-toggle-vertical  {
+        display: none !important;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .toolbar-vertical .mobile-menu.show {
+        top: 38px;
+        padding-bottom: 38px;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 991px) {
+    .toolbar-vertical .global-search-header.sticky {
+        top: 38px;
+    }
+}
+.interior-health-top-menu .menu-level-two li a.is-active,
+.interior-health-top-menu .menu-level-two li a {
+    color: #4d4d4d !important;
+}
+
+.interior-health-top-menu li::marker {
+    content: '';
+}
+.interior-health-top-menu .drop-arrow {
+    height: 10px;
+    background-image: url(/themes/custom/interior_health_theme/assets/images/arrow-down-white.svg);
+}

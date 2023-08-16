@@ -1,0 +1,12 @@
+popular_topics.settings:
+  title: 'Popular Topics Setting'
+  description: 'Enter the Popular Topics links.'
+  parent: system.admin_config_system
+  route_name: popular_topics.settings
+  weight: 41
+quick_links.settings:
+  title: 'Quick Links Settings'
+  description: 'Enter the Quick Links.'
+  parent: system.admin_config_system
+  route_name: quick_links.settings
+  weight: 42

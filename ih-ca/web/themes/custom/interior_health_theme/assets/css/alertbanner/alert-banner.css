@@ -1,0 +1,123 @@
+.alter-banner-parent .col-md-12
+{
+    padding: 0;
+}
+/* .alter-banner-parent {
+    background: #de5428;
+    margin-bottom: 4px;
+} */
+.alter-banner {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 100px;
+    background: #de5428;
+    margin-bottom: 4px;
+}
+.caution-icon {
+    background: #C11B06;
+    width: 195px;
+    min-height: 100px;
+    clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+    padding: 17px 50px;
+}
+/* .caution-icon img {
+    padding: 6px 35px;
+} */
+.caution-info h3 {
+    margin: 0;
+}
+.caution-info p
+{
+    font-size: 12px;
+    line-height: 24px;
+}
+.caution-info {
+    width: 88%;
+    padding: 6px 20px;
+    color: #fff;
+}
+.caution-readmore {
+    position: absolute;
+    right: 21%;
+    bottom: 23px;
+}
+.caution-readmore a {
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-family: 'Montserrat-Bold';
+}
+.caution-readmore a:after {
+    background-image: url("/themes/custom/interior_health_theme/assets/images/sprite.png");
+    background-position: 10px 3px;
+    background-repeat: no-repeat;
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    margin-left: 3px;
+}
+.caution-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 9;
+}
+
+
+@media (max-width: 1200px) {
+    .caution-readmore {
+        right: 15%;
+    }
+    
+    .caution-info {
+        width: 65%;
+    }
+}
+
+@media (max-width: 991px) {
+    .caution-info h3 {
+        font-size: 18px;
+        line-height: 24px;
+        margin-left: -8px;
+    }
+    .alter-banner
+    {
+        min-height: 150px;
+    }
+    .caution-icon {
+        width: 127px;
+        padding: 40px 0px;
+        clip-path: polygon(0 0, 100% 0%, 55% 100%, 0% 100%);
+        min-height: 150px;
+    }
+    .caution-icon img {
+        padding: 6px 18px;
+        width: 90px;
+        height: 65px;
+    }
+    .caution-info {
+        padding: 40px 0px;
+        width: 61%;
+    }
+    .caution-readmore {
+        right: 10px;
+        bottom: 10px;
+    }
+    .caution-readmore a
+    {
+        font-size: 14px;
+        line-height: 22px;
+    }
+    .caution-close {
+        right: 10px;
+        top: 7px;
+    }
+}
+.darkHeader {
+    display: none;
+}

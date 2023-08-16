@@ -1,0 +1,7 @@
+name: 'Custom Cache Flush'
+type: module
+description: 'Implements custom cache flush functionality.'
+core_version_requirement: ^8 || ^9
+package: Custom
+dependencies:
+  - drupal:system

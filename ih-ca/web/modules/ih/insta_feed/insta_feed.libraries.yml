@@ -1,0 +1,4 @@
+insta_feed.style:
+  css:
+    theme:
+      css/insta_feed.css: {}

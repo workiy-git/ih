@@ -1,0 +1,943 @@
+<?php
+
+/**
+ * @file
+ * Interior Health theme file.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+use Drupal\Component\Serialization\Json;
+use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Url;
+use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\Datetime\DrupalDateTime;
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function interior_health_theme_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->bundle() == 'testimonial') {
+    if (!empty($paragraph->get('field_name')->getValue()[0]['value'])) {
+      $variables['name'] = $paragraph->get('field_name')->getValue()[0]['value'];
+    }
+    if (!empty($paragraph->get('field_description')->getValue()[0]['value'])) {
+      $variables['desc'] = $paragraph->get('field_description')->getValue()[0]['value'];
+    }
+  }
+  if ($paragraph->bundle() == 'content_section') {
+    if (!empty($paragraph->get('field_title')->getValue()[0]['value'])) {
+      $variables['title'] = $paragraph->get('field_title')->getValue()[0]['value'];
+    }
+    // if (!empty($paragraph->get('field_description')->getValue()[0]['value'])) {
+    //   $variables['desc'] = $paragraph->get('field_description')->getValue()[0]['value'];
+    // }
+  }
+  if ($paragraph->bundle() == 'accordion') {
+    if (!empty($paragraph->get('field_title')->getValue()[0]['value'])) {
+      $variables['title'] = $paragraph->get('field_title')->getValue()[0]['value'];
+    }
+    if (!empty($paragraph->get('field_description')->getValue()[0]['value'])) {
+      $variables['desc'] = $paragraph->get('field_description')->getValue()[0]['value'];
+    }
+  }
+  if ($paragraph->bundle() == 'video') {
+    if (!empty($paragraph->get('field_title')->getValue()[0]['value'])) {
+      $variables['title'] = $paragraph->get('field_title')->getValue()[0]['value'];
+    }
+    if (!empty($paragraph->get('field_description')->getValue()[0]['value'])) {
+      $variables['desc'] = $paragraph->get('field_description')->getValue()[0]['value'];
+    }
+    $link = $paragraph->get('field_link')->getValue();
+    $variables['link_url'] = $link ? Url::fromUri($link[0]['uri']) : '';
+    $variables['link_text'] = $link ? $link[0]['title'] : '';
+  }
+  if ($paragraph->bundle() == 'gallery_cta_block') {
+
+    $variables['#attached']['library'][] = 'interior_health_theme/location-gallery';
+
+    if (!empty($paragraph->get('field_title')->getValue()[0]['value'])) {
+      $variables['title'] = $paragraph->get('field_title')->getValue()[0]['value'];
+    }
+    if (!empty($paragraph->get('field_subtitle')->getValue()[0]['value'])) {
+      $variables['subtitle'] = $paragraph->get('field_subtitle')->getValue()[0]['value'];
+    }
+    if (!empty($paragraph->get('field_body')->getValue()[0]['value'])) {
+      $variables['body'] = $paragraph->get('field_body')->getValue()[0]['value'];
+    }
+    if (!empty($paragraph->get('field_short_description')->getValue()[0]['value'])) {
+      $variables['short_description'] = $paragraph->get('field_short_description')->getValue()[0]['value'];
+    }
+    $link = $paragraph->get('field_link')->getValue();
+    $variables['link_url'] = $link ? Url::fromUri($link[0]['uri']) : '';
+    $variables['link_text'] = $link ? $link[0]['title'] : '';
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ *
+ * Attached libraries for specific blocks.
+ */
+function interior_health_theme_preprocess_block(&$variables) {
+ 
+  // Attaching libraries using theme Settings.
+  $block_libraries = Json::decode(theme_get_setting('block_libraries_mapping'));
+  if ($block_libraries && is_array($block_libraries) && !empty($block_libraries)) {
+    // Check if Block Pulign Id is matched.
+    if (isset($block_libraries[$variables['elements']['#plugin_id']])) {
+      $variables['#attached']['library'] = (isset($variables['#attached']['library']) && is_array($variables['#attached']['library'])) ? array_merge($variables['#attached']['library'], $block_libraries[$variables['elements']['#plugin_id']]) : $block_libraries[$variables['elements']['#plugin_id']];
+    }
+    // Check if Content Block Id is matched.
+    $content = $variables['elements']['content'];
+    if (isset($content['#block_content']) && $content['#block_content'] instanceof BlockContentInterface) {
+      $block_content_id = $content['#block_content']->id();
+      if (isset($block_libraries[$block_content_id])) {
+        $variables['#attached']['library'] = (isset($variables['#attached']['library']) && is_array($variables['#attached']['library'])) ? array_merge($variables['#attached']['library'], $block_libraries[$block_content_id]) : $block_libraries[$block_content_id];
+      }
+    }
+  }
+  $variables['block_suffix'] = '';
+  $variables['block_prefix'] = '';
+  // Alert Top Banner.
+  $alert_block_content = $variables['elements']['content'];
+  if (isset($alert_block_content['#block_content']) && $alert_block_content['#block_content'] instanceof BlockContentInterface) {
+    // Alert Top Banner.
+    if ($alert_block_content['#block_content']->bundle() == 'alert_top_banner') {
+      $variables['#attached']['library'][] = 'interior_health_theme/alert-banner';
+
+      // Adding the block class as hidden if it is not between the start and the end dates.
+      $variables['block_class'] = '';
+      $start_time               = (!empty($alert_block_content['field_date_range']['#items'])) ? strtotime($alert_block_content['field_date_range']['#items']->getValue()[0]['value']) : '';
+      $end_time                 = (!empty($alert_block_content['field_date_range']['#items'])) ? strtotime($alert_block_content['field_date_range']['#items']->getValue()[0]['end_value']) : '';
+
+      // Get the current date in UTC Format.
+      $date = new DrupalDateTime();
+      $date->setTimezone(new \DateTimeZone('UTC'));
+      $date = $date->format('Y-m-d\\TH:i:s');
+      $now  = strtotime($date);
+
+      // Check the date conditions.
+      if (!empty($start_time) && !empty($end_time)) {
+        if (($start_time > $now) or ($end_time < $now)) {
+          $variables['block_class'] = 'hidden';
+        }
+      }
+      elseif (!empty($start_time) && (empty($end_time))) {
+        if ($start_time > $now) {
+          $variables['block_class'] = 'hidden';
+        }
+      }
+      elseif (empty($start_time) && (!empty($end_time))) {
+        if ($end_time < $now) {
+          $variables['block_class'] = 'hidden';
+        }
+      }
+    }
+    // Slider.
+    if ($alert_block_content['#block_content']->bundle() == 'slider') {
+      if (($alert_block_content['#view_mode'] == 'default')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/content-slider';
+      }
+      if (($alert_block_content['#view_mode'] == 'video')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/join-our-team';
+      }
+    }
+    // Gallery CTA Block.
+    if ($alert_block_content['#block_content']->bundle() == 'gallery_cta_block') {
+      $variables['#attached']['library'][] = 'interior_health_theme/location-gallery';
+    }
+    // Banner.
+    if (($alert_block_content['#block_content']->bundle() == 'banner')) {
+      if (($alert_block_content['#view_mode'] == 'full_width')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/hero-banner';
+      }
+      if (($alert_block_content['#view_mode'] == 'half_width')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/half-width-banner';
+      }
+    }
+    // Grid.
+    if (($alert_block_content['#block_content']->bundle() == 'grid')) {
+      if (($alert_block_content['#view_mode'] == '4_col_with_description')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/quick-links';
+      }
+      if (($alert_block_content['#view_mode'] == '4_col_without_description')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/communities';
+      }
+      if (($alert_block_content['#view_mode'] == 'health_info')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/health-glance';
+      }
+      if (($alert_block_content['#view_mode'] == '4_col')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/quick-links';
+      }
+    }
+    // Half Width.
+    if (($alert_block_content['#block_content']->bundle() == 'half_width') && ($alert_block_content['#view_mode'] == '50_50')) {
+      $variables['#attached']['library'][] = 'interior_health_theme/two-col-grid';
+    }
+    // Popup.
+    if (($alert_block_content['#block_content']->bundle() == 'popup') && ($alert_block_content['#view_mode'] == 'default')) {
+      $variables['#attached']['library'][] = 'interior_health_theme/signup-popup';
+    }
+    // Simple CTA Block.
+    if (($alert_block_content['#block_content']->bundle() == 'simple_cta_block')) {
+      if (($alert_block_content['#view_mode'] == 'with_image')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/simple-cta-block-with-out-img';
+      }
+      if (($alert_block_content['#view_mode'] == 'without_image')) {
+        $variables['#attached']['library'][] = 'interior_health_theme/simple-cta-block-with-img';
+      }
+    }
+  }
+  // Slider Banner.
+  $content = $variables['elements']['content'];
+  if (isset($content['#block_content']) && $content['#block_content'] instanceof BlockContentInterface) {
+    $blockType = $content['#block_content']->bundle();
+    if ($blockType === 'slider') {
+      $media = [];
+      $paragraph = $content['#block_content']->get('field_slides')->referencedEntities();
+      if ($paragraph) {
+        foreach ($paragraph as $paragraphs) {
+          $paragraph_media = $paragraphs->get('field_slide_image_or_video');
+          $link = !empty($paragraphs->get('field_link')->getValue()) ? $paragraphs->get('field_link')->getValue()[0] : NULL;
+          $variables['content']['url'][] = isset($link['uri']) ? Url::fromUri($link['uri']) : NULL;
+          $variables['content']['title'][] = isset($link['title']) ? $link['title'] : NULL;
+          if ($paragraph_media[0] && $paragraph_media[0]->entity) {
+            $build = \Drupal::entityTypeManager()->getViewBuilder('media')->view($paragraph_media[0]->entity);
+            $variables['content']['field_paragraph_media'][] = $build;
+          }
+        }
+      }
+      // Home Page slider Block adding class.
+      $current_path = \Drupal::service('path.current')->getPath();
+      $variables['slider_classes'] = '';
+      if ($current_path != '/node/1') {
+        $variables['slider_classes'] = 'content-slider-bg-grey';
+      }
+    }
+  }
+
+  // Stop cache for blocks.
+  $home_page_block_ids = [
+    "block_content:7441ceb0-717c-41bb-a357-a3a57f2981e5",
+    "block_content:36110213-ce29-4d94-8e7c-deb927456d85",
+    "block_content:923cbf4d-d2fb-4a7d-9136-8de617d2d4ff",
+    "block_content:1e70cdd7-34e6-43dc-b756-bf3f640f2833",
+    "block_content:1e70cdd7-34e6-43dc-b756-bf3f640f2833",
+    "block_content:b28e2953-45de-4f78-8b62-f1bbf6735995",
+    "block_content:ceaba7c0-de3a-42e8-8f02-3a3191d1eef6",
+    "block_content:bb12453f-a421-44b8-8967-d223d2c17acd",
+    "block_content:57ac267a-aa09-4459-ba31-44e08df064cd",
+    "block_content:e7dc6b99-afdf-4006-954e-32d6fc5135c1",
+    "block_content:f1d08d32-9ed2-40c3-99da-1936e2104148",
+  ];
+  if (in_array($variables['elements']['#plugin_id'], $home_page_block_ids)) {
+    $vars['#cache']['max-age'] = 0;
+  }
+  if ($variables['elements']['#plugin_id'] == 'webform_block' && $variables['configuration']['webform_id'] == 'feedback_form') {
+    $variables['#attached']['library'][] = 'interior_health_theme/hero-banner';
+  }
+  if ($variables['elements']['#plugin_id'] == 'webform_block' && $variables['configuration']['webform_id'] == 'contact_us') {
+    $variables['attributes']['class'][] = 'ih-webform';
+    $variables['attributes']['class'][] = 'mb-lg-5';
+    $variables['#attached']['library'][] = 'interior_health_theme/ih-form-style';
+  }
+  if ($variables['elements']['#plugin_id'] == 'addtoany_block') {
+    $variables['attributes']['class'][] = 'container';
+    $variables['attributes']['class'][] = 'add-to-any-share';
+  }
+  if (($variables['elements']['#plugin_id'] == 'views_exposed_filter_block:blog_topic_listing_page-category_page') || ($variables['elements']['#plugin_id'] == 'views_exposed_filter_block:blog_topic_listing_page-media_category_page') || ($variables['elements']['#plugin_id'] == 'views_exposed_filter_block:blog_topic_listing_page-alerts_category_page') || ($variables['elements']['#plugin_id'] == 'views_exposed_filter_block:blog_topic_listing_page-archive')) {
+    $variables['attributes']['class'][] = 'stories-filter-wrapper';
+  }
+  if ($variables['elements']['#plugin_id'] == 'field_block:node:webform:body') {
+    $variables['webform_classes'] = 'ih-webform content-page-content-section';
+  }
+  if ($variables['elements']['#plugin_id'] == 'field_block:node:webform:webform') {
+    $variables['webform_classes'] = 'ih-webform';
+  }
+  if ($variables['elements']['#plugin_id'] == 'field_block:node:webform:title') {
+    $variables['webform_classes'] = 'ih-webform';
+  }
+  if (($variables['elements']['#plugin_id'] == 'views_block:media_listing_page-recent_alerts') || ($variables['elements']['#plugin_id'] == 'views_block:media_listing_page-block_4') || ($variables['elements']['#plugin_id'] == 'views_block:media_listing_page-block_5')) {
+    $variables['attributes']['class'][] = 'container';
+    $variables['attributes']['class'][] = 'media-news';
+    $variables['attributes']['class'][] = 'mx-auto';
+  }
+  $moderation_state_block_id = [
+    'extra_field_block:node:alert_sidebar:content_moderation_control',
+    'extra_field_block:node:article:content_moderation_control',
+    'extra_field_block:node:page:content_moderation_control',
+    'extra_field_block:node:detail_page:content_moderation_control',
+    'extra_field_block:node:location:content_moderation_control',
+    'extra_field_block:node:services:content_moderation_control',
+    'extra_field_block:node:stories_news:content_moderation_control',
+  ];
+  if (in_array($variables['elements']['#plugin_id'], $moderation_state_block_id)) {
+    $variables['attributes']['class'][] = 'container';
+    $variables['attributes']['class'][] = 'moderation-control-wrapper';
+  }
+  $account_id = '';
+  $account_link = '';
+  if ($variables['elements']['#plugin_id'] == 'insta_feed_block') {
+    $account_id = isset($variables['configuration']['account_id']) ? $variables['configuration']['account_id'] : '';
+    $account_link = isset($variables['configuration']['account_link']) ? $variables['configuration']['account_link'] : '';
+    $variables['block_prefix'] = '<div class="instagram-wrapper"> <div class="container-fluid p-0"> <div class="instagram-title text-center d-lg-flex justify-content-lg-center"> <div class="instagram-follow-us">' . $variables['label'] . '</div> <div><a href="' . $account_link . '" class="instagram-tag-us" target="_blank">' . $account_id . '</a></div> </div>';
+    $variables['block_suffix'] = '</div> </div>';
+    $variables['title_attributes']['class'][] = 'hidden';
+  }
+  if ($variables['elements']['#plugin_id'] == 'field_block:node:stories_news:body') {
+    $variables['block_prefix'] = '<div class="container content-detail-page-body-wrapper"> <div class="row"> <div class="col-md-12">';
+    $variables['block_suffix'] = '</div> </div> </div>';
+
+  }
+ 
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function interior_health_theme_preprocess_page(&$variables) {
+
+  // Attaching libraries using theme Settings.
+  $path_libraries = Json::decode(theme_get_setting('path_libraries_mapping'));
+  if ($path_libraries && is_array($path_libraries) && !empty($path_libraries)) {
+    $current_path = \Drupal::service('path.current')->getPath();
+    foreach ($path_libraries as $pattern => $library) {
+      // Check if current path is matched.
+      if (\Drupal::service('path.matcher')->matchPath($current_path, $pattern)) {
+        // Attach the library.
+        $variables['#attached']['library'] = (isset($variables['#attached']['library']) && is_array($variables['#attached']['library'])) ? array_merge($variables['#attached']['library'], $library) : $library;
+      }
+    }
+  }
+  // Attaching the libraries to page.
+  $node = (isset($variables['node'])) ? $variables['node'] : [];
+  if (!empty($node) && (!is_string($node)) && ($node->getType() == 'stories_news')) {
+    $variables['#attached']['library'] = "interior_health_theme/stories-detail";
+  }
+  if (!empty($node) && (!is_string($node)) && ($node->getType() == 'webform')) {
+    $variables['#attached']['library'] = "interior_health_theme/ih-form-style";
+  }
+  $taxonomy = \Drupal::request()->attributes->get('taxonomy_term');
+  if (!empty($taxonomy) && !empty($taxonomy->id()) && ($taxonomy->bundle() == 'content_hub_content_listing')) {
+    $variables['#attached']['library'] = "interior_health_theme/content-hub-page";
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_block_alter().
+ */
+function interior_health_theme_theme_suggestions_block_alter(&$suggestions, $variables) {
+  $content = $variables['elements']['content'];
+
+  if (isset($content['#block_content']) && $content['#block_content'] instanceof BlockContentInterface) {
+    $block_type = [
+      'alert_top_banner',
+      'grid',
+      'simple_cta_block',
+      'banner',
+      'popup',
+      'slider',
+      'half_width',
+      'gallery_cta_block',
+    ];
+    $bundle     = $content['#block_content']->bundle();
+    if (in_array($bundle, $block_type)) {
+      $view_mode     = strtr($variables['elements']['#configuration']['view_mode'], '.', '_');
+      $suggestions[] = 'block__' . $bundle . '__' . $view_mode;
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_views_view_alter().
+ */
+function interior_health_theme_theme_suggestions_views_view_alter(&$suggestions, $variables) {
+  if ($variables['view']->id() == "detail_page" && $variables['view']->current_display == "content_hub_services") {
+    $suggestions[] = 'views_view__' . $variables['view']->id() . '__block_5';
+  }
+  if ((($variables['view']->id() == "detail_page") && (($variables['view']->current_display == "ih_stories_detail_page") || ($variables['view']->current_display == "content_hub")))) {
+    $suggestions[] = 'views_view__' . $variables['view']->id() . '__ih_stories';
+  }
+  if ($variables['view']->id() == "media_listing_page" && $variables['view']->current_display == "block_2") {
+    $suggestions[] = 'views_view__detail_page__ih_stories';
+  }
+  if ($variables['view']->id() == "media_listing_page" && $variables['view']->current_display == "block_3") {
+    $suggestions[] = 'views_view__media_listing_page__block_1';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_views_view_unformatted_alter().
+ */
+function interior_health_theme_theme_suggestions_views_view_unformatted_alter(&$suggestions, $variables) {
+  if ((($variables['view']->id() == "detail_page") && (($variables['view']->current_display == "ih_stories_detail_page") || ($variables['view']->current_display == "content_hub"))) || ($variables['view']->id() == "media_listing_page" && $variables['view']->current_display == "block_2")) {
+    $suggestions[] = 'views_view_unformatted__' . $variables['view']->id() . '__ih_stories';
+  }
+  if ($variables['view']->id() == "media_listing_page" && $variables['view']->current_display == "block_2") {
+    $suggestions[] = 'views_view_unformatted__detail_page__ih_stories';
+  }
+  if (($variables['view']->id() == "blog_topic_listing_page") && (($variables['view']->current_display == "media_category_page") || ($variables['view']->current_display == "alerts_category_page") || ($variables['view']->current_display == "archive"))) {
+    $suggestions[] = 'views_view_unformatted__blog_topic_listing_page__category_page';
+  }
+  if ($variables['view']->id() == "home_page_blocks" && $variables['view']->current_display == "block_5") {
+    $suggestions[] = 'views_view_unformatted__home_page_blocks__ih_stories';
+  }
+  if ($variables['view']->id() == "service_detail" && $variables['view']->current_display == "block_1") {
+    $suggestions[] = 'views_view_unformatted__service_detail__banner_block';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_select_alter().
+ */
+function interior_health_theme_theme_suggestions_select_alter(&$suggestions, $variables) {
+  if ((($variables['element']['#name'] == 'field_category_target_id')) && ($variables['element']['#context']['#view_id'] == 'service_listing_page') && ($variables['element']['#context']['#display_id'] == 'page_1')) {
+    $suggestions[] = 'select__category';
+  }
+  if ((($variables['element']['#name'] == 'field_location_type_target_id')) && ($variables['element']['#context']['#view_id'] == 'location_listing_page') && ($variables['element']['#context']['#display_id'] == 'page_1')) {
+    $suggestions[] = 'select__category';
+  }
+  if ((($variables['element']['#name'] == 'type')) && ($variables['element']['#context']['#view_id'] == 'global_search') && ($variables['element']['#context']['#display_id'] == 'page_1')) {
+    $suggestions[] = 'select__category';
+  }
+  if ($variables['element']['#name'] == 'distance') {
+    $suggestions[] = 'select__category';
+  }
+}
+
+/**
+ * Implements hook_preprocess_region().
+ */
+function interior_health_theme_preprocess_region(&$variables) {
+  if ($variables['region'] == 'footer_right') {
+    $variables['attributes']['class'][] = 'row';
+  }
+  if ($variables['region'] == 'top_menu_bar') {
+    $variables['attributes']['class'][] = 'd-block';
+    $variables['attributes']['class'][] = 'd-lg-flex';
+    $variables['attributes']['class'][] = 'justify-content-end';
+    $variables['attributes']['class'][] = 'align-items-center';
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function interior_health_theme_preprocess_menu(&$variables) {
+  if (($variables['menu_name'] == 'top-menu-links-right') || ($variables['menu_name'] == 'top-menu-links')) {
+    $variables['attributes']['class'][] = 'd-flex';
+    $variables['attributes']['class'][] = 'm-0';
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function interior_health_theme_preprocess_block__system_branding_block(&$variables) {
+  $variables['mobile_logo'] = '';
+  $file_responsive_id = theme_get_setting('logo_responsive');
+  if (!empty($file_responsive_id)) {
+    foreach ($file_responsive_id as $fid) {
+      $file_id = $fid;
+    }
+    $file = File::load($file_id);
+    $uri = $file->createFileUrl();
+    $variables['mobile_logo'] = $uri;
+  }
+}
+
+/**
+ * Implements hook_preprocess_webform().
+ */
+function interior_health_theme_preprocess_webform(&$variables) {
+  $variables['webform_prefix'] = '';
+  if ($variables['element']['#webform_id'] == "feedback_form") {
+    $variables['webform_prefix'] = "<div class='feedbacktitle-wrapper'><span class='feedbacktitle'>Share Your Feedback</span><button aria-label='Close'></button></div>";
+  }
+}
+
+/**
+ * Implements hook_preprocess_status_messages().
+ */
+function interior_health_theme_preprocess_status_messages(&$variables) {
+  if (isset($variables['message_list']['error'])) {
+    $status_messages = $variables['message_list']['error'];
+    foreach ($status_messages as $delta => $message) {
+      if ((strpos((string) $message, 'errors have been found:') !== FALSE) || (strpos((string) $message, 'error have been found:') !== FALSE)) {
+        $variables['message_list']['error'][$delta] = "Oops! There are a few items that need to be filled out";
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function interior_health_theme_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+  $variables['footer_classes'] = '';
+  $variables['content_classes'] = '';
+  $variables['row_content'] = '';
+  $variables['view_prefix'] = '';
+  $variables['view_suffix'] = '';
+  if (($view->id() == 'home_page_blocks') && (($view->current_display == 'ih_stories') || ($view->current_display == 'block_5'))) {
+    $variables['footer_classes'] = 'ih-stories-footer d-lg-none pr-2 p-lg-0';
+  }
+  if (($variables['id'] == 'service_listing_page' && $variables['display_id'] == 'page_1') || ($variables['id'] == 'loaction_listing_page' && $variables['display_id'] == 'page_1')) {
+    if (isset($vars['rows']['#theme_wrappers']) && $variables['rows']['#theme_wrappers']['container']['#attributes']['data-drupal-views-infinite-scroll-content-wrapper'] == TRUE) {
+      $variables['rows']['#theme_wrappers']['container']['#attributes']['class'][] = 'container';
+    }
+    else {
+      $variables['content_classes'] = 'container';
+    }
+  }
+  if ($variables['id'] == 'service_listing_page' && $variables['display_id'] == 'block_3') {
+    $variables['content_classes'] = 'result-items';
+  }
+  if ($variables['id'] == 'location_detail_page' && $variables['display_id'] == 'location_detail_amenities') {
+    $variables['content_classes'] = 'amenities';
+  }
+  if ($variables['id'] == 'content_hub' && $variables['display_id'] == 'block_1') {
+    $variables['content_classes'] = 'benefits-items';
+  }
+  if (($variables['id'] == 'service_listing_page' && $variables['display_id'] == 'attachment_2') || ($variables['id'] == 'location_listing_page' && $variables['display_id'] == 'attachment_1')) {
+    $variables['row_content'] = '<div class="map-close-btn"></div>';
+  }
+  if (($variables['id'] == 'service_detail' && $variables['display_id'] == 'block_2') || ($variables['id'] == 'location_detail_page' && $variables['display_id'] == 'block_1')) {
+    $variables['row_content'] = '<div class="map-close-btn"></div>';
+  }
+  if (($view->id() == 'stories_listing_page') && ($view->current_display == 'more_stories')) {
+    $variables['row_content'] = '</div></div></div>';
+    $variables['content_title'] = 1;
+    $variables['content_title_markup'] = '<div class="container"><div class="row m-lg-0"><div class="more-stories-wrapper"><h2 class="stories-title">' . $view->getTitle() . '</h2>';
+  }
+
+  if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_services')) {
+    $variables['view_suffix']           = '</div>';
+    $variables['title_prefix']          = "<div class='content'>";
+    $variables['attributes']['id'][]    = 'tab-services';
+    $variables['attributes']['role'][]  = 'tabpanel';
+    $variables['attributes']['class'][] = 'tab-pane';
+  }
+  if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_amenities')) {
+    $variables['view_prefix'] = '<div role="tabpanel" class="tab-pane" id="tab-amenities"><div class="content">';
+    $variables['view_suffix'] = '</div></div>';
+  }
+  if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_gallery')) {
+    $variables['attributes']['id'][] = 'detail-location';
+  }
+  if (($view->id() == 'media_listing_page') && (($view->current_display == 'block_1') || ($view->current_display == 'block_3'))) {
+    $variables['rows']['#theme_wrappers']['container']['#attributes']['class'][] = 'news-items';
+  }
+  $variables['content_empty'] = 0;
+  if (($view->id() == 'content_hub') && ($view->current_display == 'explore_this_section')) {
+    $variables['content_empty'] = 1;
+  }
+
+
+  if (($view->id() == 'global_search') && ($view->current_display == 'block_1')) {
+
+    // Programatically fetch the facet block.
+    $variables['facets_block'] = Drupal::service('plugin.manager.block')->createInstance("facet_block:content_type")->build();
+
+    // Get the popular topics config values.
+    $variables['popular_topics'] = \Drupal::config('popular_topics.settings')->get('search');
+
+    // Get the quick_links config values.
+    $variables['quick_links'] = \Drupal::config('quick_links.settings')->get('search');
+
+  }
+  
+  if (($view->id() == 'content_hub') && ($view->current_display == 'explore_this_section')) {
+    $term_ids                     = [];
+    $variables['content_results'] = [];
+    $taxonomy_term                = $variables['view']->args[0];
+    $path_alias                   = '';
+    $nids                         = [];
+
+    // The Detail pages that are tagged.
+    if (!empty($taxonomy_term)) {
+
+      // Get the detail pages.
+      $query = \Drupal::database()->select('node_field_data', 'nfd');
+      $query->fields('nfd', ['nid', 'title']);
+      $query->condition('nfd.type', 'detail_page');
+      $query->condition('nfd.status', 1);
+      // Get the content having the taxonomy term related.
+      $query->join('node__field_content_hub_content_listin', 'nfch', 'nfch.entity_id = nfd.nid');
+      $query->condition('nfch.field_content_hub_content_listin_target_id', $taxonomy_term);
+      // Get the content having the content promoted to the content hub page.
+      $query->join('node__field_promote_to_content_hub_pag', 'nfpc', 'nfpc.entity_id = nfd.nid');
+      $query->condition('nfpc.field_promote_to_content_hub_pag_value', 1);
+      // Get the content having the mobile image.
+      $query->addField('nfmb', 'field_mobile_banner_image_target_id');
+      $query->join('node__field_mobile_banner_image', 'nfmb', 'nfmb.entity_id = nfd.nid');
+
+      $nids = $query->execute()->fetchAll();
+      if (!empty($nids)) {
+        foreach ($nids as $key => $value) {
+          $name = $value->title;
+          $image_id = $value->field_mobile_banner_image_target_id;
+          // Get the image Url.
+          if (!empty($image_id)) {
+            $image_uri = get_image_uri($image_id);
+          }
+          // Get the Path Alias.
+          $path                           = '/node/' . (int) ($value->nid);
+          $path_alias                     = get_path_alias($path);
+          $variables['content_results'][] = [
+            'name'      => $name,
+            'image_url' => $image_uri,
+            'path'      => $path_alias,
+          ];
+        }
+      }
+    }
+    if (!empty($variables['rows'][0]['#rows'])) {
+      $database = [];
+      foreach ($variables['rows'][0]['#rows'] as $key => $value) {
+        $tid = $variables['rows'][0]['#rows'][$key]['#row']->taxonomy_term_field_data_taxonomy_term__field_content_hub_pa;
+        if (!is_null($tid)) {
+          if (!empty($variables['rows'][0]['#rows'][$key]['#row']->_relationship_entities['field_mobile_image']) && ($variables['rows'][0]['#rows'][$key]['#row']->_relationship_entities['field_mobile_image']->bundle() == "image")) {
+            // Get image url.
+            $image_uri = '';
+            $media_id = $variables['rows'][0]['#rows'][$key]['#row']->media_field_data_taxonomy_term__field_mobile_image_mid;
+            if (!empty($media_id)) {
+              $image_uri = get_image_uri($media_id);
+            }
+          }
+          // Get Path Alias.
+          $path       = '/taxonomy/term/' . (int) ($tid);
+          $path_alias = get_path_alias($path);
+          if (!empty($tid)) {
+            $query = \Drupal::database()->select('taxonomy_term_field_data', 'ttfd');
+            $query->fields('ttfd', ['name']);
+            $query->condition('ttfd.tid', $tid);
+            $database = $query->execute()->fetchAll();
+          }
+          $name = (!empty($database[0]->name)) ? $database[0]->name : '';
+          $variables['content_results'][] = [
+            'name'      => $name,
+            'image_url' => $image_uri,
+            'path'      => $path_alias,
+          ];
+        }
+      }
+    }
+    // Sort the results based on the specific order.
+    $name = array_column($variables['content_results'], 'name');
+    $name_lowercase = array_map('strtolower', $name);
+    array_multisort($name_lowercase, SORT_ASC, $variables['content_results']);
+  }
+}
+
+/**
+ * Get the image uri.
+ */
+function get_image_uri($image_id) {
+  $media = Media::load($image_id);
+  if (!empty($media)) {
+    $media_field = $media->get('field_media_image')->first()->getValue();
+    $file        = File::load($media_field['target_id']);
+    $file_uri    = $file->getFileUri();
+    $image_uri   = ImageStyle::load('content_hub_110x96')->buildUrl($file_uri);
+    return $image_uri;
+  }
+}
+
+/**
+ * Get the path alias.
+ */
+function get_path_alias($path) {
+  $langcode   = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($path, $langcode);
+  return $path_alias;
+}
+
+/**
+ * Implements hook_preprocess_form().
+ */
+function interior_health_theme_preprocess_form(&$variables) {
+  if (($variables['element']['#id'] == 'views-exposed-form-service-listing-page-page-1') || ($variables['element']['#id'] == 'views-exposed-form-location-listing-page-page-1')) {
+    $variables['attributes']['class'][] = 'form';
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_infinite_scroll_pager().
+ */
+function interior_health_theme_preprocess_views_infinite_scroll_pager(&$variables) {
+  $view = $variables['view'];
+  $variables['pager_display'] = 1;
+  if ((($view->id() == 'service_listing_page') && ($view->current_display == 'page_1')) || (($view->id() == 'stories_listing_page') && ($view->current_display == 'more_stories')) || (($view->id() == 'blog_topic_listing_page') && ($view->current_display == 'category_page')) || (($view->id() == 'blog_topic_listing_page') && ($view->current_display == 'media_category_page')) || (($view->id() == 'blog_topic_listing_page') && (($view->current_display == 'alerts_category_page') || ($view->current_display == 'archive'))) || (($view->id() == 'location_listing_page') && ($view->current_display == 'page_2'))) {
+    $variables['pager_display'] = 0;
+    if ($view->getPager()) {
+      $variables['total_items'] = $view->getPager()->getTotalItems();
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_form_element().
+ */
+function interior_health_theme_preprocess_form_element(&$variables) {
+  if (isset($variables['element']['#name'])) {
+    if (($variables['element']['#name'] == 'title') || ($variables['element']['#name'] == 'combine')) {
+      $variables['attributes']['class'][] = 'service-form-keyword';
+      $variables['label']['#title_display'] = 'invisible';
+    }
+    if (($variables['element']['#name'] == 'field_category_target_id') || ($variables['element']['#name'] == 'field_location_type_target_id')) {
+      $variables['attributes']['class'][] = 'service-form-category';
+      $variables['label_display'] = 'after';
+    }
+    if ($variables['element']['#name'] == 'center[geocoder][geolocation_geocoder_address]') {
+      $variables['attributes']['class'][] = 'service-form-combine';
+      $variables['label_display'] = 'after';
+    }
+    if ($variables['element']['#name'] == 'distance') {
+      $variables['attributes']['class'][] = 'service-form-distance';
+      $variables['label_display'] = 'after';
+    }
+    if ($variables['element']['#name'] == 'field_address_geofield_proximity') {
+      $variables['attributes']['class'][] = 'service-form-address';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_container().
+ *
+ * Added id for location nearby address filter field.
+ */
+function interior_health_theme_preprocess_container(&$variables) {
+  if (isset($variables['element']['geolocation_geocoder_address'])) {
+    $variables['attributes']['id'] = 'edit-center-geocoder';
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_unformatted().
+ */
+function interior_health_theme_preprocess_views_view_unformatted(&$variables) {
+  $view = $variables['view'];
+  if (($view->id() == 'detail_page') && ($view->current_display == 'block_7')) {
+    $taxonomy_term = $variables['view']->result[0]->_entity->get('field_content_hub_content_listin')->target_id;
+    $variables['term_id'] = $taxonomy_term;
+  }
+  if (!empty($taxonomy_term)) {
+    $termId = $taxonomy_term;
+    $tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('content_hub_content_listing');
+    foreach ($tree as $term) {
+      $terms[$term->tid] = [
+        'name' => $term->name,
+        'parent' => $term->parents[0],
+      ];
+    }
+    $variables['breadcrumb'] = get_breadcrumb($terms, $termId, $breadcrumb = NULL);
+  }
+  // Created the variables to check if the view fields are empty.
+  if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_about')) {
+    if (isset($view->result[0]->views_field_view_view)) {
+      $view_rows = $view->result[0]->views_field_view_view['#rows'];
+      if ((count($view_rows) == 1) && (is_null($view_rows[0]['#rows'][0]['#row']->node_field_data_node__field_services_nid))) {
+        $variables['views_field_view_view'] = 0;
+      }
+      else {
+        $variables['views_field_view_view'] = 1;
+      }
+    }
+    if (isset($view->result[0]->views_field_view_view_1)) {
+      $view_rows = $view->result[0]->views_field_view_view_1['#rows'];
+      if ((count($view_rows) == 1) && (is_null($view_rows[0]['#rows'][0]['#row']->taxonomy_term_field_data_node__field_amenities_tid))) {
+        $variables['views_field_view_view_1'] = 0;
+      }
+      else {
+        $variables['views_field_view_view_1'] = 1;
+      }
+    }
+  }
+  if (($view->id() == 'content_hub') && ($view->current_display == 'banner')) {
+    $taxonomy = \Drupal::request()->attributes->get('taxonomy_term');
+    $variables['argument'] = 0;
+    if (!empty($taxonomy) && $taxonomy->id() == '65') {
+      $variables['argument'] = 1;
+    }
+    if (!empty($taxonomy) && $taxonomy->id() == '100') {
+      $variables['argument'] = 2;
+    }
+  }
+/*  if (($view->id() == 'service_detail') && ($view->current_display == 'banner_block')) {
+    $lid = \Drupal::request()->query->get('lid');
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $dlid = $node->get('field_default_location')->getValue();
+    //if (!empty($dlid) || !empty($lid)) {
+    if (!empty($lid)) {
+      $variables['default_location'] = 1;
+    }
+    else {
+      $variables['default_location'] = 0;
+    }
+  }*/
+}
+
+/**
+ * Get the breadcrumb.
+ */
+function get_breadcrumb($terms, $termId, $breadcrumb) {
+  if (array_key_exists($termId, $terms)) {
+    if (empty($terms[$termId]['parent'])) {
+      $breadcrumb = '<li class="breadsrumb-item"><a href="/taxonomy/term/' . $termId . '">' . $terms[$termId]['name'] . '</a></li>' . $breadcrumb;
+      return $breadcrumb;
+    }
+    elseif (array_key_exists($termId, $terms) && !empty($terms[$termId]['parent'])) {
+      $breadcrumb = '<li class="breadsrumb-item"><a href="/taxonomy/term/' . $termId . '">' . $terms[$termId]['name'] . '</a></li>' . $breadcrumb;
+      return get_breadcrumb($terms, $terms[$termId]['parent'], $breadcrumb);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_field().
+ */
+function interior_health_theme_preprocess_field(&$variables) {
+  if ($variables['field_type'] == 'link') {
+    // Open the link in new tab for external links.
+    if ($variables['items'][0]['content']['#url']->isExternal()) {
+      $variables['items'][0]['content']['#options']['attributes'] = ['target' => '_blank'];
+    }
+  }
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (!empty($node)) {
+    if (!empty($node->getType()) && ($node->getType() == 'stories_news') && ($variables['field_name'] == 'body')) {
+      $variables['attributes']['class'][] = 'content-page-content-section';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_form_element_label().
+ */
+function interior_health_theme_preprocess_form_element_label(&$variables) {
+  if ($variables['element']['#title'] == "Available Service") {
+    $variables['attributes']['class'][] = 'hidden';
+  }
+}
+
+/**
+ * Implements hook_preprocess_breadcrumb().
+ */
+function interior_health_theme_preprocess_breadcrumb(&$variables) {
+  $variables['wrapper_classes'] = '';
+  if (\Drupal::service('path.current')->getPath() == "/stories/blog-topic-listing-page") {
+    $variables['wrapper_classes']       = 'container p-0';
+    $current_path                       = \Drupal::service('path.current')->getPath();
+    $current_path_explode               = explode('/', $current_path);
+    $variables['breadcrumb'][1]['text'] = 'Stories@IH';
+    unset($variables['breadcrumb'][2]);
+  }
+  if ((\Drupal::service('path.current')->getPath() == "/media/blog-topic-listing-page") || (\Drupal::service('path.current')->getPath() == "/alerts/blog-topic-listing-page") || (\Drupal::service('path.current')->getPath() == "/media/archive")) {
+    $variables['wrapper_classes'] = 'container p-0';
+  }
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (!empty($node)) {
+    if (!empty($node->getType()) && $node->getType() == 'stories_news') {
+      $variables['wrapper_classes'] = 'no-bg';
+    }
+  }
+  // Taxonomy term page Breadcrumb.
+  $taxonomy = \Drupal::request()->attributes->get('taxonomy_term');
+  if (!empty($taxonomy) && ($taxonomy->bundle() == 'content_hub_content_listing')) {
+    $term_id = $taxonomy->id();
+    $parent_terms = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($term_id);
+    $terms = [];
+    foreach ($parent_terms as $term) {
+      // Except the termid.
+      if ($term->id() != $term_id) {
+        $terms[$term->id()] = $term->label();
+      }
+    }
+    if (!empty($variables['breadcrumb'])) {
+      foreach ($variables['breadcrumb'] as $key => $value) {
+        if ($key != 0) {
+          unset($variables['breadcrumb'][$key]);
+        }
+      }
+    }
+    if (!empty($terms)) {
+      $taxonomy_terms = array_reverse($terms, TRUE);
+      foreach ($taxonomy_terms as $key => $value) {
+        // Get Path Alias.
+        $path                                                     = '/taxonomy/term/' . (int) $key;
+        $langcode                                                 = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $path_alias                                               = \Drupal::service('path_alias.manager')->getAliasByPath($path, $langcode);
+        $variables['breadcrumb'][count($variables['breadcrumb'])] = [
+          'text' => ucwords($value),
+          'url'  => $path_alias,
+        ];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_details().
+ *
+ * Adding class for Webform Detail Elements.
+ */
+function interior_health_theme_preprocess_details(&$variables) {
+  if ((isset($variables['attributes']['data-webform-key']) && ($variables['attributes']['data-webform-key'] == 'client_information')) || (isset($variables['attributes']['data-webform-key']) && ($variables['attributes']['data-webform-key'] == 'name_of_clinical_lead')) || (isset($variables['attributes']['data-webform-key']) && ($variables['attributes']['data-webform-key'] == 'name_of_person_completing_the_referral'))) {
+    $variables['attributes']['class'][] = 'half-width';
+  }
+}
+
+/**
+ * Implements hook_preprocess_select().
+ */
+function interior_health_theme_preprocess_select(&$variables) {
+  $variables['additional_class'] = '';
+  if (count($variables['options'])) {
+    $key = array_key_first($variables['element']['#options']);
+    $variables['first_option_label'] = $variables['element']['#options'][$key];
+  }
+  if (isset($variables['element']['#context']['#view_id']) && isset($variables['element']['#context']['#display_id']) && ($variables['element']['#context']['#view_id'] == 'global_search') && ($variables['element']['#context']['#display_id'] == 'page_1') && ($variables['element']['#name'] == 'type')) {
+    $variables['additional_class'] = 'dark search_dd';
+  }
+}
+
+/**
+ * Implements hook_preprocess_facets_item_list().
+ */
+function interior_health_theme_preprocess_facets_item_list(&$variables) {
+  if (isset($variables['facet'])) {
+    if ($variables['facet']->id() == 'content_type') {
+      foreach ($variables['items'] as $key => $item) {
+        if ($item['value']['#title']['#value'] == "Detail Page") {
+          $variables['items'][$key]['value']['#title']['#value'] = "Information";
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function interior_health_theme_preprocess_html(&$variables) {
+  
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path = (!empty($current_path)) ? explode('/', $current_path) : [];
+  if ((count($path) == 4) && ($path[1] == 'services') && ($path[3] == 'locations')) {
+    $variables['attributes']['class'][] = 'path-locations';
+  }
+  if($current_path == '/node/322'){
+    $variables['attributes']['class'][] = 'safe-reporting-form';
+  }
+  if($current_path == '/node/2277'){
+    $variables['digital_health_support'] = true;
+  }
+
+}

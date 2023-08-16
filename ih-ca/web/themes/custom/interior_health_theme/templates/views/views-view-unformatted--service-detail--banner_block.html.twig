@@ -1,0 +1,92 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+{% for key,row in rows %}
+  {%
+    set row_classes = [
+      default_row_class ? 'views-row',
+    ]
+  %}
+  {% set banner_class = ((view.style_plugin.getField(key, 'field_apn_contact'))) ? 'with-apn': '' %}
+ {# {% set location_wrapper = (default_location == 1) ? '': 'flex-column' %} #}
+<div class="top-banner-header-section navigator">
+  {{ drupal_block('system_breadcrumb_block') }}
+  <div class="tab-link-section">
+   <div class="tab-link-item"><a href="#detail-about">About</a></div>
+   <div class="tab-link-item"><a href="#detail-resources">Resources</a></div>
+   <div class="tab-link-item"><a href="#detail-faq">FAQs</a></div>
+   <div class="tab-link-item"><a href="#detail-location">Locations</a></div>
+  </div>
+  <div class="top-banner-header-left blue-bg-desktop {{ banner_class }}">
+    <div class="top-banner-header-content text-white">
+      <h1 class="h1">{{ view.style_plugin.getField(key, 'title_1') }}</h1>
+      <div class="location-banner-wrapper {{ location_wrapper }}">
+      
+        <div class="location-desc">
+          <div class="hopital-name">{{ view.style_plugin.getField(key, 'title') }}</div>
+            {{ view.style_plugin.getField(key, 'field_address_info') }}
+        </div>
+        <div class="location-contact">
+          {{ view.style_plugin.getField(key, 'field_phone') }}
+        </div>
+        {% if view.style_plugin.getField(key, 'field_apn_contact') %}
+          <div class="location-contact location-apn">
+            {{ view.style_plugin.getField(key, 'field_apn_contact') }}
+          </div>
+        {% endif %}
+        <a class="yellow-btn" href="#show-map">Show Map</a>
+        <div class="location-links">
+         <ul>
+         {% if view.style_plugin.getField(key, 'field_phone_1') %}
+            <li class="location-item"><a href="tel:{{ view.style_plugin.getField(key, 'field_phone_1') }}"><span class="icon icon-phone"></span>{{ view.style_plugin.getField(key, 'field_phone_1') }}(main)</a></li>
+         {% endif %}
+          <li class="location-item">
+            {% if view.style_plugin.getField(key, 'field_address_geofield_proximity')|trim != "Distance: 0.0km" %}
+              <div>
+                <span class="icon icon-location-health"></span>
+                <span>{{ view.style_plugin.getField(key, 'field_address_geofield_proximity') }}</span>
+              </div>
+            {% endif %}
+          </li>
+          <li class="location-item"><a href="https://maps.google.com/maps?z=15&t=m&hl=en&q={{ view.style_plugin.getField(key, 'field_address_info_address_line1') }}{{ view.style_plugin.getField(key, 'field_address_info_address_line2') }}{{ view.style_plugin.getField(key, 'field_address_info_locality') }}{{ view.style_plugin.getField(key, 'field_address_info_administrative_area') }}{{ view.style_plugin.getField(key, 'field_address_info_postal_code') }}" target="_blank"><span class="icon icon-location"></span>Get Directions</a></li>
+         </ul>
+        </div>
+    
+      </div>
+    </div>
+    <div class="location-image">
+      
+        <picture>
+           <source media="(min-width:768px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+           <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="location">
+        </picture>
+      
+      <div class="windchimes-glb bottom">
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="location-map" id="show-map">
+ {{ view.style_plugin.getField(key, 'view') }}
+</div>
+{% endfor %}

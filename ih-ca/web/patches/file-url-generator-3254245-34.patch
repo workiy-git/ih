@@ -1,0 +1,52 @@
+diff --git a/core/lib/Drupal/Core/File/FileUrlGenerator.php b/core/lib/Drupal/Core/File/FileUrlGenerator.php
+index dbfdb0d33..b988dc77d 100644
+--- a/core/lib/Drupal/Core/File/FileUrlGenerator.php
++++ b/core/lib/Drupal/Core/File/FileUrlGenerator.php
+@@ -55,15 +55,21 @@ public function __construct(StreamWrapperManagerInterface $stream_wrapper_manage
+   /**
+    * {@inheritdoc}
+    */
+-  public function generateString(string $uri): string {
+-    return $this->doGenerateString($uri, TRUE);
++  public function generateString($uri): string {
++    if (is_string($uri)) {
++      return $this->doGenerateString($uri, TRUE);
++    }
++    return '';
+   }
+ 
+   /**
+    * {@inheritdoc}
+    */
+-  public function generateAbsoluteString(string $uri): string {
+-    return $this->doGenerateString($uri, FALSE);
++  public function generateAbsoluteString($uri): string {
++    if (is_string($uri)) {
++      return $this->doGenerateString($uri, FALSE);
++    }
++    return '';
+   }
+ 
+   /**
+diff --git a/core/lib/Drupal/Core/File/FileUrlGeneratorInterface.php b/core/lib/Drupal/Core/File/FileUrlGeneratorInterface.php
+index 1ab1bfcf4..9ea53f445 100644
+--- a/core/lib/Drupal/Core/File/FileUrlGeneratorInterface.php
++++ b/core/lib/Drupal/Core/File/FileUrlGeneratorInterface.php
+@@ -38,7 +38,7 @@ interface FileUrlGeneratorInterface {
+    * @throws \Drupal\Core\File\Exception\InvalidStreamWrapperException
+    *   If a stream wrapper could not be found to generate an external URL.
+    */
+-  public function generateString(string $uri): string;
++  public function generateString($uri): string;
+ 
+   /**
+    * Creates an absolute web-accessible URL string.
+@@ -54,7 +54,7 @@ public function generateString(string $uri): string;
+    * @throws \Drupal\Core\File\Exception\InvalidStreamWrapperException
+    *   If a stream wrapper could not be found to generate an external URL.
+    */
+-  public function generateAbsoluteString(string $uri): string;
++  public function generateAbsoluteString($uri): string;
+ 
+   /**
+    * Creates a root-relative web-accessible URL object.

@@ -1,0 +1,35 @@
+.service-detail-content {
+  margin: 50px 0px;
+}
+
+.service-detail-content h2 {
+  color: #4d4d4d;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.service-detail-content p {
+  margin-top: 10px;
+  color: #4d4d4d;
+}
+
+.service-detail-content p + .service-detail-content p {
+  margin-top: 25px;
+}
+
+.service-detail-content iframe {
+  height: 350px;
+}
+
+@media (min-width: 992px) {
+  .service-detail-content h2 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+  .service-detail-content p {
+    margin-top: 20px;
+  }
+  .service-detail-content {
+    margin-top: 100px;
+  }
+}

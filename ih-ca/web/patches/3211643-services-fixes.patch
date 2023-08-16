@@ -1,0 +1,34 @@
+Index: src/ImporterService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ImporterService.php b/src/ImporterService.php
+--- a/src/ImporterService.php	(revision 1fb06b6395fd33746d057515ea881a66a81648fd)
++++ b/src/ImporterService.php	(date 1619785182969)
+@@ -235,7 +235,7 @@
+       $query = isset($parsed_url['query']) ? $parsed_url['query'] : NULL;
+ 
+       /** @var \Drupal\redirect\Entity\Redirect $redirect */
+-      $redirectEntityManager = \Drupal::service('entity.manager')->getStorage('redirect');
++      $redirectEntityManager = \Drupal::service('entity_type.manager')->getStorage('redirect');
+       $redirect = $redirectEntityManager->create();
+       $redirect->setSource($path, $query);
+     }
+@@ -306,14 +306,14 @@
+     if (!isset($parsed['scheme'])) {
+       // Check for aliases *including* named anchors/query strings.
+       $alias = self::addLeadingSlash($destination);
+-      $normal_path = \Drupal::service('path.alias_manager')->getPathByAlias($alias);
++      $normal_path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
+       if ($alias != $normal_path) {
+         return FALSE;
+       }
+       // Check for aliases *excluding* named anchors/query strings.
+       if (isset($parsed['path'])) {
+         $alias = self::addLeadingSlash($parsed['path']);
+-        $normal_path = \Drupal::service('path.alias_manager')->getPathByAlias($alias);
++        $normal_path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
+         if ($alias != $normal_path) {
+           return FALSE;
+         }

@@ -1,0 +1,69 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+<div class="ih-gallery">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="h2 gallery-title">View Gallery</h2>
+        <div class="ih-gallery-wrapper gray-bg">
+          <div class="five-more-section">
+            <div class="logo"><a href="/"><img src="/sites/default/files/logo/IH-logo-white.png"></a></div>
+            <div class="close-btn"></div>
+          </div>
+          {% if rows|length > 0 %}
+            <div class="ih-gallery-inner">
+              {% for key,row in rows %}
+                {%
+                  set row_classes = [
+                    default_row_class ? 'views-row',
+                    'ih-gallery-single',
+                  ]
+                %}
+                <div{{ row.attributes.addClass(row_classes) }}>
+                  {% if key < 5 %}
+                    {% set s_key = key + 1 %}
+                    {% if view.style_plugin.getField(key, 'field_media_image') or view.style_plugin.getField(key, 'field_media_image_1') %}
+                      <a href="#img{{ s_key }}" id="img{{ s_key }}">
+                        <picture>
+                          <source media="(min-width:768px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+                          <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="ih-gallery">
+                        </picture>
+                      </a>
+                    {% endif %}
+                  {% else %}
+                    {% if view.style_plugin.getField(key, 'field_media_image') or view.style_plugin.getField(key, 'field_media_image_1') %}
+                      <picture>
+                        <source media="(min-width:768px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+                        <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="ih-gallery">
+                      </picture>
+                    {% endif %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

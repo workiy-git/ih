@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>C209C127-BD7F-4F6C-9BEC-F7C171B98E67</title>
+    <defs>
+        <linearGradient x1="38.2403154%" y1="32.7449375%" x2="110.335071%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#005AA2" offset="0%"></stop>
+            <stop stop-color="#4DBBC6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Content-Detail-Opt-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop.Content.Detail.Aboriginal-Health-Wellness2" transform="translate(-358.000000, -3407.000000)">
+            <g id="Group-8" transform="translate(358.000000, 3407.000000)">
+                <g id="icon" fill="url(#linearGradient-1)">
+                    <rect id="bg" x="0" y="0" width="60" height="60" rx="4"></rect>
+                </g>
+                <g id="play-button" transform="translate(30.000000, 30.000000) rotate(1.000000) translate(-30.000000, -30.000000) translate(10.000000, 10.000000)" stroke="#FFFFFF" stroke-width="1.5">
+                    <g id="Group-13">
+                        <circle id="Oval" cx="20" cy="20" r="20"></circle>
+                        <polygon id="Shape" fill-rule="nonzero" points="14.81442 11.0658641 14.81442 28.8436419 30.3699755 19.954753"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

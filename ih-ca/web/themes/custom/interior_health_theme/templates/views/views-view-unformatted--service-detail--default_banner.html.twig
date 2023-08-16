@@ -1,0 +1,63 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+{% for key,row in rows %}
+  {%
+    set row_classes = [
+      default_row_class ? 'views-row',
+    ]
+  %}
+ {# {% set banner_class = ((view.style_plugin.getField(key, 'field_apn_contact'))) ? 'with-apn': '' %} #}
+<div class="top-banner-header-section navigator">
+  {{ drupal_block('system_breadcrumb_block') }}
+  <div class="tab-link-section">
+   <div class="tab-link-item"><a href="#detail-about">About</a></div>
+   <div class="tab-link-item"><a href="#detail-resources">Resources</a></div>
+   <div class="tab-link-item"><a href="#detail-faq">FAQs</a></div>
+   <div class="tab-link-item"><a href="#detail-location">Locations</a></div>
+  </div>
+  <div class="top-banner-header-left blue-bg-desktop {{ banner_class }}">
+    <div class="top-banner-header-content text-white">
+      <h1 class="h1">{{ view.style_plugin.getField(key, 'title') }}</h1>
+      <div class="location-banner-wrapper flex-column">
+        <div class="para">
+          {{ view.style_plugin.getField(key, 'body') }}
+        </div>
+        {{ view.style_plugin.getField(key, 'nothing') }}
+      
+      </div>
+    </div>
+    <div class="location-image">
+      <picture>
+         <source media="(min-width:768px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image_3') }}">
+         <img src="{{ view.style_plugin.getField(key, 'field_media_image_2') }}" alt="location">
+      </picture>
+      <div class="windchimes-glb bottom">
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="location-map" id="show-map">
+ {{ view.style_plugin.getField(key, 'view') }}
+</div>
+{% endfor %}

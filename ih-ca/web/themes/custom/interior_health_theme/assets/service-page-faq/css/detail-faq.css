@@ -1,0 +1,139 @@
+.service-detail-faq {
+  margin-bottom: 50px;
+}
+
+.service-detail-faq h2 {
+  box-shadow: none;
+  background: none;
+  font-size: 16px;
+  line-height: 1.5em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  color: #4d4d4d;
+  text-align: left;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    border-radius 0.15s ease;
+}
+
+.service-detail-faq .faq-title {
+  color: #4d4d4d;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  border-bottom: 4px solid transparent;
+  border-image-source: linear-gradient(270deg, #4dbbc6 8%, #005aa2 92%);
+  border-image-slice: 1;
+  padding-bottom: 0px;
+  padding-left: 100px;
+  text-align: left;
+  font-size: 24px;
+}
+
+.faq-title::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 90px;
+  background: transparent
+    url("/themes/custom/interior_health_theme/assets/images/faq-chat.png")
+    no-repeat left center;
+  left: -25px;
+  bottom: -20px;
+  background-size: contain;
+}
+
+.service-detail-faq .accordion-item {
+  border: 0px;
+  border-bottom: 1px solid #d1d1d1;
+}
+
+.service-detail-faq .accordion {
+  margin: 30px auto 0px;
+  max-width: 728px;
+}
+
+.service-detail-faq .accordion-item:last-of-type {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.service-detail-faq .accordion-body {
+  text-align: left;
+  padding: 0 3rem 1.25rem;
+}
+
+.service-detail-faq h2.accordion-header::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url("/themes/custom/interior_health_theme/assets/images/sprite.png");
+  background-repeat: no-repeat;
+  transform: rotate(90deg);
+  transition: transform 0.2s ease-in-out;
+  background-position: -40px 0px;
+}
+
+.service-detail-faq h2.accordion-header.collapsed::after {
+  transform: rotate(270deg);
+  margin-right: -3px;
+}
+
+.service-detail-faq ul, .service-detail-faq  ol {
+  padding: 15px 0px 0px 30px;
+}
+
+.service-detail-faq li {
+  font-size: 16px;
+  line-height: 24px;
+  color: #4d4d4d;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.service-detail-faq ul li::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: -25px;
+  background: #005aa2;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .service-detail-faq ul, .service-detail-faq ol {
+    padding: 15px 40px 0px 60px;
+  }
+}
+
+@media (min-width: 992px) {
+  .service-detail-faq h2 {
+    font-size: 18px;
+    line-height: 2.67em;
+  }
+  .faq-title {
+    padding-left: 0px;
+  }
+  .faq-title::before {
+    width: 150px;
+    height: 105px;
+    left: -50px;
+    bottom: -30px;
+  }
+  .service-detail-faq .accordion {
+    margin: 50px auto 0px;
+  }
+}

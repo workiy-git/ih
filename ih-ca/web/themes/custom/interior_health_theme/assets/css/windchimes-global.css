@@ -1,0 +1,125 @@
+@media (min-width:1200px) {
+    .windchimes-glb {
+        position: relative;
+        bottom: -60px;
+    }
+   
+    .windchimes-glb.top:before {
+        content: "";
+        position: absolute;
+        width: 76px;
+        height: 405px;
+        opacity: 0.15;
+        background: #005aa2;
+        z-index: 1;
+        left: 0px;
+        top: 0px;
+    }
+   
+    .windchimes-glb.top div:before {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 365px;
+        background: linear-gradient(to left, #4dbbc6 100%, #005aa2 0%);
+        opacity: 0.15;
+        left: 0;
+        z-index: 2;
+    }
+   
+    .windchimes-glb.top div:after{
+        left: 90px;
+        content: "";
+        position: absolute;
+        width: 54px;
+        height: 244px;
+        background: #edbf3f;
+        opacity: 0.09;
+        z-index: 3;
+    }
+   
+    .windchimes-glb.bottom:after {
+        content: "";
+        position: absolute;
+        width: 26px;
+        height: 232px;
+        opacity: 0.28;
+        background: #edbf3f;
+        right: 0;
+        bottom: 0;
+    }
+   
+    .windchimes-glb.bottom div:before {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 297px;
+        background: #005aa2;
+        opacity: 0.5;
+        right: 0;
+        bottom: 0;
+    }
+   
+    .windchimes-glb.bottom div::after {
+        content: "";
+        position: absolute;
+        width: 118px;
+        height: 144px;
+        background-image: linear-gradient(to left, #4dbbc6 65%, #005aa2 0%);
+        opacity: 0.5;
+        right: 0;
+        bottom: 0;
+    }
+   
+    .windchimes-glb.bottom:before {
+        right: 0px;
+        bottom: 0px;
+    }
+
+    /* two-column-grid */
+
+    .two-column-grid .windchimes-glb.top{
+        bottom: 0px;
+    }
+    .two-column-grid .windchimes-glb.bottom {
+        bottom: 90px;
+    }
+    
+    .two-column-grid .windchimes-glb.bottom div::after {
+        width: 92px;
+        height: 217px;
+        opacity: 0.15;
+    }
+    
+    .two-column-grid .windchimes-glb.bottom div:before {
+        height: 350px;
+        opacity: 0.15;
+    }
+    
+    .two-column-grid .windchimes-glb.bottom:after {
+        opacity: 0.15;
+        height: 292px;
+    }
+    
+    .two-column-grid .windchimes-glb.top:before {
+        opacity: 0.25;
+        width: 69px;
+        height: 302px;
+        color: #005aa2;
+        left: 15px;
+    }
+    
+    .two-column-grid .windchimes-glb.top div:before {
+        opacity: 0.25;
+        width: 138px;
+        height: 270px;
+        background: linear-gradient(to left, #4dbbc6 100%, #005aa2 0%);
+    }
+    
+    .two-column-grid .windchimes-glb.top div:after {
+        opacity: 0.25;
+        width: 49px;
+        height: 219px;
+        left: 72px;
+    }
+}   

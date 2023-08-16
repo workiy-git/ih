@@ -1,0 +1,104 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set row_classes = [
+    default_row_class ? 'views-row',
+  ]
+%}
+<section class="stories-ih-slider-wrapper">
+  <div class="container">
+    <div class="stories-ih-wrapper">
+      {% for key,row in rows %}
+        {% if loop.first %}
+          <p class="stories-ih-wrapper-heading">
+            {{ view.style_plugin.getField(key, 'nothing') }}
+          </p>
+        {% endif %}
+      {% endfor %}
+      <div class="row">
+        <div class="col-12 stories-ih-slider">
+          <div class="slide stories-ih-stat-banner">
+            <div class="stories-card-wrapper">
+              {% for key,row in rows %}
+                {% if loop.first %}
+                <div class = "stories-img stories-ih-img">
+                    <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" class = "stories-mobile-img">
+                    <img src="{{ view.style_plugin.getField(key, 'field_media_image') }}" class = "stories-desktop-img">
+                </div>
+                  <div class="stories-ih-content stories-ih-home-content">
+                    <div class="stories-ih-lastseen">
+                      <h2>
+                        {{ view.style_plugin.getField(key, 'nothing') }}
+                      </h2>
+                    </div>
+                    <div class="stories-ih-first-header-wrapper">
+                      <div class="stories-ih-pre-heading">
+                        {{ view.style_plugin.getField(key, 'field_category') }}
+                      </div>
+                      <div class="stories-ih-heading">
+                        {{ view.style_plugin.getField(key, 'title') }}
+                      </div>
+                      <div class="stories-ih-content-para">
+                        {{ view.style_plugin.getField(key, 'body') }}
+                      </div>
+                      <p class="bluearea-link">
+                        {{ view.style_plugin.getField(key, 'view_node') }}
+                      </p>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% for key,row in rows %}
+          {% if not loop.first %}
+            <div class="slide">
+              <div class="stories-card-wrapper">
+                <div class = "stories-img stories-ih-img">
+                    <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" class = "stories-mobile-img">
+                    <img src="{{ view.style_plugin.getField(key, 'field_media_image') }}" class = "stories-desktop-img">
+                </div>
+                <div class="stories-ih-content">
+                  <div class="stories-ih-lastseen">
+                    {{ view.style_plugin.getField(key, 'node_read_time') }}
+                  </div>
+                  <div class="stories-ih-pre-heading">
+                    {{ view.style_plugin.getField(key, 'field_category') }}
+                  </div>
+                  <div class="stories-ih-heading">
+                    {{ view.style_plugin.getField(key, 'title') }}
+                  </div>
+                  <div class="stories-ih-content-para">
+                    {{ view.style_plugin.getField(key, 'body') }}
+                  </div>
+                  <p class="bluearea-link">
+                    <a href="#">
+                      {{ view.style_plugin.getField(key, 'view_node') }}
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>

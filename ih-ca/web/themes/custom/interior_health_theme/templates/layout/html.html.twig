@@ -1,0 +1,704 @@
+{#
+/**
+ * @file
+ * Theme override for the basic structure of a single Drupal page.
+ *
+ * Variables:
+ * - logged_in: A flag indicating if user is logged in.
+ * - root_path: The root path of the current page (e.g., node, admin, user).
+ * - node_type: The content type for the current node, if the page is a node.
+ * - head_title: List of text elements that make up the head_title variable.
+ *   May contain one or more of the following:
+ *   - title: The title of the page.
+ *   - name: The name of the site.
+ *   - slogan: The slogan of the site.
+ * - page_top: Initial rendered markup. This should be printed before 'page'.
+ * - page: The rendered page markup.
+ * - page_bottom: Closing rendered markup. This variable should be printed after
+ *   'page'.
+ * - db_offline: A flag indicating if the database is offline.
+ * - placeholder_token: The token for generating head, css, js and js-bottom
+ *   placeholders.
+ *
+ * @see template_preprocess_html()
+ */
+#}
+{%
+  set body_classes = [
+    logged_in ? 'user-logged-in',
+    not root_path ? 'path-frontpage' : 'path-' ~ root_path|clean_class,
+    node_type ? 'page-node-type-' ~ node_type|clean_class,
+    db_offline ? 'db-offline',
+    (b4_body_schema == 'light' ? ' text-dark' : (b4_body_schema == 'dark' ? ' text-light' :  ' ')),
+    (b4_body_bg_schema != 'none' ? " bg-#{b4_body_bg_schema}" : ' '),
+    'd-flex flex-column h-100'
+  ]
+%}
+
+<!DOCTYPE html>
+<html{{ html_attributes.addClass('h-100') }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token }}">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-semibold.woff" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-semibold.woff2" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-bold.woff" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-bold.woff2" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-medium.woff" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-medium.woff2" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-regular.woff" rel="preload" as="font" crossorigin="">
+      <link href="/themes/custom/interior_health_theme/assets/fonts/montserrat-regular.woff2" rel="preload" as="font" crossorigin="">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+    <css-placeholder token="{{ placeholder_token }}">
+    <js-placeholder token="{{ placeholder_token }}">
+  </head>
+  <body{{ attributes.addClass(body_classes) }}>
+    <div class="bg-overlay"></div>
+    {#
+      Keyboard navigation/accessibility link to main content section in
+      page.html.twig.
+    #}
+    <a href="#main-content" class="visually-hidden focusable skip-link">
+      {{ 'Skip to main content'|t }}
+    </a>
+    {{ page_top }}
+    {{ page }}
+    {{ page_bottom }}
+    <js-bottom-placeholder token="{{ placeholder_token }}">
+    {% if digital_health_support %}
+    <script>
+
+      const TOOLTIP_OPEN_CHAT = 'Open Chat';
+      const TOOLTIP_CLOSE_CHAT = 'Close Chat';
+      const HOVER_COLOR_DARK = '#121212';
+
+      const CHATBOT_FONT_FAMILY = "'Sans', 'Noto Sans', Arial, 'sans serif'";
+
+      // Breakpoint where DF Messenger switches between mobile/non-mobile styles (pixels)
+      const NON_MOBILE_MIN_HEIGHT = 541;
+      const NON_MOBILE_MIN_WIDTH = 501;
+
+      const PRIVACY_POLICY_URL = 'https://www.interiorhealth.ca/about-ih/our-website/privacy-terms';
+
+      const WINDOW_STATE_CLOSED = 'CLOSED';
+      const WINDOW_STATE_MINIMAL = 'MINIMAL';
+      const WINDOW_STATE_OPEN = 'OPEN';
+      const WINDOW_STATE_VAR_NAME = 'chatWindowState';
+      const WINDOW_INITIAL_STATE_WELCOME = 'on-welcome';
+
+      const CHAT_INITIAL_MESSAGES_POPULATED_VAR_NAME = 'chatInitialMessagesPopulated';
+      const CHAT_INITIAL_QUERY_TEXT = "Let's Get Started";
+      const CHAT_SESSION_ACTIVE_VAR_NAME = 'chatSessionActive';
+      const CHAT_SESSION_ID_VAR_NAME = 'chatSessionID';
+      const CHAT_SESSION_INITIALIZED_VAR_NAME = 'chatSessionInitialized';
+      const CHAT_WINDOW_STATE_VAR_NAME = 'chatWindowState';
+
+      const INACTIVITY_TIMEOUT_INTERVAL_MS = 5000;
+      const INACTIVITY_TIMEOUT_MS = 1770000;
+      const INACTIVITY_TIMESTAMP_VAR_NAME = 'chatInactivityTimestamp';
+
+      const TRUE_VALUE = 'true';
+      const FALSE_VALUE = 'false';
+
+      const Z_INDEX = 2000;
+
+      // Event handler for when Dialogflow Messenger is loaded.  This is the main method for this file.
+      window.addEventListener('dfMessengerLoaded', function (event) {
+        // Remove previously stored session variables
+        initializeSessionStorage();
+
+        // Show the DF Messenger minimal view, if on a larger screen (non-mobile), and populate initial messages.
+        initializeChatView();
+
+        // Apply any custom CSS to the messenger.
+        applyCustomStyles();
+
+        // Add the custom footer.
+        addCustomFooter();
+
+        // Add a general handler for received messages.
+        getDFMessengerElement().addEventListener('df-response-received', function (event) {
+          responseReceivedHandler(event);
+        });
+
+        // Add an observer for chat window state changes (e.g. open / close).
+        addWindowStateChangeObserver();
+
+        // Add inactivity timeout monitoring.
+        setInterval(checkInactivityTimeout, INACTIVITY_TIMEOUT_INTERVAL_MS);
+
+        // Update chat window style on resize events.
+        window.addEventListener('resize', updateChatWindowStyle);
+
+        // Update window state in the next event cycle.
+        setTimeout(updateWindowState, 1);
+      });
+
+      function addWindowStateChangeObserver() {
+        let observer = new MutationObserver(function (mutations) {
+          setTimeout(updateWindowState, 1);
+        });
+        observer.observe(getChatWrapperElement(), { attributes: true });
+      }
+
+      function checkInactivityTimeout() {
+        let inactivityTimestamp = sessionStorage.getItem(INACTIVITY_TIMESTAMP_VAR_NAME);
+        if (inactivityTimestamp) {
+          let elapsedTimeMs = new Date().getTime() - parseInt(inactivityTimestamp);
+          if (elapsedTimeMs >= INACTIVITY_TIMEOUT_MS) {
+            deactivateChatSession();
+          }
+        }
+      }
+
+      function initializeSessionStorage() {
+        [
+          CHAT_INITIAL_MESSAGES_POPULATED_VAR_NAME,
+          CHAT_SESSION_ACTIVE_VAR_NAME,
+          CHAT_SESSION_ID_VAR_NAME,
+          CHAT_SESSION_INITIALIZED_VAR_NAME,
+          CHAT_WINDOW_STATE_VAR_NAME,
+          INACTIVITY_TIMESTAMP_VAR_NAME
+        ].forEach((keyName) => sessionStorage.removeItem(keyName));
+      }
+
+      /**
+       * Shows the initial message immediately if on a larger screen (non-mobile).
+       */
+      function initializeChatView() {
+        if (document.documentElement.clientWidth >= NON_MOBILE_MIN_WIDTH) {
+          getDFMessengerElement().showMinChat();
+        }
+      }
+
+      function refreshInactivityTimeout() {
+        sessionStorage.setItem(INACTIVITY_TIMESTAMP_VAR_NAME, new Date().getTime());
+      }
+
+      // A response has been received from Dialogflow.  Handle the new messages.
+      function responseReceivedHandler(event) {
+        refreshInactivityTimeout();
+
+        const result = event.detail.response.queryResult;
+
+        // If there are any entries in the parameters object it is prompting the user for a response
+        if (result.parameters && Object.keys(result.parameters).length > 0 && !result.allRequiredParamsPresent) {
+          getInputFieldElement().setAttribute('placeholder', 'Enter response...');
+        } else {
+          getInputFieldElement().setAttribute('placeholder', 'Ask something...');
+        }
+
+        activateChatSession();
+
+        // Wait until the messages are available, and allow a bit of time for the initial scrolling.
+        setTimeout(function () {
+          // Process bot responses and render HTML.
+          processBotMessages();
+
+          // Scroll to the beginning of the new messages
+          scrollToMessage(false, false, true);
+        }, 150);
+      }
+
+      /**
+       * Scrolls to either the last user message in the list or the first one after it,
+       * which will be the first new response message.
+       */
+      function scrollToMessage(toUserMessage, toLastMessage = false, smooth = false) {
+        // Find the message to scroll to.
+        var message;
+        const messages = getMessageListDivElement().querySelectorAll('div.message');
+        if (!toLastMessage) {
+          for (var i = 0; i < messages.length; i++) {
+            if (messages[i].classList.contains('user-message')) {
+              if (toUserMessage) {
+                message = messages[i];
+              } else if (messages.length >= i) {
+                message = messages[i + 1];
+              }
+            }
+          }
+        } else if (messages.length > 0) {
+          message = messages[messages.length - 1];
+        }
+
+        // Scroll to the desired message.
+        if (message) {
+          let scrollIntoViewOptions = { block: 'start', inline: 'nearest' };
+          if (smooth) {
+            scrollIntoViewOptions.behavior = 'smooth';
+          }
+          message.scrollIntoView(scrollIntoViewOptions);
+        }
+      }
+
+      function applyCustomStyles() {
+        const style = document.createElement('style');
+        style.textContent = `@media screen and (min-width: ${NON_MOBILE_MIN_WIDTH}px) { div.chat-wrapper { max-height: 70% } } `;
+        getChatWrapperElement().appendChild(style);
+        getMessengerWrapperDivElement().style.zIndex = Z_INDEX;
+      }
+
+      function addCustomFooter() {
+        const dfMessengerChat = getMessengerChatElement();
+        const divChatWrapper = getChatWrapperElement();
+
+        const style = document.createElement('style');
+
+        // Footer style and footer button behavior styles
+        style.textContent =
+          'div.chat-min #chatbotFooter { display: none } ' +
+          '#chatbotFooter a { color: white } #chatbotFooter a:hover { color: lightblue } #chatbotFooter a:focus { color: lightGrey } #chatbotFooter a { font-family: ' +
+          CHATBOT_FONT_FAMILY +
+          ' } ' +
+          '#chatbotFooter button { color: white } #chatbotFooter button:hover { color: lightGrey } #chatbotFooter button:focus { color: lightGrey } #chatbotFooter button { font-family: ' +
+          CHATBOT_FONT_FAMILY +
+          ' } ';
+
+        dfMessengerChat.shadowRoot.appendChild(style);
+
+        const customFooterDiv = document.createElement('div');
+        customFooterDiv.setAttribute('id', 'chatbotFooter');
+        customFooterDiv.style =
+          'padding-top: 5px; padding-left: 10px; padding-right: 10px; padding-bottom: 5px; vertical-align: middle; background: #005AA2';
+        divChatWrapper.appendChild(customFooterDiv);
+
+        // Style the footer items so they look like hyperlinks.
+        const footerItemStyle =
+          'padding: 0px; padding-top: 2px; background: none!important; border: none; ' +
+          'text-decoration: underline; cursor: pointer; line-height: 1.5em;';
+
+        // Add a privacy policy link.
+        const link = document.createElement('a');
+        link.innerText = 'Privacy Policy';
+        link.setAttribute('href', PRIVACY_POLICY_URL);
+        link.setAttribute('target', '_blank');
+        link.style = footerItemStyle + ' float: right;';
+        customFooterDiv.appendChild(link);
+      }
+
+      /**
+       * Enters a value into the input box and submits it, as though a user was entering it.
+       */
+      function submitUserQuery(queryText) {
+        const userInput = getUserInputElement();
+        let sendElement = userInput.shadowRoot.querySelector('#sendIconButton');
+        if (!sendElement) {
+          sendElement = userInput.shadowRoot.querySelector('#sendIcon');
+        }
+
+        const inputBox = getInputFieldElement();
+        inputBox.value = queryText;
+
+        const event = new Event('click');
+        sendElement.dispatchEvent(event);
+        inputBox.blur();
+
+        // Scroll to the newly entered user message
+        scrollToMessage(true);
+      }
+
+      /**
+       * Loads inactivity messages from the hidden page elements.
+       */
+      function populateInactivityMessages() {
+        populateMessages(document.querySelector('#chatbot-inactivity-messages'));
+      }
+
+      function populateMessages(messageContainerElement) {
+        if (messageContainerElement) {
+          for (let messageElement of messageContainerElement.querySelectorAll('p')) {
+            const messageHtml = messageElement.innerHTML;
+            if (messageHtml.length > 0) {
+              renderCustomMessage(messageHtml);
+              setTimeout(processBotMessages, 1);
+            }
+          }
+        }
+      }
+
+      /**
+       * Renders a custom Message.  Message formats supported are JSON and text/html.
+       */
+      function renderCustomMessage(message) {
+        if (message.length > 0) {
+          const dfMessenger = getDFMessengerElement();
+          if (message.trim().startsWith('{')) {
+            const jsonMessage = JSON.parse('[' + message + ']');
+            dfMessenger.renderCustomCard(jsonMessage);
+          } else {
+            dfMessenger.renderCustomText(message);
+          }
+        }
+      }
+
+      /**
+       * Applies any post processing to messages.
+       */
+      function processBotMessages() {
+        let chatWindowState = getChatWindowState();
+        if (chatWindowState === WINDOW_STATE_OPEN || chatWindowState === WINDOW_STATE_MINIMAL) {
+          processTextResponses();
+          processRichContentResponses();
+        }
+      }
+
+      /**
+       * Applies HTML formatting to each Text message
+       */
+      function processTextResponses() {
+        const botMessages = getMessageListDivElement().querySelectorAll('.bot-message');
+        botMessages.forEach(function (message) {
+          processMessageHtml(message);
+        });
+      }
+
+      /**
+      * Applies any custom formatting to JSON message types (chips, etc).
+      * Since chip messages are generated and contained in a shadow root, we have to inject the styles at runtime.
+      */
+      function processRichContentResponses() {
+        // Add a style for Chips so that when they line wrap it still looks good with spacing (VA-117)
+        const chipsLineStyle = document.createElement('style');
+
+        chipsLineStyle.textContent =
+          '.df-chips-wrapper a, .df-chips-wrapper span.chip ' +
+          `{ line-height: normal; padding: 0 10px; background: #005AA2; color: white; font-family: ${CHATBOT_FONT_FAMILY} } `;
+
+        // Override the chip button style to inherit values from the parent element.
+        chipsLineStyle.textContent +=
+          '.df-chips-wrapper span.chip button ' +
+          `{ line-height: inherit; padding: inherit; background: inherit; color: inherit; font-family: inherit } `;
+
+        // Apply the same style as mouse hover when a chip is tabbed into
+        chipsLineStyle.textContent +=
+          '.df-chips-wrapper a:focus, .df-chips-wrapper a:hover, ' +
+          '.df-chips-wrapper span.chip:focus-within, .df-chips-wrapper span.chip:hover ' +
+          '{ background: hsl(0,0%,90%); color: #005AA2 }';
+
+        const dfChips = getMessageListDivElement().querySelectorAll('df-chips');
+        let chipCount = 0;
+        dfChips.forEach(function (aChip) {
+          aChip.shadowRoot.appendChild(chipsLineStyle);
+          chipCount++;
+          let lastChip = chipCount == dfChips.length;
+          if (!lastChip) {
+            let dfChipsWrapper = aChip.shadowRoot.querySelector('.df-chips-wrapper');
+            if (dfChipsWrapper) {
+              let active = isChatSessionActive();
+              dfChipsWrapper.querySelectorAll('button').forEach(function (button) {
+                enableInputElement(button, active);
+              });
+              coverElement(dfChipsWrapper, !active);
+            }
+          }
+        });
+      }
+
+      function processMessageHtml(element) {
+        // If element hasn't previously been processed, override the innerHTML with the innerText value
+        // to render any HTML formatting.
+        const className = 'chat-message-processed';
+        if (!element.classList.contains(className)) {
+          let textContent = element.textContent;
+          if (textContent != null) {
+            textContent = textContent.replace(/^\s*agent\s*says\s*:?\s*/i, '');
+          }
+          element.innerHTML = textContent;
+          element.classList.add(className);
+        }
+      }
+
+      /**
+      * Updates the title bar, including adding a close button
+      * to the top right corner of the chat window.
+      */
+      function updateTitleBar() {
+        const dfMessenger = getDFMessengerElement();
+        const titleWrapper = getTitleWrapperElement();
+
+        // clone the existing close icon which is part of df-messenger
+        const closeIconClone = dfMessenger.shadowRoot.querySelector('#closeSvg').cloneNode(true);
+
+        // create a new button to encapsulate the icon
+        const closeButton = document.createElement('button');
+        closeButton.id = 'closeButton';
+        closeButton.title = TOOLTIP_CLOSE_CHAT;
+        closeButton.onclick = closeChatWindow;
+        closeButton.setAttribute('tabindex', '0');
+
+        closeButton.appendChild(closeIconClone);
+
+        const closeButtonStyle = document.createElement('style');
+        closeButtonStyle.textContent =
+          '#closeButton { height:100%; border:none; fill:var(--df-messenger-button-titlebar-font-color); background-color:transparent; cursor:pointer } #closeButton:hover { fill:' +
+          HOVER_COLOR_DARK +
+          ' } #closeButton:focus { fill:' +
+          HOVER_COLOR_DARK +
+          ' } ' +
+          '#minimizeIcon, #minimizeIconButton {display: none} ' +
+          'div.title-wrapper, div.title-wrapper h2 {font-size: 17px} ';
+
+        titleWrapper.appendChild(closeButton);
+        titleWrapper.appendChild(closeButtonStyle);
+      }
+
+      function closeChatWindow() {
+        const dfMessenger = getDFMessengerElement();
+        const chatbotIcon = dfMessenger.shadowRoot.querySelector('#widgetIcon');
+        chatbotIcon.click();
+      }
+
+      /**
+      * Perform updates related to changing window state.
+      *
+      * NOTE: This function may be called more than once per window state change.
+      */
+      function updateWindowState() {
+        let windowState = getChatWindowState();
+        let savedWindowState = sessionStorage.getItem(CHAT_WINDOW_STATE_VAR_NAME);
+        let windowStateChanged = savedWindowState !== windowState;
+        if (windowStateChanged) {
+          sessionStorage.setItem(CHAT_WINDOW_STATE_VAR_NAME, windowState);
+        }
+        switch (windowState) {
+          case WINDOW_STATE_OPEN:
+            updateChatWindowStyle();
+            updateInputFieldState();
+            if (!getCloseButtonElement()) {
+              updateTitleBar();
+            }
+            ensureInitialMessagesPopulated();
+            ensureChatInitialized();
+            if (windowStateChanged) {
+              setTimeout(function () {
+                processBotMessages();
+                if (isChatSessionActive()) {
+                  scrollToMessage(false);
+                } else {
+                  scrollToMessage(false, true);
+                }
+              }, 1);
+            }
+            break;
+
+          case WINDOW_STATE_MINIMAL:
+            ensureInitialMessagesPopulated();
+            break;
+
+          case WINDOW_STATE_CLOSED:
+            break;
+
+          default:
+            throw `Invalid window state (${windowState}).`;
+        }
+      }
+
+      function activateChatSession() {
+        if (!isChatSessionActive()) {
+          sessionStorage.setItem(CHAT_SESSION_ACTIVE_VAR_NAME, TRUE_VALUE);
+          updateInputFieldState();
+        }
+      }
+
+      function coverElement(element, cover = true, backgroundColor = 'var(--df-messenger-chat-background-color)') {
+        if (element) {
+          let className = 'cover-overlay';
+          let coverElement = element.querySelector(`:scope > div.${className}`);
+          if (cover) {
+            if (!coverElement) {
+              coverElement = document.createElement('div');
+              coverElement.classList.add(className);
+              coverElement.style.cssText =
+                'position: absolute; top: 0; left: 0; width: 100%; height: 100%; ' +
+                `background-color: ${backgroundColor}; opacity: 0.5;`;
+              element.style.position = 'relative';
+              element.appendChild(coverElement);
+            }
+          } else {
+            if (coverElement) {
+              element.removeChild(coverElement);
+            }
+          }
+        }
+      }
+
+      function deactivateChatSession() {
+        if (isChatSessionActive()) {
+          sessionStorage.setItem(CHAT_SESSION_ACTIVE_VAR_NAME, FALSE_VALUE);
+          updateInputFieldState();
+          populateInactivityMessages();
+        }
+      }
+
+      function enableInputElement(element, enable = true) {
+        if (element) {
+          if (enable) {
+            element.removeAttribute('disabled');
+          } else {
+            element.setAttribute('disabled', '');
+          }
+        }
+      }
+
+      function ensureChatInitialized() {
+        let savedChatSessionId = sessionStorage.getItem(CHAT_SESSION_ID_VAR_NAME);
+        let chatSessionId = getChatSessionId();
+        if (chatSessionId != savedChatSessionId) {
+          sessionStorage.setItem(CHAT_SESSION_INITIALIZED_VAR_NAME, '');
+          sessionStorage.setItem(CHAT_SESSION_ID_VAR_NAME, chatSessionId);
+        }
+
+        let chatSessionInitialized = sessionStorage.getItem(CHAT_SESSION_INITIALIZED_VAR_NAME) === TRUE_VALUE;
+        if (!chatSessionInitialized) {
+          submitUserQuery(CHAT_INITIAL_QUERY_TEXT);
+          sessionStorage.setItem(CHAT_SESSION_INITIALIZED_VAR_NAME, TRUE_VALUE);
+        }
+      }
+
+      function ensureInitialMessagesPopulated() {
+        let chatInitialMessagesPopulated = sessionStorage.getItem(CHAT_INITIAL_MESSAGES_POPULATED_VAR_NAME) === TRUE_VALUE;
+        if (!chatInitialMessagesPopulated) {
+          populateMessages(document.querySelector('#chatbot-initial-messages'));
+          sessionStorage.setItem(CHAT_INITIAL_MESSAGES_POPULATED_VAR_NAME, TRUE_VALUE);
+        }
+      }
+
+      /**
+      * Returns the state of the chat window.  It may be in one of three states:
+      *   WINDOW_STATE_MINIMAL - Used as the default state where it only shows a single welcome message
+      *   WINDOW_STATE_OPEN - The User has expanded the window and it shows the full message list and input field
+      *   WINDOW_STATE_CLOSED - The user has closed the window, so only the chat icon remains
+      */
+      function getChatWindowState() {
+        let windowState;
+        if (getChatWrapperElement().classList.contains('chat-min')) {
+          windowState = WINDOW_STATE_MINIMAL;
+        } else {
+          windowState = getDFMessengerElement().hasAttribute('expand') ? WINDOW_STATE_OPEN : WINDOW_STATE_CLOSED;
+        }
+        return windowState;
+      }
+
+      function getChatWrapperElement() {
+        return getMessengerChatElement().shadowRoot.querySelector('div.chat-wrapper');
+      }
+
+      function getCloseButtonElement() {
+        return getTitleWrapperElement().querySelector('#closeButton');
+      }
+
+      function getDFMessengerElement() {
+        return document.querySelector('df-messenger');
+      }
+
+      function getMessengerChatElement() {
+        return getDFMessengerElement().shadowRoot.querySelector('df-messenger-chat');
+      }
+
+      function getMessengerWrapperDivElement() {
+        return getDFMessengerElement().shadowRoot.querySelector('div.df-messenger-wrapper');
+      }
+
+      function getMessageListElement() {
+        return getMessengerChatElement().shadowRoot.querySelector('df-message-list');
+      }
+
+      /**
+      * Returns the message list element.
+      */
+      function getMessageListDivElement() {
+        return getMessageListElement().shadowRoot.querySelector('div.message-list-wrapper div#messageList');
+      }
+
+      function getChatSessionId() {
+        let chatSessionId = getDFMessengerElement().getAttribute('session-id');
+        if (!chatSessionId) {
+          throw 'Failed to retrieve chat session ID.';
+        }
+        return chatSessionId;
+      }
+
+      function getTitleWrapperElement() {
+        return getMessengerChatElement()
+          .shadowRoot.querySelector('df-messenger-titlebar')
+          .shadowRoot.querySelector('div.title-wrapper');
+      }
+
+      /**
+      * Returns the input text box element.
+      */
+      function getInputFieldElement() {
+        return getUserInputElement().shadowRoot.querySelector('input[type="text"]');
+      }
+
+      function getUserInputElement() {
+        return getMessengerChatElement().shadowRoot.querySelector('df-messenger-user-input');
+      }
+
+      function isChatSessionActive() {
+        return sessionStorage.getItem(CHAT_SESSION_ACTIVE_VAR_NAME) === TRUE_VALUE;
+      }
+
+      function updateChatWindowStyle() {
+        const chatWrapper = getChatWrapperElement();
+        if (
+          document.documentElement.clientWidth >= NON_MOBILE_MIN_WIDTH &&
+          document.documentElement.clientHeight < NON_MOBILE_MIN_HEIGHT &&
+          document.documentElement.clientWidth >= document.documentElement.clientHeight &&
+          getChatWindowState() === WINDOW_STATE_OPEN
+        ) {
+          chatWrapper.style.height = '100%';
+          chatWrapper.style.maxHeight = '100%';
+          chatWrapper.style.right = '100px';
+          chatWrapper.style.top = '0px';
+        } else {
+          chatWrapper.style.removeProperty('height');
+          chatWrapper.style.removeProperty('max-height');
+          chatWrapper.style.removeProperty('right');
+          chatWrapper.style.removeProperty('top');
+        }
+      }
+
+      function updateInputFieldState() {
+        if (getChatWindowState() === WINDOW_STATE_OPEN) {
+          let inputWrapper = getUserInputElement().shadowRoot.querySelector('.input-box-wrapper');
+          let active = isChatSessionActive();
+          if (inputWrapper) {
+            let inputField = getInputFieldElement();
+            let sendButton = inputWrapper.querySelector('button#sendIconButton');
+            enableInputElement(inputField, active);
+            enableInputElement(sendButton, active);
+          }
+          coverElement(inputWrapper, !active, '#BBB');
+        }
+      }
+
+      </script>
+
+      <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+      <df-messenger chat-title="Digital Health Support Assistant" agent-id="fb95cb44-9c00-48f9-a70d-6686458dcc97" language-code="en"></df-messenger>
+
+      <style>
+        df-messenger {
+          --df-messenger-bot-message: #FFFFFF;
+          --df-messenger-button-titlebar-color: #005AA2;
+          --df-messenger-chat-background-color: #fafafa;
+          --df-messenger-font-color: black;
+          --df-messenger-send-icon: #005AA2;
+          --df-messenger-user-message: #C7CBCD;
+          --df-messenger-minimized-chat-close-icon-color: black;
+        }
+
+      </style>
+
+      <span id="chatbot-initial-messages" style="display:none">
+        <p>Hi, I am the Digital Health Support Assistant. Click or tap here to get started.</p>
+      </span>
+
+      <span id="chatbot-inactivity-messages" style="display:none">
+        <p>This session has been closed due to inactivity. To restart, please click or tap button below.</p>
+        <p>{"type": "chips","options": [{"text": "Let's Get Started", "image": {"src": {"rawUrl": "https://i.ibb.co/9Ggztth/baseline-touch-app-black-24dp.png"}}}]}</p>
+      </span>
+    {% endif %}
+  </body>
+</html>

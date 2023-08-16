@@ -1,0 +1,283 @@
+.service-detail-location {
+  background: -webkit-linear-gradient(top, #fff 34%, #f4f8fb 13%);
+  padding-top: 30px;
+  padding-bottom: 80px;
+}
+.service-detail-location .view-header a {
+  font-size: 16px;
+  line-height: 24px;
+  color: #005aa2;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.service-detail-location .location-slider {
+  padding: 0;
+}
+
+.service-detail-location .slick-dots {
+  padding: 0;
+  text-align: center;
+  margin-top: 25px;
+}
+
+.service-detail-location .slick-slide {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.service-detail-location .slick-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.service-detail-location .slick-dots li {
+  position: relative;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+.service-detail-location .slick-track {
+  display: flex;
+}
+
+.service-detail-location .slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 10px;
+  height: 10px;
+  padding: 5px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: #cdcdd2;
+  border-radius: 50%;
+}
+
+.service-detail-location .slick-dots li.slick-active button {
+  background: #005aa2;
+}
+
+.service-detail-location .slick-dots li button:before {
+  display: none;
+}
+
+.service-detail-location h2 {
+  color: #4d4d4d;
+}
+
+.service-detail-location .view-header p {
+  padding: 0 20px;
+  max-width: 730px;
+  margin: 20px auto 30px;
+}
+
+.service-detail-location p {
+  color: #4d4d4d;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.service-detail-location .slick-track {
+  padding: 15px 0 30px;
+}
+
+.service-detail-location .slick-active {
+  transform: scaleY(1.05);
+  transition: transform 0.3s;
+}
+
+.service-detail-location .slick-slide {
+  box-shadow: 1px 6px 10px 0 rgb(0 0 0 / 15%);
+  padding-bottom: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 20px;
+  height: auto;
+  background: #fff;
+  position: relative;
+}
+
+.location-slider .slick-slide::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  background: #fff;
+  opacity: 0.5;
+}
+
+.location-slider .slick-slide.slick-active::before {
+  display: none;
+}
+
+.service-detail-location .field-content {
+  display: block;
+  height: 100%;
+}
+
+.service-detail-location .location-image {
+  border-bottom: 2px solid #fff;
+  position: unset;
+}
+
+.service-detail-location .location-image img {
+  width: 100%;
+}
+
+.service-detail-location .clinic-detail {
+  padding: 10px 20px 10px 35px;
+  background-image: linear-gradient(103deg, #005aa2 38%, #4dbbc6 110%);
+}
+
+.service-detail-location .help-text {
+  font-size: 12px;
+  line-height: 2em;
+  color: #fff;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.service-detail-location .clinic-name {
+  font-size: 18px;
+  line-height: 1.33em;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 5px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 47px;
+}
+
+.service-detail-location .clinic-name a {
+  color: #fff;
+}
+
+.service-detail-location .clinic-info {
+  margin: 20px 20px 20px 35px;
+  font-size: 14px;
+  line-height: 1.71em;
+  border-bottom: 1px solid rgba(77, 77, 77, 0.5);
+  min-height: 205px;
+}
+
+.service-detail-location .clinic-info .address {
+  font-size: 14px;
+  line-height: 1.71em;
+}
+.service-detail-location .col-lg-12 {
+  padding: 0;
+}
+
+.service-detail-location .clinic-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.service-detail-location .clinic-contact a {
+  padding-left: 24px;
+  background: url("/themes/custom/interior_health_theme/assets/images/phone-blue.svg")
+    no-repeat left center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.71em;
+  flex: 1 0 100%;
+}
+.service-detail-location .clinic-contact a,
+.service-detail-location .clinic-directions a,
+.service-detail-location .location-about {
+  color: #4d4d4d;
+}
+.service-detail-location .clinic-contact span {
+  font-size: 12px;
+  padding-left: 24px;
+}
+
+.service-detail-location .clinic-directions {
+  padding-left: 24px;
+  background: url("/themes/custom/interior_health_theme/assets/images/map.svg")
+    no-repeat left center;
+  margin: 10px 0px;
+  font-weight: 700;
+}
+
+.service-detail-location .location-about {
+  margin: 10px 0px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.service-detail-location .location-about .total-distance {
+  height: 20px;
+}
+
+.service-detail-location .location-about .icon {
+  display: inline-block;
+  width: 25px;
+  padding-bottom: 24px;
+  background: transparent
+    url("/themes/custom/interior_health_theme/assets/images/sprite.png")
+    no-repeat;
+  background-position: -173px -130px;
+}
+
+.service-detail-location .service-info {
+  text-align: right;
+  margin: 20px 20px 0px 35px;
+}
+
+.service-detail-location .service-info a {
+  font-size: 14px;
+  line-height: 1.5em;
+  color: #005aa2;
+  font-weight: bold;
+  border: 0;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  background-image: url("/themes/custom/interior_health_theme/assets/images/arrow-right.svg");
+  background-repeat: no-repeat;
+  background-position: 105%;
+  padding-right: 30px;
+}
+
+@media (min-width: 992px) {
+  .service-detail-location .slick-list {
+    margin: 0px;
+  }
+  .service-detail-location p {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  .service-detail-location .slick-active {
+    transform: scaleY(1);
+  }
+  .service-detail-location .clinic-contact a {
+    flex: none;
+  }
+  .service-detail-location .clinic-contact span {
+    padding-left: 24px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .service-detail-location .slick-track {
+    justify-content: center;
+  }
+  .service-detail-location .location-card:first-child {
+    margin-left: 20px;
+  }
+}

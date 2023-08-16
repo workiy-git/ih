@@ -1,0 +1,176 @@
+{#
+/**
+ * @file
+ * Theme override for a main view template.
+ *
+ * Available variables:
+ * - attributes: Remaining HTML attributes for the element.
+ * - css_name: A CSS-safe version of the view name.
+ * - css_class: The user-specified classes names, if any.
+ * - header: The optional header.
+ * - footer: The optional footer.
+ * - rows: The results of the view query, if any.
+ * - empty: The content to display if there are no rows.
+ * - pager: The optional pager next/prev links to display.
+ * - exposed: Exposed widget form/info to display.
+ * - feed_icons: Optional feed icons to display.
+ * - more: An optional link to the next page of results.
+ * - title: Title of the view, only used when displaying in the admin preview.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the view title.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the view title.
+ * - attachment_before: An optional attachment view to be displayed before the
+ *   view content.
+ * - attachment_after: An optional attachment view to be displayed after the
+ *   view content.
+ * - dom_id: Unique id for every view being printed to give unique class for
+ *   JavaScript.
+ *
+ * @see template_preprocess_views_view()
+ */
+#}
+{%
+  set classes = [
+    'view',
+    'view-' ~ id|clean_class,
+    'view-id-' ~ id,
+    'view-display-id-' ~ display_id,
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+  ]
+%}
+
+{% if view_prefix %}
+  {{ view_prefix|raw }}
+{% endif %}
+
+<div {{ attributes.addClass(classes) }}>
+  
+  {{ title_prefix|raw }}
+  
+  {% if title %}
+    {{ title }}
+  {% endif %}
+
+  {{ title_suffix }}
+
+  <div class="search-bg">
+    <div class="global-search-modal-header">
+      <div class="logo">
+        <a href="/"><img src="/sites/default/files/logo/IH-logo-white.png"></a>
+      </div>
+      <div class="title">Search IH</div>
+      <div class="close-btn"></div>
+    </div>
+
+    <div class="container">
+      {% if exposed %}
+        <div class="view-filters global-search-filter">
+          
+          <div class="ih_drop_down dark search_dd">
+            <div class="select">
+              <div class="select__trigger"><span class="all">Search all IH</span></div>
+              <div class="custom-options">
+                <span class="custom-option gsd all selected" data-value="all">Search all IH</span>
+                <span class="custom-option gsd alert_sidebar" data-value="alert_sidebar">Alerts</span>
+                <span class="custom-option gsd detail_page" data-value="detail_page">Detail Page</span> 
+                <span class="custom-option gsd location" data-value="location">Locations</span> 
+                <span class="custom-option gsd services" data-value="services">Services</span> 
+                <span class="custom-option gsd stories_news" data-value="stories_news">Stories / News / Alerts</span>
+              </div>
+            </div>
+          </div>
+          {{ exposed }}
+        </div>
+      {% endif %}
+
+      {% if not rows %}
+        <div class="global-search-links">
+            <div class="recent-search-wrapper">
+              <h4>Recent Searches</h4>
+              <span>Aborginal health</span>
+              <span>Seniors</span>
+              <span>Long-term care</span>
+            </div>
+            {% if popular_topics %}
+              <div class="popular-topics-wrapper">
+                <h4>Popular Topics</h4>
+                {% for key,row in popular_topics %}
+                  <a href="{{ row.url }}">{{ row.title }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if quick_links %}
+              <div class="quick-links-wrapper">
+                <h4>Quick Links</h4>
+                {% for key,row in quick_links %}
+                  <a href="{{ row.url }}">{{ row.title }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+  
+  <div class="container">
+    
+    {% if header %}
+      <div class="view-header">
+        {{ header }}
+      </div>
+    {% endif %}
+
+    {% if attachment_before %}
+      <div class="attachment attachment-before">
+        {{ attachment_before }}
+      </div>
+    {% endif %}
+    
+    {{ drupal_block('facet_block:content_type') }}
+    
+    {% if rows %}
+      <div class="view-content global-search-modal-results">
+        {{ rows }}
+      </div>
+    {% else %}
+      <div class="global-search-view-empty no-result">
+        {{ empty }}
+      </div>
+    {% endif %}
+
+    {% if pager %}
+      {{ pager }}
+    {% endif %}
+
+    {% if attachment_after %}
+      <div class="attachment attachment-after">
+        {{ attachment_after }}
+      </div>
+    {% endif %}
+
+    {% if more %}
+      {{ more }}
+    {% endif %}
+
+    {% if footer %}
+      <div class="view-footer {{ footer_classes }}">
+        {{ footer }}
+      </div>
+    {% endif %}
+
+    {% if feed_icons %}
+      <div class="feed-icons">
+        {{ feed_icons }}
+      </div>
+    {% endif %}  
+
+  </div>
+
+</div>
+
+{% if view_suffix %}
+  {{ view_suffix|raw }}
+{% endif %}

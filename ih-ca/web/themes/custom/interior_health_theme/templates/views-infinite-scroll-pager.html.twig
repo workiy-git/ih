@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * The views infinite scroll pager template.
+ */
+#}
+
+{% if pager_display == 1 %}
+  {% if items.next %}
+  <ul{{ attributes }}>
+    <li class="pager__item">
+      <a class="button" href="{{ items.next.href }}" title="{{ 'Load more items'|t }}" rel="next">{{ options.button_text }}</a>
+    </li>
+  </ul>
+  {% endif %}
+{% elseif pager_display == 0 %}
+  <ul{{ attributes }}>
+    <li class="pager__item">
+    {% if items.next %}
+      <a class="button" href="{{ items.next.href }}" title="{{ 'Load more items'|t }}" rel="next">Load More</a>
+    {% endif %}
+    {% if total_items %}
+      {% if ((total_items - options.button_text|number_format) >= total_items) %}
+        <p class="para">Showing {{ total_items }} of {{ total_items }}</p>
+      {% elseif ((total_items - options.button_text|number_format) < total_items) %}
+        <p class="para">Showing {{ total_items - (options.button_text|number_format) }} of {{ total_items }}</p>
+      {% endif %}
+    {% endif %}
+    </li>
+  </ul>
+{% endif %}

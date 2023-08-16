@@ -1,0 +1,97 @@
+.icon
+{
+	display: inline-flex;
+	font-family: 'Montserrat-Regular';
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 500;
+	align-items: center;
+	padding: 10px 10px 10px 0;
+	margin-top: 15px;
+}
+
+.icon:before
+{
+	content: '';
+	display: inline-block;
+	background-repeat: no-repeat;
+	width: 62px;
+	height: 60px;
+	margin-right: 12px;
+	align-items: center;
+	flex: 1 0 20%;
+	max-width: 60px;
+	background-image: url('/themes/custom/interior_health_theme/assets/images/icon-sprite.png');
+	background-position: 0px 0px;
+} 
+.icon.dark:before
+{
+  margin-right: 18px;
+}
+.download-icon:before 
+{
+	background-position: -61px -70px;
+}
+
+.download-icon.dark:before
+{
+	background-position: -73px -7px;
+}
+
+.loaction-icon:before
+{
+	background-position: -121px -70px;
+}
+
+.loaction-icon.dark:before
+{
+	background-position: -142px -7px;
+}
+
+.glass-icon:before
+{
+	background-position: -181px -70px;
+}
+
+.glass-icon.dark:before
+{
+	background-position: -210px -7px;
+}
+
+.people-icon:before 
+{
+	background-position: -239px -70px;
+}
+
+.people-icon.dark:before
+{
+	background-position: -278px -7px;
+}
+
+.podcast-icon:before 
+{
+	background-position: 0px -70px;
+}
+
+.podcast-icon.dark:before
+{
+	background-position: -6px -7px;
+}
+.video-icon:before
+{
+	background-position: -297px -70px;
+}
+
+.video-icon.dark:before
+{
+	background-position: -345px -7px;
+}
+
+
+@media (max-width: 767px)
+{
+	.icon {
+    	display: flex;
+      	width: 100%;
+  	}
+}

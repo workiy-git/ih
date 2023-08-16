@@ -1,0 +1,13 @@
+diff --git a/src/EntityClone/Content/ContentEntityCloneFormBase.php b/src/EntityClone/Content/ContentEntityCloneFormBase.php
+index a8ff26a..8a16c6d 100644
+--- a/src/EntityClone/Content/ContentEntityCloneFormBase.php
++++ b/src/EntityClone/Content/ContentEntityCloneFormBase.php
+@@ -214,7 +214,7 @@ class ContentEntityCloneFormBase implements EntityHandlerInterface, EntityCloneF
+    */
+   protected function getChildren(ContentEntityInterface $referenced_entity, array &$discovered_entities) {
+     /** @var \Drupal\entity_clone\EntityClone\EntityCloneFormInterface $entity_clone_handler */
+-    if ($this->entityTypeManager->hasHandler($referenced_entity->getEntityTypeId(), 'entity_clone_form')) {
++    if ($referenced_entity->getEntityTypeId() != 'node' && $this->entityTypeManager->hasHandler($referenced_entity->getEntityTypeId(), 'entity_clone_form')) {
+       // Record that we've found this entity.
+       $discovered_entities[$referenced_entity->getEntityTypeId()][$referenced_entity->id()] = $referenced_entity;
+

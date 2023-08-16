@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest identifier="_5qPjC0E6Pta_course_id" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+      <general>
+        <title>
+          <langstring xml:lang="x-none">Point of Care Risk Assessment</langstring>
+        </title>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+      </metametadata>
+      <educational>
+        <typicallearningtime>
+          <datetime>PT0H0M0S</datetime>
+        </typicallearningtime>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations default="Point_of_Care_Risk_Assessment_ORG">
+    <organization identifier="Point_of_Care_Risk_Assessment_ORG">
+      <title>Point of Care Risk Assessment</title>
+      <item identifier="Point_of_Care_Risk_Assessment_SCO" isvisible="true" identifierref="__5qPjC0E6Pta_course_id_RES">
+        <title>Point of Care Risk Assessment</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="__5qPjC0E6Pta_course_id_RES" type="webcontent" href="index_lms.html" adlcp:scormtype="sco">
+      <file href="story_content/thumbnail.jpg" />
+      <file href="story_content/6C2VISHyYtP_22050_48_0.mp3" />
+      <file href="story_content/697IGzFp5SO_22050_48_0.mp3" />
+      <file href="mobile/6LauqVCeefn_80_DX1200_DY1200_CX676_CY875.jpg" />
+      <file href="mobile/6EWbdEuYN2g5xqwVxHnaH1{Width=984, Height=544}Light_80_DX1968_DY1968_CX984_CY544.jpg" />
+      <file href="mobile/6LauqVCeefn_80_DX1200_DY1200_CX695_CY900.jpg" />
+      <file href="story_content/6KDf2LAVl2h_22050_48_0.mp3" />
+      <file href="story_content/684u5ZLXWVW_22050_48_0.mp3" />
+      <file href="story_content/5YQ1XYhV8UX_22050_48_0.mp3" />
+      <file href="mobile/6LauqVCeefn_80_P_21_0_794_1034_DX1200_DY1200_CX677_CY882.png" />
+      <file href="story_content/6bhSt7z1b1K_22050_48_0.mp3" />
+      <file href="story_content/5fkU5uT9xLs_22050_48_0.mp3" />
+      <file href="mobile/5bUyq3LwCaE_80_DX672_DY672_CX336_CY241.png" />
+      <file href="story_content/5sksSlhHca4_22050_48_0.mp3" />
+      <file href="mobile/6lVf5COcZNb_80_DX632_DY632_CX316_CY240.png" />
+      <file href="story_content/5nYcZJBpAYH_22050_48_0.mp3" />
+      <file href="mobile/6Lp7CpQN4Bb_80_DX484_DY484_CX242_CY238.png" />
+      <file href="story_content/6cZPrz9Lvb0_22050_48_0.mp3" />
+      <file href="story_content/Shape5wW6TxCy7i6.swf" />
+      <file href="story_content/video_5oNmtJYA3yD_22_48_864x480.mp4" />
+      <file href="mobile/video_5oNmtJYA3yD_22_48_864x480.jpg" />
+      <file href="mobile/60vDL28bl08_80_DX1518_DY1518_CX935_CY425.jpg" />
+      <file href="story_content/69MYlfA4OaT_22050_48_0.mp3" />
+      <file href="story_content/62IFqXPgqlx_22050_48_0.mp3" />
+      <file href="mobile/5bod7MGYeTD_80_DX436_DY436_CX218_CY46.png" />
+      <file href="mobile/5f9rgRop4xj_80_DX440_DY440_CX220_CY44.png" />
+      <file href="meta.xml" />
+      <file href="story_content/user.js" />
+      <file href="mobile/Shape5lPkDdoXpA0.png" />
+      <file href="mobile/Shape5cxcHvUfom8.png" />
+      <file href="mobile/Shape6nHEIqpVcsF.png" />
+      <file href="html5/data/css/output.min.css" />
+      <file href="html5/data/js/5fFDPDvMK2w.js" />
+      <file href="html5/data/js/5iFtv1QfLof.js" />
+      <file href="html5/data/js/5rb40AjYGge.js" />
+      <file href="html5/data/js/5rR8fWBdj7G.js" />
+      <file href="html5/data/js/5UsvE5GgbUx.js" />
+      <file href="html5/data/js/5yavyzvBN4e.js" />
+      <file href="html5/data/js/5Zn6BHhlTyD.js" />
+      <file href="html5/data/js/609QVXoGLFa.js" />
+      <file href="html5/data/js/63BeqM5whNz.js" />
+      <file href="html5/data/js/64Th042MNVk.js" />
+      <file href="html5/data/js/6CDNv0WV2lF.js" />
+      <file href="html5/data/js/6fj002oLwrC.js" />
+      <file href="html5/data/js/6GEjW3na2ef.js" />
+      <file href="html5/data/js/6itV5hQdwSI.js" />
+      <file href="html5/data/js/6O12LWtUk22.js" />
+      <file href="html5/data/js/6QsyeSSWujT.js" />
+      <file href="html5/data/js/data.js" />
+      <file href="html5/data/js/frame.js" />
+      <file href="html5/data/js/paths.js" />
+      <file href="html5/lib/scripts/app.min.js" />
+      <file href="html5/lib/stylesheets/main.min.css" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-bold.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-light.woff" />
+      <file href="html5/lib/stylesheets/mobile-fonts/open-sans-regular.woff" />
+      <file href="story.html" />
+      <file href="story_html5.html" />
+      <file href="analytics-frame.html" />
+      <file href="story_content/blank.html" />
+      <file href="story_content/story.js" />
+      <file href="index_lms.html" />
+      <file href="index_lms_html5.html" />
+      <file href="lms/AICCComm.html" />
+      <file href="lms/AICCFunctions.js" />
+      <file href="lms/API.js" />
+      <file href="lms/APIConstants.js" />
+      <file href="lms/blank.html" />
+      <file href="lms/browsersniff.js" />
+      <file href="lms/Configuration.js" />
+      <file href="lms/goodbye.html" />
+      <file href="lms/lms.js" />
+      <file href="lms/LMSAPI.js" />
+      <file href="lms/NONEFunctions.js" />
+      <file href="lms/SCORM2004Functions.js" />
+      <file href="lms/SCORMFunctions.js" />
+      <file href="lms/UtilityFunctions.js" />
+    </resource>
+  </resources>
+</manifest>

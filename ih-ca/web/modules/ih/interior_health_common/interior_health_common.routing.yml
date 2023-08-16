@@ -1,0 +1,8 @@
+global_alert_setting.admin_settings:
+  path: '/admin/config/global-alert-settings'
+  defaults: 
+    _title: Global Alert Setting
+    _form: '\Drupal\interior_health_common\Form\GlobalAlertSetting'
+  requirements:
+    _permission: 'administer site configuration'
+    

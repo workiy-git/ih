@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>3971C985-8585-4953-9637-6B7D82337627</title>
+    <defs>
+        <linearGradient x1="100%" y1="100%" x2="24.565918%" y2="29.715332%" id="linearGradient-1">
+            <stop stop-color="#4DBBC6" offset="0%"></stop>
+            <stop stop-color="#005AA2" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="8.33975046e-16 0 33.3333333 0 33.3333333 10.6700132 8.33975046e-16 10.6700132"></polygon>
+        <polygon id="path-4" points="0 0 9.86766123 0 9.86766123 17.8065322 0 17.8065322"></polygon>
+    </defs>
+    <g id="Content-Detail-Opt-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop.Content.Detail.Aboriginal-Health-Wellness" transform="translate(-357.000000, -1351.000000)">
+            <g id="icon" transform="translate(357.000000, 1351.000000)">
+                <rect id="bg" stroke="url(#linearGradient-1)" stroke-width="2" fill="#FFFFFF" x="1" y="1" width="48" height="48" rx="4"></rect>
+                <g id="Group-11" transform="translate(8.333333, 9.166667)">
+                    <g id="Group-3" transform="translate(0.000000, 17.500000)">
+                        <mask id="mask-3" fill="white">
+                            <use xlink:href="#path-2"></use>
+                        </mask>
+                        <g id="Clip-2"></g>
+                        <path d="M2.62301947,10.6700132 C1.17653245,10.6700132 8.33975046e-16,9.48596894 8.33975046e-16,8.03009219 L8.33975046e-16,0 L1.60614649,0 L1.60614649,8.03009219 C1.60614649,8.87188097 1.7638597,9.21050072 2.62301947,9.21050072 L30.7100322,9.21050072 C31.5992391,9.21050072 31.7475637,8.90098911 31.7475637,8.03009219 L31.7475637,0 L33.3335211,0 L33.3335211,8.03009219 C33.3335211,9.48596894 32.1565192,10.6700132 30.7100322,10.6700132 L2.62301947,10.6700132 Z" id="Fill-1" fill="#15477D" mask="url(#mask-3)"></path>
+                    </g>
+                    <g id="Group-6" transform="translate(11.666667, 0.000000)">
+                        <mask id="mask-5" fill="white">
+                            <use xlink:href="#path-4"></use>
+                        </mask>
+                        <g id="Clip-5"></g>
+                        <path d="M4.59580054,17.6656864 L0,13.6468844 L0.787537893,12.8318563 L4.1636912,15.5085977 L4.1636912,-0.000140845864 L5.78217189,-0.000140845864 L5.78217189,15.5085977 L9.11159515,12.8318563 L9.86766123,13.6468844 L5.25308124,17.6811794 C5.14744684,17.7868138 5.02209402,17.8065322 4.93383061,17.8065322 C4.8319521,17.8065322 4.73946332,17.7830579 4.59580054,17.6656864 Z" id="Fill-4" fill="#15477D" mask="url(#mask-5)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

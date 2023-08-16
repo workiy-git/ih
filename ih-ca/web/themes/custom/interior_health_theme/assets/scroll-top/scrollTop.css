@@ -1,0 +1,25 @@
+.scrollTop {
+  display: none;
+  position: fixed;
+  top: 80vh;
+  left: auto;
+  right: 15px;
+  z-index: 99;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: #fff
+    url("/themes/custom/interior_health_theme/assets/images/arrow-up-blue.svg");
+  border-radius: 4px;
+  border: 2px solid #4dbbc6;
+  background-origin: border-box;
+  border-image-source: linear-gradient(313deg, #4dbbc6 8%, #005aa2 92%);
+  border-image-slice: 1;
+  cursor: pointer;
+}
+
+@media (min-width: 992px) {
+  .scrollTop {
+    right: 75px;
+  }
+}

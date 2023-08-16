@@ -1,0 +1,6 @@
+emailform.admin:
+  title: 'Email Form'
+  description: 'Email config form'
+  parent: system.admin_config_services
+  route_name: emailform.admin
+  weight: 97

@@ -1,0 +1,300 @@
+global-styling:
+  css:
+    theme:
+      assets/css/bootstrap.min.css: {}
+      assets/css/custom.css: {}
+      assets/css/footer.css: {}
+      assets/css/footer-responsive.css: {}
+  js:
+    assets/js/bootstrap.min.js: {}
+  dependencies:
+    - core/popperjs
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+alert-banner:
+  css:
+    theme:
+      assets/css/alertbanner/alert-banner.css: {}
+  js:
+    assets/js/alertbanner/alert-banner.js: {}
+global-header:
+  css:
+    theme:
+      assets/css/globalheader/global-header.css: {}
+  js:
+    assets/js/globalheader/global-header.js: {}
+hero-banner:
+  css:
+    theme:
+      assets/css/herobanner/herobanner.css: {}
+      assets/css/herobanner/herobanner-responsive.css: {}
+  js:
+    assets/js/herobanner/herobanner.js: {}
+    assets/js/herobanner/herobanner-responsive.js: {}
+signup-popup:
+  css:
+    theme:
+      assets/css/popup/sign-up-popup.css: {}
+  js:
+    assets/js/popup/sign-up-popup.js: {}
+feedback-form:
+  css:
+    theme:
+      assets/css/feedbackform/ih-form.css: {}
+      assets/css/feedbackform/feedback-form.css: {}
+  js:
+    assets/js/feedbackform/feedback-form.js: {}
+    assets/js/feedbackform/ih-form.js: {}
+alert-sidebar:
+  css:
+    theme:
+      assets/css/alertsidebar/alert.css: {}
+  js:
+    assets/js/alertsidebar/alert.js: {}
+quick-links:
+  css:
+    theme:
+      assets/css/grid/quick-links.css: {}
+  js:
+    assets/js/grid/quick-links.js: {}
+simple-cta-block-with-out-img:
+  css:
+    theme:
+      assets/css/simplectablock/stay-connected.css: {}
+simple-cta-block-with-img:
+  css:
+    theme:
+      assets/css/simplectablock/ih-help.css: {}
+half-width-banner:
+  css:
+    theme:
+      assets/css/herobanner/sign-up-banner.css: {}
+content-slider:
+  css:
+    theme:
+      assets/css/content-slider/slick.css: {}
+      assets/css/content-slider/slick.min.css: {}
+      assets/css/content-slider/style.css: {}
+  js:
+    assets/js/content-slider/slick.js: {}
+    assets/js/content-slider/custom.js: {}
+health-glance:
+  css:
+    theme:
+      assets/css/health-glance/health-glance.css: {}
+  js:
+    assets/js/ih-services/ih-glance.js: {}
+ih-services:
+  css:
+    theme:
+      assets/css/ih-services/slick.css: {}
+      assets/css/ih-services/slick-theme.css: {}
+      assets/css/ih-services/style.css: {}
+  js:
+    assets/js/ih-services/custom.js: {}
+    assets/js/ih-services/slick.js: {}
+stories:
+  css:
+    theme:
+      assets/css/stories/stories-ih.css: {}
+  js:
+    assets/js/stories/stories.js: {}
+detail-page-stories:
+  css:
+    theme:
+      assets/detail-page-stories/css/detail-page-stories.css: {}
+  js:
+    assets/detail-page-stories/js/detail-page-stories.js: {}
+detail-page-content-section:
+  css:
+    theme:
+      assets/detail-page-content-section/css/quotes.css: {}
+      assets/detail-page-content-section/css/content-video.css: {}
+  js:
+    assets/detail-page-content-section/js/detail-page-content.js: {}
+detail-page-banner:
+  css:
+    theme:
+      assets/detail-page-banner/css/detail-page-banner.css: {}
+  js:
+    assets/detail-page-banner/js/detail-page-banner.js: {}
+service-page-about:
+  css:
+    theme:
+      assets/service-page-about/css/service-detail-about.css: {}
+service-page-faq:
+  css:
+    theme:
+      assets/service-page-faq/css/detail-faq.css: {}
+  js:
+    assets/service-page-faq/js/detail-faq.js: {}
+service-page-resources:
+  css:
+    theme:
+      assets/service-page-resources/css/service-detail-resources.css: {}
+      assets/service-page-resources/css/slick.css: {}
+      assets/service-page-resources/css/slick-theme.css: {}
+  js:
+    assets/service-page-resources/js/resource-slider.js: {}
+    assets/service-page-resources/js/slick.js: {}
+service-page-location:
+  css:
+    theme:
+      assets/service-page-location/css/service-detail-location.css: {}
+      assets/service-page-location/css/slick.css: {}
+      assets/service-page-location/css/slick-theme.css: {}
+  js:
+     assets/service-page-location/js/service-location.js: {}
+     assets/service-page-location/js/slick.js: {}
+services-listing:
+  css:
+    theme:
+      assets/css/services/services.css: {}
+  js:
+    assets/js/services/services.js: {}
+services-listing-grid:
+  css:
+    theme:
+      assets/css/services/services-grid.css: {}
+  js:
+    assets/js/services/services.js: {}
+two-col-grid:
+  css:
+    theme:
+      assets/css/twocolgrid/twocolgrid.css: {}
+scroll-top:
+  css:
+    theme:
+      assets/scroll-top/scrollTop.css: {}
+  js:
+    assets/scroll-top/scroll-top.js: {}
+service-page-banner:
+  css:
+    theme:
+      assets/service-page-banner/css/topbannerheadersection.css: {}
+      assets/css/windchimes-global.css: {}
+  js:
+    assets/service-page-banner/js/topbannerheadersection.js: {}
+ihlocation:
+  js:
+    assets/js/ihlocation.js: {}
+near-you:
+  css:
+    theme:
+      assets/near-you/css/near-you.css: {}
+  js:
+    assets/near-you/js/near-you.js: {}
+    assets/near-you/js/near-you-location.js: {}
+recent-stories:
+  css:
+    theme:
+      assets/css/stories/stories-ih.css: {}
+
+more-stories:
+  css:
+    theme:
+      assets/css/stories/listing-more-stories.css: {}
+stories-filter:
+  css:
+    theme:
+      assets/css/stories/stories-filter.css: {}
+  js:
+    assets/js/stories/stories-filter.js: {}
+location-gallery:
+  css:
+    theme:
+      assets/location-detail-gallery/css/slick-theme.css: {}
+      assets/location-detail-gallery/css/slick.css: {}
+      assets/location-detail-gallery/css/gallery.css: {}
+  js:
+    assets/location-detail-gallery/js/slick.js: {}
+    assets/location-detail-gallery/js/gallery.js: {}
+content-hub-explore:
+  css:
+    theme:
+      assets/css/ih-services/slick.css: {}
+      assets/css/ih-services/slick-theme.css: {}
+      assets/css/contenthub/content-hub-explore.css: {}
+  js:
+    assets/js/ih-services/slick.js: {}
+    assets/js/contenthub/content-hub-explore.js: {}
+stories-detail:
+  css:
+    theme:
+      assets/stories-detail/css/stories-detail.css: {}
+ih-form-style:
+  css:
+    theme:
+      assets/css/ih-forms/form-style.css: {}
+      assets/css/ih-forms/ih-form.css: {}
+  js:
+    assets/js/ih-forms/ih-form.js: {}
+media-latest-news:
+  css:
+    theme:
+      assets/media-listing/css/custom.css: {}
+      assets/media-listing/css/media-news.css: {}
+  js:
+    assets/media-listing/js/slick.js: {}
+social-media:
+  css:
+    theme:
+      assets/css/social-media/social-media.css: {}
+contact-media:
+  css:
+    theme:
+      assets/css/contact-media/media-release.css: {}
+content-hub-page:
+  css:
+    theme:
+      assets/service-page-location/css/service-detail-location.css: {}
+      assets/css/ih-services/slick.css: {}
+      assets/css/ih-services/slick-theme.css: {}
+      assets/css/content-slider/style.css: {}
+      assets/css/contenthub/content-hub-explore.css: {}
+  js:
+    assets/service-page-location/js/service-location.js: {}
+    assets/js/ih-services/slick.js: {}
+    assets/js/content-slider/custom.js: {}
+    assets/js/contenthub/content-hub-explore.js: {}
+global-search:
+  css:
+    theme:
+      assets/css/search/search.css: {}
+  js:
+    assets/js/global-search.js: {}
+benefits:
+  css:
+    theme:
+      assets/css/benefits/benefits-wrapper.css: {}
+join-our-team:
+  css:
+    theme:
+      assets/css/join-our-team/join-our-team.css: {}
+communities:
+  css:
+    theme:
+      assets/css/communites/communities.css: {}
+instagram-feeds:
+  css:
+    theme:
+      assets/service-page-resources/css/slick.css: {}
+      assets/css/instagram-carousel/instagram-carousel.css: {}
+  js:
+    assets/js/ih-services/slick.js: {}
+    assets/js/instagram-carousel/instagram-carousel.js: {}
+detail-page-table:
+  css:
+    theme:
+      assets/css/detail-page-table/basictable.min.css: {}
+      assets/css/detail-page-table/custom-basictable.css: {}
+  js:
+    assets/js/detail-page-table/jquery.basictable.min.js: {}
+    assets/js/detail-page-table/custom-basictable.js: {}
+community-care-form:
+  css:
+    theme:
+      assets/css/community-care-form/community-care.css: {}
+  js:
+    assets/js/community-care-form/community-care.js: {}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <filter id="dsnao1jyaa" color-interpolation-filters="auto">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g>
+            <g filter="url(#dsnao1jyaa)" transform="translate(-368.000000, -444.000000) translate(345.000000, 258.000000)">
+                <g>
+                    <g stroke="#555">
+                        <path d="M18.411 3.273h.665c.51 0 .924.403.924.9V23.484c0 .285-.233.517-.52.517H4.197c-.51 0-.924-.403-.924-.901v-.68" transform="translate(23.000000, 186.000000) translate(2.000000, 0.000000)"/>
+                        <path d="M16.727 20.727V.901c0-.498-.413-.901-.924-.901H1.04C.466 0 0 .463 0 1.035v18.791c0 .498.414.901.924.901h15.803zM13.455 4.759L8.727 4.759M13.455 7.305L8.727 7.305M13.455 9.85L2.909 9.85M13.455 12.759L2.909 12.759M13.455 15.305L2.909 15.305M9.818 17.85L2.909 17.85M5.123 3.273L5.123 7.273M3.273 3.305L7.273 3.305" transform="translate(23.000000, 186.000000) translate(2.000000, 0.000000)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

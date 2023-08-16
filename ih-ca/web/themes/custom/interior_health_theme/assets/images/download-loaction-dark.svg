@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>6937EA3A-4E08-4D10-9E32-923B8742C6C1</title>
+    <defs>
+        <linearGradient x1="38.2403154%" y1="32.7449375%" x2="110.335071%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#005AA2" offset="0%"></stop>
+            <stop stop-color="#4DBBC6" offset="100%"></stop>
+        </linearGradient>
+        <filter color-interpolation-filters="auto" id="filter-2">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Content-Detail-Opt-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop.Content.Detail.Aboriginal-Health-Wellness2" transform="translate(-736.000000, -3407.000000)">
+            <g id="Group-12" transform="translate(736.000000, 3407.000000)">
+                <rect id="bg" fill="url(#linearGradient-1)" x="0" y="0" width="60" height="60" rx="4"></rect>
+                <g filter="url(#filter-2)" id="Icon-/-L-/-icon-location-fat-outline">
+                    <g transform="translate(10.000000, 10.000000)">
+                        <polygon id="Shape" points="0 0 40 0 40 40 0 40"></polygon>
+                        <path d="M21.6666667,0 C13.3738095,0 6.66666667,6.26 6.66666667,14 C6.66666667,24.5 21.6666667,40 21.6666667,40 C21.6666667,40 36.6666667,24.5 36.6666667,14 C36.6666667,6.26 29.9595238,0 21.6666667,0 Z M21.6666667,20 C18.9066667,20 16.6666667,17.76 16.6666667,15 C16.6666667,12.24 18.9066667,10 21.6666667,10 C24.4266667,10 26.6666667,12.24 26.6666667,15 C26.6666667,17.76 24.4266667,20 21.6666667,20 Z" id="Icon-/-icon-location" stroke="#4D4D4D" stroke-width="1.5" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

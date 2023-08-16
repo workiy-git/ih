@@ -1,0 +1,174 @@
+.content-detail-slider-wrapper .stories-ih-stat-banner .stories-ih-content {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.content-detail-slider-wrapper.stories-ih-slider-wrapper .slick-dots li button:before,
+.content-detail-slider-wrapper.stories-ih-slider-wrapper .slick-dots li button {
+    border-radius: 10px;
+}
+
+.content-detail-slider-wrapper .slick-slide {
+    margin: 2px 5px;
+}
+
+
+
+.content-detail-slider-wrapper.stories-ih-slider-wrapper {
+    background: linear-gradient(139deg, rgba(0, 90, 162, 1) -29%, rgba(77, 187, 198, 1) 145%);
+    padding: 20px 0 45px;
+}
+
+
+.content-detail-slider-wrapper .slick-list.draggable {
+    height: auto;
+}
+
+.content-detail-slider-wrapper .slick-track {
+    height: 100%;
+    display: flex;
+}
+
+.content-detail-slider-wrapper .stories-ih-stat-banner .stories-ih-content {
+    height: 100%;
+    position: relative;
+}
+
+.content-detail-slider-wrapper .stories-ih-stat-banner .bluearea-link {
+    position: absolute;
+    bottom: 70px;
+    right: 30px;
+}
+
+
+
+.content-detail-slider-wrapper .slick-slide > div:not(.stories-card-wrapper) {
+    display: flex;
+    height: 100%;
+}
+
+.content-detail-slider-wrapper .slick-track {
+    height: 100%;
+}
+
+.content-detail-slider-wrapper .stories-ih-stat-banner .stories-card-wrapper {
+    height: 100%;
+    padding-bottom: 0px;
+}
+
+.content-detail-slider-wrapper.stories-ih-slider-wrapper {
+    margin-top: 50px;
+}
+
+.content-detail-slider-wrapper .ih-stories-footer {
+    padding: 30px 10px 10px;
+}
+
+.content-detail-slider-wrapper .slick-dots {
+    margin-bottom: 3px;
+    margin-top: 0;
+}
+
+.content-detail-slider-wrapper.stories-ih-slider-wrapper .slick-dots li button:before,
+.content-detail-slider-wrapper.stories-ih-slider-wrapper .slick-dots li button {
+    padding: 5px;
+}
+
+.content-detail-slider-wrapper.stories-ih-slider-wrapper .slick-center .slide {
+    padding: 30px 0 0;
+}
+
+@media (min-width:992px) {
+
+    .content-page-stat-banner {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .content-detail-slider-wrapper .stories-ih-stat-banner {
+        display: flex;
+        height: 100%;
+    }
+
+    .content-detail-slider-wrapper.stories-ih-slider-wrapper {
+        background: -webkit-linear-gradient(top, #fff, #fff 38%, rgb(234 234 234 / .7) 38%, rgb(234 234 234 / .7));
+        padding: 120px 0 70px;
+    }
+
+    .content-detail-slider-wrapper  .stories-ih-stat-banner .stories-ih-heading a {
+        font-size: 32px;
+        line-height: 38px;
+        padding: 10px 0px 10px 50px;
+   }
+
+   .content-detail-slider-wrapper  .slick-arrow {
+    position: absolute;
+    left: 94%;
+    top: -50px;
+}
+
+.content-detail-slider-wrapper  .slick-next.slick-arrow {
+    right: 30px;
+}
+
+.content-detail-slider-wrapper  .slick-next.slick-arrow:after,
+.content-detail-slider-wrapper  .slick-prev.slick-arrow:after{
+    width: 18px;
+    height: 26px;
+    z-index: 9;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    content: '';
+    cursor: pointer;
+}
+
+.content-detail-slider-wrapper.stories-ih-slider-wrapper {
+    margin-top: 0px;
+}
+.content-page-storiesih--slider.slick-slider {
+    margin-bottom: 0px;
+}
+.content-page-storiesih--slider.slick-slider .slick-track
+{
+    margin: 0;
+}
+.content-detail-slider-wrapper .slick-list.draggable {
+    height: 100%;
+}
+}
+
+.content-detail-slider-wrapper  .slick-next.slick-arrow:after{
+    background-image: url(/themes/custom/interior_health_theme/assets/images/content-left.png);
+    right: 20px;
+}
+
+
+.content-detail-slider-wrapper  .slick-prev.slick-arrow:after{
+    background-image: url(/themes/custom/interior_health_theme/assets/images/content-right.png);
+    left: 10px;
+}
+
+@media (min-width:1200px) {
+    .content-detail-slider-wrapper  .stories-ih-stat-banner .stories-ih-heading a,
+    .content-detail-slider-wrapper  .stories-ih-stat-banner .stories-ih-heading .stories-desc {
+        font-size: 32px;
+        line-height: 38px;
+        margin: 10px 0px 35px 10px;
+        padding: 0px;
+    }
+}
+
+@media (min-width:1200px) {
+    .content-page-stat-banner {
+        padding-left: 15px;
+    }
+}
+@media (min-width:1600px) {
+    .content-detail-slider-wrapper  .stories-ih-stat-banner .stories-ih-heading a,
+    .content-detail-slider-wrapper  .stories-ih-stat-banner .stories-ih-heading .stories-desc {
+        margin: 10px 0px 35px 50px;
+        padding: 0px;
+    }
+}

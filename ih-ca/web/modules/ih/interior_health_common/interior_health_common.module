@@ -1,0 +1,1458 @@
+<?php
+
+/**
+ * @file
+ * Interior Health Common module file.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\views\ResultRow;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function interior_health_common_entity_presave(EntityInterface $entity) {
+
+  // Fix langcode is empty when you use entity browser x inline entity form.
+  if ($entity->getEntityType()->id() == 'paragraph') {
+    $langcode_key = $entity->getEntityType()->getKey('langcode');
+    if (!empty($langcode_key)) {
+      $lang_value = $entity->get($langcode_key)->getLangcode();
+      if (!empty($lang_value)) {
+        $entity->set($langcode_key, $lang_value);
+      }
+    }
+  }
+
+}
+/**
+ * Implements hook_form_alter().
+ */
+function interior_health_common_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+
+  if ($form['#id'] == "webform-submission-contact-myhealthportal-support-node-271-add-form") {
+    $form['elements']['phone_']['#attributes']['class'][] = "telephone-number";
+  }
+
+  if ($form['#id'] == "webform-submission-safe-reporting-e-form-node-322-add-form") {
+    $form['elements']['allegation_reporting']['date_s_of_incident']['#attributes']['class'][] = "date-of-incident";
+  }
+
+  if ($form['#id'] == "webform-submission-physician-office-integration-node-2136-add-form") {
+    $form['elements']['clinic_details']['clinic_phone']['#attributes']['class'][] = "clinic-phone";
+    $form['elements']['clinic_details']['clinic_fax']['#attributes']['class'][] = "clinic-fax";
+    $form['elements']['clinic_address']['clinic_postal_code']['#attributes']['class'][] = "clinic-postal-code";
+    $form['elements']['comments']['#suffix'] = '<p>Please review our&nbsp;<strong><a href="https://www.interiorhealth.ca/AboutUs/Pages/Privacy.aspx " target="_blank">Privacy &amp; Terms of Use Policy</a>&nbsp;</strong>regarding collection of your personal information before completing the e-form below.</p>';
+
+  }
+
+
+  if ($form_id == "entity_export_csv") {
+    unset($form['bundle_wrapper']['fields']['delimiter']['#options'][';']);
+  }
+  if (($form_id == "views_exposed_form") && ($form['#id'] == "views-exposed-form-home-page-blocks-block-1")) {
+    $taxonomy = [];
+    $total_count = 0;
+
+    // Get the current date in UTC Format.
+    $date = new DrupalDateTime();
+    $date->setTimezone(new \DateTimeZone('UTC'));
+    $current_date = $date->format("Y-m-d\\TH:i:s");
+
+    // Get the new alerts count based on category.
+    $query = \Drupal::database()->select('node_field_data', 'nfd');
+    $query->fields('nfd', ['nid', 'title', 'created']);
+    $query->condition('nfd.type', 'alert_sidebar');
+    $query->condition('nfd.status', 1);
+    $query->addField('nfac', 'field_alert_category_target_id');
+    $query->join('node__field_alert_category', 'nfac', 'nfac.entity_id = nfd.nid');
+    $query->addField('nfdr', 'field_date_range_value');
+    $query->addField('nfdr', 'field_date_range_end_value');
+    $query->join('node__field_date_range', 'nfdr', 'nfdr.entity_id = nfd.nid');
+    $query->addField('ttfd', 'name');
+    $query->join('taxonomy_term_field_data', 'ttfd', 'ttfd.tid = nfac.field_alert_category_target_id');
+    $nids = $query->execute()->fetchAll();
+
+    foreach ($nids as $key => $value) {
+      // Get the Start Date.
+      $start_date = new DateTime($value->field_date_range_value . 'Z');
+      $start_date = $start_date->format("Y-m-d\\TH:i:s");
+
+      // Get the End Date.
+      $end_date = new DateTime($value->field_date_range_end_value . 'Z');
+      $end_date = $end_date->format("Y-m-d\\TH:i:s");
+
+      // Get the next date of start date.
+      $tomorrow = new DateTime($value->field_date_range_value . 'Z');
+      $tomorrow = $tomorrow->modify('+1 day')->format("Y-m-d\\TH:i:s");
+
+      if (($start_date <= $current_date) && ($end_date >= $current_date) && !($tomorrow <= $current_date)) {
+        if (!empty($value->name)) {
+          $taxonomy[] = $value->name;
+        }
+      }
+    }
+    $count = array_count_values($taxonomy);
+
+    foreach ($form['field_alert_category_target_id']['#options'] as $key => $value) {
+      if (isset($count[$value]) && !empty($count[$value])) {
+        $total_count += $count[$value];
+        $count_value = ' (' . $count[$value] . ')';
+      }
+      $form['field_alert_category_target_id']['#options'][$key] .= (isset($count[$value]) && !empty($count[$value])) ? $count_value : '';
+    }
+    $form['#prefix'] = "<div class='total-alert-count hidden'>" . $total_count . "</div>";
+  }
+  if (($form_id == "views_exposed_form" && $form['#id'] == "views-exposed-form-service-listing-page-page-1") || ($form_id == "views_exposed_form" && $form['#id'] == "views-exposed-form-location-listing-page-page-1")) {
+    // Exposed Form Distance field.
+    $form['distance'] = [
+      '#type' => 'select',
+      '#options' => [
+        5 => t('5 Km'),
+        10 => t('10 Km'),
+        20 => t('20 Km'),
+        50 => t('50 Km'),
+        100 => t('100 Km'),
+        200 => t('200 Km'),
+      ],
+      '#default_value' => 10,
+      '#title' => 'Select Distance',
+      '#field_suffix' => '<div class="select-arrow"></div>',
+    ];
+
+    // Adding the classes,prefix and suffix.
+    if (isset($form['sort_bef_combine'])) {
+      $form['sort_bef_combine']['#title'] = '';
+      $form['sort_bef_combine']['#attributes']['class'][] = 'form-item-sort-by';
+    }
+    $form['#prefix'] = "<div class='show-hide-section'><div class='container location-form'>";
+    $form['#suffix'] = "</div></div>";
+    if ($form['actions']['submit']) {
+      $form['actions']['submit']['#attributes']['class'][] = 'yellow-btn';
+    }
+    if (isset($form['field_category_target_id'])) {
+      $form['field_category_target_id']['#field_suffix'] = '<div class="select-arrow"></div>';
+    }
+    if (isset($form['field_location_type_target_id'])) {
+      $form['field_location_type_target_id']['#field_suffix'] = '<div class="select-arrow"></div>';
+    }
+    $form['title']['#attributes']['class'][] = 'keyword';
+    $form['combine']['#attributes']['class'][] = 'keyword';
+    if (isset($form['center']['geocoder'])) {
+      $form['center']['geocoder']['geolocation_geocoder_address']['#placeholder'] = 'Area, City or Postal Code';
+      $form['center']['geocoder']['geolocation_geocoder_address']['#field_suffix'] = '<span class="current-location"></span>';
+
+    }
+  }
+  if ($form_id == 'views_exposed_form' && $form['#id'] == "views-exposed-form-home-page-blocks-block-3") {
+    if (isset($form['center']['geocoder'])) {
+      $form['center']['geocoder']['geolocation_geocoder_address']['#field_suffix'] = '<span class="current-location"></span>';
+    }
+  }
+  if ($form_id == 'views_exposed_form' && $form['#id'] == "views-exposed-form-blog-topic-listing-page-category-page") {
+    $form['#prefix'] = '<div class="container p-0"><div class="row m-0 justify-content-between"><div class="stories-form-title"><a href="/stories" class="text-white">Stories@IH</a></div><div class="stories-filter d-lg-none"></div>';
+    $form['#suffix'] = '</div></div>';
+    $form['title']['#field_suffix'] = '<span class="stories-search"></span>';
+    $form['combine']['#field_suffix'] = '<span class="stories-search"></span>';
+    $form['actions']['submit']['#attributes']['class'][] = 'stories-search-submit';
+  }
+  if ($form_id == 'views_exposed_form' && (($form['#id'] == "views-exposed-form-blog-topic-listing-page-media-category-page") || $form['#id'] == "views-exposed-form-blog-topic-listing-page-archive")) {
+    $form['#prefix'] = '<div class="container p-0"><div class="row m-0 justify-content-between"><div class="stories-form-title"><a href="/media" class="text-white">Media Centre</a></div><div class="stories-filter d-lg-none"></div>';
+    $form['#suffix'] = '</div></div>';
+    $form['title']['#field_suffix'] = '<span class="stories-search"></span>';
+    $form['combine']['#field_suffix'] = '<span class="stories-search"></span>';
+    $form['actions']['submit']['#attributes']['class'][] = 'stories-search-submit';
+  }
+  if ($form_id == 'views_exposed_form' && $form['#id'] == "views-exposed-form-blog-topic-listing-page-alerts-category-page") {
+    $form['#prefix'] = '<div class="container p-0"><div class="row m-0 justify-content-between"><div class="stories-form-title"><a href="/alerts" class="text-white">Alerts</a></div><div class="stories-filter d-lg-none"></div>';
+    $form['#suffix'] = '</div></div>';
+    $form['title']['#field_suffix'] = '<span class="stories-search"></span>';
+    $form['combine']['#field_suffix'] = '<span class="stories-search"></span>';
+    $form['actions']['submit']['#attributes']['class'][] = 'stories-search-submit';
+  }
+  $form_ids = [
+    'views-exposed-form-detail-page-block-5',
+    'views-exposed-form-service-detail-banner-block',
+    'views-exposed-form-service-detail-block-1',
+    'views-exposed-form-location-detail-page-location-detail-banner',
+    'views-exposed-form-detail-page-content-hub-services',
+  ];
+  if (($form_id == 'views_exposed_form') && in_array($form['#id'], $form_ids)) {
+    $form['#attributes']['class'][] = 'hidden';
+  }
+  if ($form_id == 'views_exposed_form' && $form['#id'] == "views-exposed-form-location-detail-page-location-detail-services") {
+    $title = '';
+    if ($form['actions']['submit']) {
+      $form['actions']['submit']['#attributes']['class'][] = 'location-submit';
+    }
+    if (isset($form['title']['#title'])) {
+      $title = $form['title']['#title'];
+    }
+    $form['#prefix'] = '<div class="tab-filter"><h2 class="h2">' . $title . '</h2><div class="search-container">';
+    $form['#suffix'] = '</div></div>';
+  }
+  if ($form_id == 'node_detail_page_form') {
+    $form['body']['widget'][0]['#format'] = 'full_html';
+    $form['body']['widget'][0]['summary']['#description'] = t('<b>Summary </b> : Provide the plain text. Displays in the banner. <br>');
+  }
+  // Virtual Care - Patient Booking Request form.
+  if (isset($form['#webform_id']) && ($form['#webform_id'] == 'virtual_care_patient_booking_req')) {
+    if (isset($form['elements']['details_1']['doctor_clinician_attending_the_telehealth_session_'])) {
+      // Get the select list option values.
+      $options = $form['elements']['details_1']['doctor_clinician_attending_the_telehealth_session_']['#options'];
+      if (!empty($options)) {
+        // Sort the options in ascending order.
+        $options_lowercase = array_map('strtolower', $options);
+        array_multisort($options_lowercase, SORT_ASC, $options);
+        $form['elements']['details_1']['doctor_clinician_attending_the_telehealth_session_']['#options'] = $options;
+      }
+    }
+  }
+  //Community Care Reportable Incident Form
+  if (isset($form['#webform_id']) && ($form['#webform_id'] == 'reportable_incident_form')) {
+    $form['#attached']['library'][] = 'interior_health_theme/community-care-form';
+    //$form['#attached']['library'][] = 'interior_health_theme/community-care-form';
+  }
+
+
+  if ($form_id == 'webform_submission_reportable_incident_form_node_106_add_form') {
+    $form['elements']['all_fields_are_mandatory_as_applicable_']['if_the_incident_is_an_outbreak_or_service_delivery_problem_only_']['person_in_care_involved']['person_in_care_involved_04']['person_in_care_involved_04_person_in_care_involved_04']['#states'] = [
+      'required' => [
+        [
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['unchecked' => TRUE],
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['unchecked' => TRUE],
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '3']],
+        ],
+        'or',
+        [
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '3']],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => TRUE]],
+          ],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggression between persons in care]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Physical Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Financial Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Attempted Suicide]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Medication Error]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Unexpected Illness]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Motor Vehicle Injury]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emotional Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Fall]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggressive or Unusual Behaviour]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Food Poisoning]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Choking]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Sexual Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Missing or Wandering]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emergency Restraint]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Neglect]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Other Injury]"]' => ['checked' => TRUE]],
+          ],
+        ],
+      ],
+    ];
+    $form['elements']['all_fields_are_mandatory_as_applicable_']['if_the_incident_is_an_outbreak_or_service_delivery_problem_only_']['person_in_care_involved']['person_in_care_involved_04']['person_in_care_involved_04_date_of_birth']['#states'] = [
+      'required' => [
+        [
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['unchecked' => TRUE],
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['unchecked' => TRUE],
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '3']],
+        ],
+        'or',
+        [
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '3']],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => TRUE]],
+          ],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggression between persons in care]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Physical Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Financial Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Attempted Suicide]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Medication Error]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Unexpected Illness]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Motor Vehicle Injury]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emotional Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Fall]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggressive or Unusual Behaviour]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Food Poisoning]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Choking]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Sexual Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Missing or Wandering]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emergency Restraint]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Neglect]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Other Injury]"]' => ['checked' => TRUE]],
+          ],
+        ],
+      ],
+    ];
+    $form['elements']['all_fields_are_mandatory_as_applicable_']['if_the_incident_is_an_outbreak_or_service_delivery_problem_only_']['person_in_care_involved']['person_in_care_involved_03']['person_in_care_involved_03_person_in_care_involved_03']['#states'] = [
+      'required' => [
+        [
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['unchecked' => TRUE],
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['unchecked' => TRUE],
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '2']],
+        ],
+        'or',
+        [
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '2']],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => TRUE]],
+          ],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggression between persons in care]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Physical Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Financial Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Attempted Suicide]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Medication Error]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Unexpected Illness]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Motor Vehicle Injury]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emotional Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Fall]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggressive or Unusual Behaviour]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Food Poisoning]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Choking]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Sexual Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Missing or Wandering]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emergency Restraint]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Neglect]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Other Injury]"]' => ['checked' => TRUE]],
+          ],
+        ],
+      ],
+    ];
+    $form['elements']['all_fields_are_mandatory_as_applicable_']['if_the_incident_is_an_outbreak_or_service_delivery_problem_only_']['person_in_care_involved']['person_in_care_involved_03']['person_in_care_involved_03_date_of_birth']['#states'] = [
+      'required' => [
+        [
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['unchecked' => TRUE],
+          ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['unchecked' => TRUE],
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '2']],
+        ],
+        'or',
+        [
+          ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '2']],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => TRUE]],
+          ],
+          [
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggression between persons in care]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Physical Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Financial Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Attempted Suicide]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Medication Error]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Unexpected Illness]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Motor Vehicle Injury]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emotional Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Fall]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggressive or Unusual Behaviour]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Food Poisoning]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Choking]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Sexual Abuse]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Missing or Wandering]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emergency Restraint]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Neglect]"]' => ['checked' => TRUE]],
+            'or',
+            [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Other Injury]"]' => ['checked' => TRUE]],
+          ],
+        ],
+      ],
+    ];
+    $form['elements']['all_fields_are_mandatory_as_applicable_']['if_the_incident_is_an_outbreak_or_service_delivery_problem_only_']['person_in_care_involved']['person_in_care_involved_01']['person_in_care_involved_01_person_in_care_involved_02']['#states'] = [
+      'required' => [
+        ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '0']],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => FALSE],
+      ],
+      'optional' => [
+        [
+          [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => TRUE]],
+          'or',
+          [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => TRUE]],
+        ],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggression between persons in care]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Physical Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Financial Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Attempted Suicide]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Medication Error]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Unexpected Illness]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Motor Vehicle Injury]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emotional Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Fall]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggressive or Unusual Behaviour]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Food Poisoning]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Choking]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Sexual Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Missing or Wandering]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emergency Restraint]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Neglect]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Other Injury]"]' => ['checked' => FALSE],
+      ],
+    ];
+    $form['elements']['all_fields_are_mandatory_as_applicable_']['if_the_incident_is_an_outbreak_or_service_delivery_problem_only_']['person_in_care_involved']['person_in_care_involved_01']['person_in_care_involved_01_date_of_birth_']['#states'] = [
+      'required' => [
+        ':input[name="total_persons_in_care_involved"]' => ['value' => ['greater_equal' => '0']],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => FALSE],
+      ],
+      'optional' => [
+        [
+          [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Service Delivery Problem]"]' => ['checked' => TRUE]],
+          'or',
+          [':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Disease Outbreak or Occurrence]"]' => ['checked' => TRUE]],
+        ],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggression between persons in care]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Physical Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Financial Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Attempted Suicide]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Medication Error]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Unexpected Illness]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Motor Vehicle Injury]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emotional Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Fall]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Aggressive or Unusual Behaviour]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Food Poisoning]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Choking]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Sexual Abuse]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Missing or Wandering]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Emergency Restraint]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Neglect]"]' => ['checked' => FALSE],
+        ':input[name="incident_type_more_than_one_category_may_be_selected_refer_to_[Other Injury]"]' => ['checked' => FALSE],
+      ],
+    ];
+  }
+}
+
+
+/**
+ * Setting Default value for the contextual filter args.
+ */
+function interior_health_common_views_pre_view(ViewExecutable $view) {
+  $nid = NULL;
+  if ($view->id() == 'service_detail' && $view->current_display == 'banner_block') {
+    $lid = \Drupal::request()->query->get('lid');
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if (!empty($node) && $node instanceof NodeInterface) {
+      // You can get nid and anything else you need from the node object.
+      $nid = $node->id();
+    }
+    if ($lid !== NULL && $nid !== NULL) {
+      $view->args[0] = $nid;
+      $view->args[1] = $lid;
+    }
+    elseif ($lid === NULL && $nid !== NULL) {
+      $dlid = $node->get('field_default_location')->referencedEntities();
+     if (!empty($dlid)) {
+        foreach ($dlid as $entity) {
+          $dlid = $entity->get('field_id')->getValue()[0]['value'];
+        }
+        $view->args[0] = $nid;
+        $view->args[1] = $dlid;
+      }
+      else {
+        $view->args[0] = $nid;
+      }
+    }
+  }
+
+
+
+  if ($view->id() == 'location_listing_page' && $view->current_display == 'page_2') {
+    if (isset($view->args[0])) {
+      $alias = "/services/" . strval($view->args[0]);
+      $path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
+      if (preg_match('/node\/(\d+)/', $path, $matches)) {
+        $view->args[0] = $matches[1];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Adding the Exposed Filter value in title.
+ */
+function interior_health_common_views_pre_render(ViewExecutable $view) {
+  // Blog Category Listing Page.
+  if ((($view->id() == 'blog_topic_listing_page') && ($view->current_display == 'category_page')) || (($view->id() == 'blog_topic_listing_page') && ($view->current_display == 'media_category_page')) || (($view->id() == 'blog_topic_listing_page') && ($view->current_display == 'alerts_category_page')) || (($view->id() == 'blog_topic_listing_page') && ($view->current_display == 'archive'))) {
+    $value = $view->getExposedInput();
+    if (isset($view->header['area']) && isset($view->header['area']->options['content']['value'])) {
+      if (isset($value['field_category_target_id']) && $value['field_category_target_id'] != 'All') {
+
+        // Get the taxonomy term based on taxonomy term id.
+        $query = \Drupal::database()->select('taxonomy_term_field_data', 'ttfd');
+        $query->fields('ttfd', ['name']);
+        $query->condition('ttfd.tid', $value['field_category_target_id']);
+        $term_name = $query->execute()->fetchAll();
+
+        if (!empty($term_name)) {
+          $view->header['area']->options['content']['value'] = str_replace('@category', $term_name[0]->name, $view->header['area']->options['content']['value']);
+        }
+      }
+      else {
+        $view->header['area']->options['content']['value'] = str_replace('@category', '', $view->header['area']->options['content']['value']);
+      }
+    }
+  }
+
+
+  
+    
+  // Stories detail page Preview.
+  $logged_in = \Drupal::currentUser()->isAuthenticated();
+  $current_route = \Drupal::routeMatch()->getRouteName();
+  if (($logged_in == TRUE) && ($current_route == "entity.node.latest_version")) {
+    if (($view->id() == 'stories_detail') && ($view->current_display == 'title_block')) {
+      /* Iterate the results */
+      foreach ($view->result as $key => $value) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($value->_entity->id());
+        if (strval($vid) != $value->_entity->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          // Set Latest Title,Created Date and Body.
+          $view->result[$key]->_entity->set('title', $nodeRevision->get('title')->value);
+          $view->result[$key]->_entity->set('created', $nodeRevision->getCreatedTime());
+          $view->result[$key]->_entity->set('body', [
+            'value' => $nodeRevision->get('body')->value,
+            'summary' => $nodeRevision->get('body')->summary,
+            'format' => $nodeRevision->get('body')->format,
+          ]);
+
+          // Set the Image based on node revision.
+          if (!empty($nodeRevision->get('field_img')->getValue()[0]['target_id'])) {
+            $view->result[$key]->_entity->set('field_img', $nodeRevision->get('field_img')->getValue()[0]['target_id']);
+            if (!empty($view->result[$key]->_entity->get('field_img'))) {
+              // Set the media image.
+              $media = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_img')->getValue()[0]['target_id']);
+              $view->result[$key]->_relationship_entities['field_img'] = $media;
+            }
+          }
+          else {
+            unset($view->result[$key]->_entity->field_img);
+            unset($view->result[$key]->_relationship_entities['field_img']);
+          }
+
+          // Set the Document based on node revision.
+          if (!empty($nodeRevision->get('field_document')->getValue()[0]['target_id'])) {
+            $view->result[$key]->_entity->set('field_document', $nodeRevision->get('field_document')->getValue()[0]['target_id']);
+            if (!empty($view->result[$key]->_entity->get('field_document'))) {
+              // Set the media document.
+              $media_document = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_document')->getValue()[0]['target_id']);
+              $view->result[$key]->_relationship_entities['field_document'] = $media_document;
+            }
+          }
+          else {
+            unset($view->result[$key]->_entity->field_document);
+            unset($view->result[$key]->_relationship_entities['field_document']);
+          }
+        }
+      }
+    }
+    // Stories Detail Page Featured Block.
+    if (($view->id() == 'detail_page') && ($view->current_display == 'block_9')) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          $paragraph_field = $nodeRevision->get('field_topics_with_content_and_fe')->getValue();
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $node_load;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            if (($revision_paragraph_count - 1) < $key) {
+              unset($view->result[$key]);
+            }
+            else {
+              // Set the View results of the new revisions.
+              $view->result[$key]->_entity->set('field_topics_with_content_and_fe', $paragraph_field);
+              $view->result[$key]->node__field_topics_with_content_and_fe_delta = $key;
+              $view->result[$key]->node__field_topics_with_content_and_fe_field_topics_with_con = $paragraph_field[$key]['target_id'];
+              $view->result[$key]->node__field_topics_with_content_and_fe_field_topics_with_con_1 = $paragraph_field[$key]['target_revision_id'];
+            }
+          }
+        }
+      }
+    }
+
+    // Featured Paragraph Contents Menu Title.
+    if (($view->id() == 'stories_detail') && ($view->current_display == 'block_1')) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          $paragraph_field = $nodeRevision->get('field_topics_with_content_and_fe')->getValue();
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            // Set the View results of the new revisions.
+            $view->result[$key]->_entity->set('field_topics_with_content_and_fe', $paragraph_field);
+            $view->result[$key]->paragraphs_item_field_data_node__field_topics_with_content_a = $paragraph_field[$key]['target_id'];
+            $paragraph_revision = \Drupal::entityTypeManager()->getStorage('paragraph')->loadRevision($paragraph_field[$key]['target_revision_id']);
+            $view->result[$key]->_relationship_entities['field_topics_with_content_and_fe'] = $paragraph_revision;
+            if (!empty($paragraph_revision)) {
+              if (!($view->result[$key]->_relationship_entities['field_topics_with_content_and_fe']->hasField('field_show_in_explore_this_page')) || ($view->result[$key]->_relationship_entities['field_topics_with_content_and_fe']->get('field_show_in_explore_this_page')->getValue()[0]['value'] == 0)) {
+                unset($view->result[$key]);
+              }
+            }
+            else {
+              // If the paragraph revision values are empty
+              // then we unset the paragraph results.
+              unset($view->result[$key]);
+            }
+          }
+        }
+      }
+    }
+
+    // Detail page Banner.
+    if (($view->id() == 'detail_page') && ($view->current_display == 'block_7')) {
+
+      /* Iterate the results */
+      foreach ($view->result as $key => $value) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($value->_entity->id());
+        if (strval($vid) != $value->_entity->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          if (($view->id() == 'detail_page') && ($view->current_display == 'block_7')) {
+
+            // Set Latest Title,Body and CTA Link.
+            $view->result[$key]->_entity->set('title', $nodeRevision->get('title')->value);
+            $view->result[$key]->_entity->set('body', [
+              'value' => $nodeRevision->get('body')->value,
+              'summary' => $nodeRevision->get('body')->summary,
+              'format' => $nodeRevision->get('body')->format,
+            ]);
+            if (!empty($nodeRevision->get('field_cta')->getValue())) {
+              $view->result[$key]->_entity->set('field_cta', [
+                'uri' => $nodeRevision->get('field_cta')->getValue()[0]['uri'],
+                'title' => $nodeRevision->get('field_cta')->getValue()[0]['title'],
+                'options' => $nodeRevision->get('field_cta')->getValue()[0]['options'],
+              ]);
+            }
+            else {
+              $view->result[$key]->_entity->set('field_cta', $nodeRevision->get('field_cta')->getValue()[0]);
+            }
+
+            // Set the Desktop Image based on node revision.
+            if (!empty($nodeRevision->get('field_desktop_banner_image')->getValue()[0]['target_id'])) {
+              $view->result[$key]->_entity->set('field_desktop_banner_image', $nodeRevision->get('field_desktop_banner_image')->getValue()[0]['target_id']);
+              if (!empty($view->result[$key]->_entity->get('field_desktop_banner_image'))) {
+                // Set the media image.
+                $media = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_desktop_banner_image')->getValue()[0]['target_id']);
+                $view->result[$key]->_relationship_entities['field_desktop_banner_image'] = $media;
+              }
+            }
+            else {
+              unset($view->result[$key]->_entity->field_desktop_banner_image);
+              unset($view->result[$key]->_relationship_entities['field_desktop_banner_image']);
+            }
+
+            // Set the Mobile Image based on node revision.
+            if (!empty($nodeRevision->get('field_mobile_banner_image')->getValue()[0]['target_id'])) {
+              $view->result[$key]->_entity->set('field_mobile_banner_image', $nodeRevision->get('field_mobile_banner_image')->getValue()[0]['target_id']);
+              if (!empty($view->result[$key]->_entity->get('field_mobile_banner_image'))) {
+                // Set the media image.
+                $media = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_mobile_banner_image')->getValue()[0]['target_id']);
+                $view->result[$key]->_relationship_entities['field_mobile_banner_image'] = $media;
+              }
+            }
+            else {
+              unset($view->result[$key]->_entity->field_mobile_banner_image);
+              unset($view->result[$key]->_relationship_entities['field_mobile_banner_image']);
+            }
+
+            // Set the Topic with content and featured Content Field.
+            $view->result[$key]->_entity->set('field_topics_with_content_and_fe', $nodeRevision->get('field_topics_with_content_and_fe')->getValue());
+          }
+        }
+      }
+    }
+
+    
+   
+   // Detail page Featured Section.
+    if (($view->id() == 'detail_page') && ($view->current_display == 'block_2')) {
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          $paragraph_field = $nodeRevision->get('field_topics_with_content_and_fe')->getValue();
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            if (($revision_paragraph_count - 1) < $key) {
+              unset($view->result[$key]);
+            }
+            else {
+              // Set the View results of the new revisions.
+              $view->result[$key]->_entity->set('field_topics_with_content_and_fe', $paragraph_field);
+              $view->result[$key]->paragraphs_item_field_data_node__field_topics_with_content_a = $paragraph_field[$key]['target_id'];
+              $view->result[$key]->node__field_topics_with_content_and_fe_delta = $key;
+
+              $view->result[$key]->node__field_topics_with_content_and_fe_field_topics_with_con = $paragraph_field[$key]['target_id'];
+              $view->result[$key]->node__field_topics_with_content_and_fe_field_topics_with_con_1 = $paragraph_field[$key]['target_revision_id'];
+            }
+          }
+        }
+      }
+    }
+
+    // Location Detail page Title Block.
+    if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_banner')) {
+      /* Iterate the results */
+      foreach ($view->result as $key => $value) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($value->_entity->id());
+        if (strval($vid) != $value->_entity->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+
+          // Set Latest Title, Address Info, Phone, Images, Email,Fax.
+          $view->result[$key]->_entity->set('title', $nodeRevision->get('title')->value);
+          $view->result[$key]->_entity->set('field_address_info', $nodeRevision->get('field_address_info')->getValue());
+          $view->result[$key]->_entity->set('field_phone', $nodeRevision->get('field_phone')->getValue());
+          $view->result[$key]->_entity->set('field_address_geofield', $nodeRevision->get('field_address_geofield')->getValue());
+          $view->result[$key]->_entity->set('field_email', $nodeRevision->get('field_email')->getValue());
+          $view->result[$key]->_entity->set('field_fax', $nodeRevision->get('field_fax')->getValue());
+
+          if (!empty($nodeRevision->get('field_address_info')->getValue())) {
+            // View Address Info Individual Fields.
+            $view->result[$key]->node__field_address_info_field_address_info_address_line1 = $nodeRevision->get('field_address_info')->getValue()[0]['address_line1'];
+            $view->result[$key]->node__field_address_info_field_address_info_address_line2 = $nodeRevision->get('field_address_info')->getValue()[0]['address_line2'];
+            $view->result[$key]->node__field_address_info_field_address_info_locality = $nodeRevision->get('field_address_info')->getValue()[0]['locality'];
+            $view->result[$key]->node__field_address_info_field_address_info_postal_code = $nodeRevision->get('field_address_info')->getValue()[0]['postal_code'];
+          }
+          else {
+            unset($view->result[$key]->node__field_address_info_field_address_info_address_line1);
+            unset($view->result[$key]->node__field_address_info_field_address_info_address_line2);
+            unset($view->result[$key]->node__field_address_info_field_address_info_locality);
+            unset($view->result[$key]->node__field_address_info_field_address_info_postal_code);
+          }
+
+          // Set the Desktop Banner image based on node revision.
+          if (!empty($nodeRevision->get('field_desktop_banner_image')->getValue()[0]['target_id'])) {
+            $view->result[$key]->_entity->set('field_desktop_banner_image', $nodeRevision->get('field_desktop_banner_image')->getValue()[0]['target_id']);
+            if (!empty($view->result[$key]->_entity->get('field_desktop_banner_image'))) {
+              // Set the media image.
+              $media = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_desktop_banner_image')->getValue()[0]['target_id']);
+              $view->result[$key]->_relationship_entities['field_desktop_banner_image'] = $media;
+            }
+          }
+          else {
+            unset($view->result[$key]->_entity->field_desktop_banner_image);
+            unset($view->result[$key]->_relationship_entities['field_desktop_banner_image']);
+          }
+
+          // Set the Mobile Banner image based on node revision.
+          if (!empty($nodeRevision->get('field_mobile_banner_image')->getValue()[0]['target_id'])) {
+            $view->result[$key]->_entity->set('field_mobile_banner_image', $nodeRevision->get('field_mobile_banner_image')->getValue()[0]['target_id']);
+            if (isset($view->result[$key]->_relationship_entities['field_mobile_banner_image'])) {
+              // Set the media document.
+              $media_document = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_mobile_banner_image')->getValue()[0]['target_id']);
+              $view->result[$key]->_relationship_entities['field_mobile_banner_image'] = $media_document;
+            }
+          }
+          else {
+            unset($view->result[$key]->_entity->field_mobile_banner_image);
+            unset($view->result[$key]->_relationship_entities['field_mobile_banner_image']);
+          }
+        }
+      }
+    }
+    // Location detail Page Gallery.
+    if ((($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_gallery')) || (($view->id() == 'location_detail_page') && ($view->current_display == 'block_4'))) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_gallery')) {
+            $paragraph_field = $nodeRevision->get('field_gallery')->getValue();
+            $revision_paragraph_count = count($paragraph_field);
+
+            // If the New revision have more paragraph content.
+            if ($revision_paragraph_count > $view_results_count) {
+              $new_content = $revision_paragraph_count - $view_results_count;
+              // Add the new content.
+              for ($i = 1; $i <= $new_content; $i++) {
+                $paragraph_value = new ResultRow();
+                $paragraph_value->_entity = $nodeRevision;
+                $paragraph_value->index = (($view_results_count - 1) + $i);
+                $paragraph_value->nid = $nid;
+                $view->result[] = $paragraph_value;
+              }
+            }
+
+            foreach ($view->result as $key => $value) {
+              if (($revision_paragraph_count - 1) < $key) {
+                unset($view->result[$key]);
+              }
+              else {
+                $view->result[$key]->_entity->set('field_gallery', $nodeRevision->get('field_gallery')->getValue());
+                $media = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_gallery')->getValue()[$key]['target_id']);
+                // Set the media image.
+                $view->result[$key]->_relationship_entities['field_gallery'] = $media;
+                $view->result[$key]->media_field_data_node__field_gallery_mid = $paragraph_field[$key]['target_id'];
+              }
+            }
+          }
+          if (($view->id() == 'location_detail_page') && ($view->current_display == 'block_4')) {
+            if (empty($view->result)) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = 0;
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+            foreach ($view->result as $key => $value) {
+              $view->result[$key]->_entity->set('field_location_alert_date_range', $nodeRevision->get('field_location_alert_date_range')->getValue());
+
+              // Get the current date in UTC Format.
+              $date = new DrupalDateTime();
+              $date->setTimezone(new \DateTimeZone('UTC'));
+              $current_date = $date->format("Y-m-d\\TH:i:s");
+
+              if (!empty($view->result[$key]->_entity->get('field_location_alert_date_range')->getValue())) {
+                $start_date = $view->result[$key]->_entity->get('field_location_alert_date_range')->getValue()[0]['value'];
+                $end_date = $view->result[$key]->_entity->get('field_location_alert_date_range')->getValue()[0]['end_value'];
+
+                if (($start_date <= $current_date) && ($end_date > $current_date)) {
+                  $view->result[$key]->_entity->set('field_location_alert', [
+                    'value' => $nodeRevision->get('field_location_alert')->value,
+                    'summary' => $nodeRevision->get('field_location_alert')->summary,
+                    'format' => $nodeRevision->get('field_location_alert')->format,
+                  ]);
+                }
+                else {
+                  $view->result[$key]->_entity->set('field_location_alert', [
+                    'value' => '',
+                    'summary' => '',
+                    'format' => $nodeRevision->get('field_location_alert')->format,
+                  ]);
+                }
+              }
+              else {
+                $view->result[$key]->_entity->set('field_location_alert', [
+                  'value' => '',
+                  'summary' => '',
+                  'format' => $nodeRevision->get('field_location_alert')->format,
+                ]);
+              }
+            }
+          }
+        }
+      }
+    }
+    // Location detail page FAQ Paragraph.
+    if ((($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_faq')) || (($view->id() == 'detail_page') && ($view->current_display == 'block_6'))) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          $paragraph_field = $nodeRevision->get('field_faq')->getValue();
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            if (($revision_paragraph_count - 1) < $key) {
+              unset($view->result[$key]);
+            }
+            else {
+              $view->result[$key]->_entity->set('field_faq', $nodeRevision->get('field_faq')->getValue());
+              $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->loadRevision($nodeRevision->get('field_faq')->getValue()[$key]['target_revision_id']);
+              // Set the media image.
+              $view->result[$key]->_relationship_entities['field_faq'] = $paragraph;
+              $view->result[$key]->paragraphs_item_field_data_node__field_faq_id = $paragraph_field[$key]['target_id'];
+            }
+          }
+        }
+      }
+    }
+    // Location detail page Resources Paragraph.
+    if ((($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_resource')) || (($view->id() == 'detail_page') && ($view->current_display == 'block_4'))) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Load latestRevision.
+        $nodeRevision = $entityTypeManager->loadRevision($vid);
+        // Check if the latest revision exists.
+        if ((!empty($nodeRevision)) && (!$nodeRevision->isDefaultRevision())) {
+          $paragraph_field = $nodeRevision->get('field_resources')->getValue();
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            if (($revision_paragraph_count - 1) < $key) {
+              unset($view->result[$key]);
+            }
+            else {
+              $view->result[$key]->_entity->set('field_resources', $nodeRevision->get('field_resources')->getValue());
+              $paragraph_revision = \Drupal::entityTypeManager()->getStorage('paragraph')->loadRevision($paragraph_field[$key]['target_revision_id']);
+              // Set the media image.
+              $view->result[$key]->_relationship_entities['field_resources'] = $paragraph_revision;
+
+              $view->result[$key]->paragraphs_item_field_data_node__field_resources_id = $paragraph_field[$key]['target_id'];
+              if (!empty($paragraph_revision->get('field_image')->getValue())) {
+                $media = \Drupal::entityTypeManager()->getStorage('media')->load($paragraph_revision->get('field_image')->getValue()[0]['target_id']);
+                $view->result[$key]->_relationship_entities['field_image'] = $media;
+                $view->result[$key]->media_field_data_paragraph__field_image_mid = $paragraph_revision->get('field_image')->getValue()[0]['target_id'];
+              }
+            }
+          }
+        }
+      }
+    }
+    // Detail page Banner.
+    if ((($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_about')) || (($view->id() == 'detail_page') && ($view->current_display == 'block_3'))) {
+
+      /* Iterate the results */
+      foreach ($view->result as $key => $value) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($value->_entity->id());
+        if (strval($vid) != $value->_entity->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+
+          if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_about')) {
+
+            // Set Latest Title,Parking and CTA Link.
+            $view->result[$key]->_entity->set('title', $nodeRevision->get('title')->value);
+            $view->result[$key]->_entity->set('field_parking', $nodeRevision->get('field_parking')->getValue());
+            $view->result[$key]->_entity->set('field_visiting_hours', $nodeRevision->get('field_visiting_hours')->getValue());
+            $view->result[$key]->_entity->set('field_emergency_hours', $nodeRevision->get('field_emergency_hours')->getValue());
+            $view->result[$key]->_entity->set('field_address_geofield', $nodeRevision->get('field_address_geofield')->getValue());
+          }
+          // Set the About Description.
+          $view->result[$key]->_entity->set('field_about_description', [
+            'value' => $nodeRevision->get('field_about_description')->value,
+            'summary' => $nodeRevision->get('field_about_description')->summary,
+            'format' => $nodeRevision->get('field_about_description')->format,
+          ]);
+
+        }
+      }
+    }
+
+    // Location detail page services field.
+    if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_services')) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          $paragraph_field = $nodeRevision->get('field_services')->getValue();
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            if (($revision_paragraph_count - 1) < $key) {
+              unset($view->result[$key]);
+            }
+            else {
+              $paragraph_revision = \Drupal::entityTypeManager()->getStorage('node')->load($paragraph_field[$key]['target_id']);
+              $view->result[$key]->_relationship_entities['field_services'] = $paragraph_revision;
+              $view->result[$key]->node__field_services_delta = $key;
+              $view->result[$key]->_entity->set('field_services', $nodeRevision->get('field_services')->getValue());
+              $view->result[$key]->node__field_services_field_services_target_id = $paragraph_field[$key]['target_id'];
+              $view->node_field_data_node__field_services_title = $paragraph_revision->getTitle();
+              $view->result[$key]->node_field_data_node__field_services_nid = $paragraph_field[$key]['target_id'];
+            }
+          }
+        }
+      }
+    }
+
+    // Location detail page Amenities Fields.
+    if (($view->id() == 'location_detail_page') && ($view->current_display == 'location_detail_amenities')) {
+
+      // Get the node id form the contextual filter.
+      $nid = $view->args[0];
+      $view_results_count = count($view->result);
+      if (!empty($nid)) {
+        // Get entityTypeManager.
+        $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+        // Load the node.
+        $node_load = $entityTypeManager->load($nid);
+        // Get latest revision ID.
+        $vid = $entityTypeManager->getLatestRevisionId($nid);
+        // Check if the latest revision exists.
+        if (strval($vid) != $node_load->getRevisionId()) {
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          $paragraph_field = $nodeRevision->get('field_amenities')->getValue();
+          $default_amenities_value = count($node_load->get('field_amenities')->getValue());
+          $revision_paragraph_count = count($paragraph_field);
+
+          // If the New revision have more paragraph content.
+          if ($revision_paragraph_count > $view_results_count) {
+            $new_content = $revision_paragraph_count - $view_results_count;
+            // Add the new content.
+            for ($i = 1; $i <= $new_content; $i++) {
+              $paragraph_value = new ResultRow();
+              $paragraph_value->_entity = $nodeRevision;
+              $paragraph_value->index = (($view_results_count - 1) + $i);
+              $paragraph_value->nid = $nid;
+              $view->result[] = $paragraph_value;
+            }
+          }
+
+          foreach ($view->result as $key => $value) {
+            if (($revision_paragraph_count - 1) < $key) {
+              unset($view->result[$key]);
+            }
+            else {
+              $view->result[$key]->_entity->set('field_amenities', $nodeRevision->get('field_amenities')->getValue());
+              $paragraph_revision = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($paragraph_field[$key]['target_id']);
+
+              // Set the Desktop Banner image based on node revision.
+              if (!empty($paragraph_revision->get('field_icon')->getValue()[0]['target_id'])) {
+                // Set the media image.
+                $media = \Drupal::entityTypeManager()->getStorage('media')->load($paragraph_revision->get('field_icon')->getValue()[0]['target_id']);
+                if (!empty($media) && !(empty($media->id()))) {
+                  $view->result[$key]->_relationship_entities['field_icon'] = $media;
+                  $view->result[$key]->media_field_data_taxonomy_term__field_icon_mid = $media->id();
+                }
+              }
+
+              $view->result[$key]->_relationship_entities['field_amenities'] = $paragraph_revision;
+              $view->result[$key]->taxonomy_term_field_data_node__field_amenities_tid = $paragraph_field[$key]['target_id'];
+            }
+          }
+        }
+      }
+    }
+    
+    
+
+
+
+    // Service Detail page Banner.
+   if (($view->id() == 'service_detail') && ($view->current_display == 'banner_block')) {
+      // Get the Service node id form the contextual filter.
+      $nid = $view->args[0];
+      if (!empty($nid)) {
+        // Iterate the results 
+        foreach ($view->result as $key => $value) {
+          // Get entityTypeManager.
+          $entityTypeManager = \Drupal::entityTypeManager()->getStorage('node');
+          // Get latest revision ID.
+          $vid = $entityTypeManager->getLatestRevisionId($nid);
+          // Load latestRevision.
+          $nodeRevision = $entityTypeManager->loadRevision($vid);
+          if ((!empty($nodeRevision)) && (!$nodeRevision->isDefaultRevision())) {
+
+            // Setting the view values.
+            $view->result[$key]->_relationship_entities['field_services'] = $nodeRevision;
+
+            // Set the Desktop Image based on node revision.
+            if (!empty($nodeRevision->get('field_img')->getValue()[0]['target_id'])) {
+              // Set the Desktop media image.
+              $media = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_img')->getValue()[0]['target_id']);
+              $view->result[$key]->_relationship_entities['field_img'] = $media;
+              $view->result[$key]->media_field_data_node__field_img_mid = $nodeRevision->get('field_img')->getValue()[0]['target_id'];
+            }
+            else {
+              unset($view->result[$key]->_relationship_entities['field_img']);
+              unset($view->result[$key]->media_field_data_node__field_img_mid);
+            }
+
+            // Set the Mobile Banner image based on node revision.
+            if (!empty($nodeRevision->get('field_mobile_image')->getValue()[0]['target_id'])) {
+              // Set the Mobile media Image.
+              $media_mobile = \Drupal::entityTypeManager()->getStorage('media')->load($nodeRevision->get('field_mobile_image')->getValue()[0]['target_id']);
+              $view->result[$key]->_relationship_entities['field_mobile_image'] = $media_mobile;
+              $view->result[$key]->media_field_data_node__field_mobile_image_mid = $nodeRevision->get('field_mobile_image')->getValue()[0]['target_id'];
+            }
+            else {
+              unset($view->result[$key]->_relationship_entities['field_mobile_image']);
+              unset($view->result[$key]->media_field_data_node__field_mobile_image_mid);
+            }
+          }
+        }
+      }
+    }
+  }
+ 
+  //Newly Added-Default location banner
+  if (($view->id() == 'service_detail') && (($view->current_display == 'banner_block') || $view->current_display == 'default_banner')) {
+    // Get the Query Parameter
+    $lid = \Drupal::request()->query->get('lid');
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if (!empty($node) && $node instanceof NodeInterface) {
+      // If Query parameter is present
+      if (!empty($lid)) {
+        $location = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_id' => $lid]);
+        if (!empty($location)) {
+          $key = array_key_first($location);
+          $nodes = array_column($location[$key]->get('field_services')->getValue(),'target_id');
+          if (in_array($node->id(), $nodes)) {
+            if (($view->id() == 'service_detail') && ($view->current_display == 'default_banner')) {
+              $view->result = [];
+            }
+          }
+          else{
+            if (($view->id() == 'service_detail') && ($view->current_display == 'banner_block')) {
+              $view->result = [];
+            }
+          }
+        }
+        else{
+          if (($view->id() == 'service_detail') && ($view->current_display == 'banner_block')) {
+            $view->result = [];
+          }
+        }
+      }
+      else {
+        if (($view->id() == 'service_detail') && ($view->current_display == 'banner_block')) {
+          $view->result = [];
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert() for 'paragraph'.
+ */
+function interior_health_common_paragraph_insert(EntityInterface $paragraph) {
+  $parent_field_name = $paragraph->parent_field_name->value;
+  $parent_id = $paragraph->parent_id->value;
+  if (!empty($parent_field_name) && !empty($parent_id)) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_id' => $parent_id]);
+    if (!empty($node)) {
+      foreach ($node as $key => $value) {
+        $node = $value;
+        $paragraph->parent_id->value = $key;
+        $paragraph->save();
+      }
+      if ($node) {
+        // Check if node already has a reference to this paragraph.
+        foreach ($node->{$parent_field_name} as $item) {
+          if ($item->target_id == $paragraph->id()) {
+            // Paragraph found. Abort.
+            return;
+          }
+        }
+        $node->{$parent_field_name}[] = $paragraph;
+        $node->save();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for 'paragraph'.
+ */
+function interior_health_common_paragraph_delete(EntityInterface $paragraph) {
+  $parent_field_name = $paragraph->parent_field_name->value;
+  $parent_id = $paragraph->parent_id->value;
+  if (!empty($parent_field_name) && !empty($parent_id)) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($parent_id);
+    if ($node) {
+      // Check if node already has a reference to this paragraph.
+      foreach ($node->{$parent_field_name} as $key => $item) {
+        if ($item->target_id == $paragraph->id()) {
+          unset($node->{$parent_field_name}[$key]);
+          $node->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function interior_health_common_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if (($view->id() == 'stories_listing_page') && (($view->getDisplay()->display['id'] == 'recent_stories') || ($view->getDisplay()->display['id'] == 'more_stories'))) {
+
+    $nids           = [];
+    $values         = [];
+    $taxonomy_terms = [];
+
+    // Taxonomy terms.
+    $taxonomy_query = \Drupal::database()->select('taxonomy_term_field_data', 'ttfd');
+    $taxonomy_query->fields('ttfd', ['tid']);
+    $taxonomy_query->condition('ttfd.vid', 'stories_news_category_');
+    $taxonomy_query->condition('ttfd.status', 1);
+    $taxonomy_query->join('taxonomy_term__parent', 'ttp', 'ttp.entity_id = ttfd.tid');
+    $taxonomy_query->condition('ttp.parent_target_id', 59);
+    $database_query = $taxonomy_query->execute()->fetchAllAssoc('tid');
+
+    // Removing the latest five featured content
+    // from the recent stories and the more stories Block.
+    if (!empty($database_query)) {
+      $taxonomy_terms = array_keys($database_query);
+      $nid_query = \Drupal::database()->select('node_field_data', 'nfd');
+      $nid_query->fields('nfd', ['nid', 'created']);
+      $nid_query->join('node__field_featured', 'nfed', 'nfed.entity_id = nfd.nid');
+      $nid_query->condition('nfed.field_featured_value', 1);
+      $nid_query->join('node__field_category', 'nfc', 'nfc.entity_id = nfd.nid');
+      $nid_query->condition('nfc.field_category_target_id', $taxonomy_terms, 'IN');
+      $nid_query->distinct('nfd.nid');
+      $nid_query->condition('nfd.type', 'stories_news');
+      $nid_query->condition('nfd.status', 1);
+      $nid_query->orderBy('nfd.created', 'DESC');
+      $nid_query->range(0, 5);
+      $values = $nid_query->execute()->fetchAllAssoc('nid');
+    }
+    $nids = array_keys($values);
+    if (!empty($nids)) {
+      $query->where[count($query->where)]['conditions'][] = [
+        'field' => 'node_field_data.nid',
+        'value' => $nids,
+        'operator' => 'NOT IN',
+      ];
+      $query->where[count($query->where)]['type'] = 'AND';
+    }
+  }
+  
+  if (($view->id() == 'location_listing_page') && ($view->getDisplay()->display['id'] == 'page_1')) {
+    if (isset($query->fields['node__field_location_type_field_location_type_target_id'])) {
+      $query->fields['node__field_location_type_field_location_type_target_id']['function'] = 'count_distinct';
+    }
+  }
+}
+
+function interior_health_common_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+   
+  if((isset($root_path->getcacheTags()[1]) && $root_path->getcacheTags()[1] == 'webform:safe_reporting_e_form') || (isset($root_path->getcacheTags()[0]) && $root_path->getcacheTags()[0] == 'node:322' ) && isset($data['tabs'][0]))  {
+    foreach ($data['tabs'][0] as $key => $tab){
+      if($data['tabs'][0][$key]['#link']['title'] == "Results"){
+        $data['tabs'][0][$key]['#access'] = FALSE;
+      }
+    }
+  }
+}
+

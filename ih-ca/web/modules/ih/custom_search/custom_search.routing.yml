@@ -1,0 +1,15 @@
+popular_topics.settings:
+  path: '/admin/search/popular-topics'
+  defaults:
+    _form: '\Drupal\custom_search\Form\PopularTopics'
+    _title: 'Search - Popular Topics'
+  requirements:
+    _permission: 'administer site configuration'
+
+quick_links.settings:
+  path: '/admin/search/quick-links'
+  defaults:
+    _form: '\Drupal\custom_search\Form\QuickLinks'
+    _title: 'Search - Quick Links'
+  requirements:
+    _permission: 'administer site configuration'

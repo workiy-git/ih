@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>72CA723A-EBD9-469B-A0A6-6734F5BF72AA</title>
+    <defs>
+        <linearGradient x1="100%" y1="100%" x2="24.565918%" y2="29.715332%" id="linearGradient-1">
+            <stop stop-color="#4DBBC6" offset="0%"></stop>
+            <stop stop-color="#005AA2" offset="100%"></stop>
+        </linearGradient>
+        <filter color-interpolation-filters="auto" id="filter-2">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.000000 0 0 0 0 0.352941 0 0 0 0 0.635294 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Content-Detail-Opt-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop.Content.Detail.Aboriginal-Health-Wellness" transform="translate(-359.000000, -4304.000000)">
+            <g id="Group-4" transform="translate(359.000000, 4304.000000)">
+                <g id="icon" fill="#FFFFFF" stroke="url(#linearGradient-1)" stroke-width="2">
+                    <rect id="bg" x="1" y="1" width="48" height="48" rx="4"></rect>
+                </g>
+                <g filter="url(#filter-2)" id="Icon-/-L-/-icon-location-fat-outline">
+                    <g transform="translate(7.000000, 8.000000)">
+                        <polygon id="Shape" points="0 0 33.3333333 0 33.3333333 33.3333333 0 33.3333333"></polygon>
+                        <path d="M18.0555556,0 C11.1448413,0 5.55555556,5.21666667 5.55555556,11.6666667 C5.55555556,20.4166667 18.0555556,33.3333333 18.0555556,33.3333333 C18.0555556,33.3333333 30.5555556,20.4166667 30.5555556,11.6666667 C30.5555556,5.21666667 24.9662698,0 18.0555556,0 Z M18.0555556,16.6666667 C15.7555556,16.6666667 13.8888889,14.8 13.8888889,12.5 C13.8888889,10.2 15.7555556,8.33333333 18.0555556,8.33333333 C20.3555556,8.33333333 22.2222222,10.2 22.2222222,12.5 C22.2222222,14.8 20.3555556,16.6666667 18.0555556,16.6666667 Z" id="Icon-/-icon-location" stroke="#4D4D4D" stroke-width="1.5" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

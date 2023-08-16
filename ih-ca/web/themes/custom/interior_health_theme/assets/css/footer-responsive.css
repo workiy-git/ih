@@ -1,0 +1,28 @@
+@media (max-width:992px){
+.footer-main .region-footer-right nav {
+    display: none;
+}
+.footer-main .region-footer-right {
+    padding: 20px 10px 0 10px;
+    width: 100%;
+    flex-flow: column;
+    margin: 0;
+}
+#block-socialmediaicons ul li {
+    padding: 0px 16px;
+}
+.region.region-bottom-bar {}
+
+.footer-copyright {
+    padding: 15px 20px;
+}
+}
+
+
+
+
+
+
+
+
+

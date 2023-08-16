@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_theme().
+ */
+function custom_search_theme() {
+  return [
+    'global_search_popup_block' => [
+      'variables' => [
+        'popular_topics' => [],
+        'quick_links' => [],
+      ],
+    ],
+    'homepage_global_search_block' => [
+      'variables' => [
+        'welcome_arr' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function custom_search_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+	
+	if (($form_id == "views_exposed_form") && ($form['#id'] == "views-exposed-form-global-search-page-1") ){
+		$form['#attributes']['class'][] = 'ih-search-form-wrapper';
+	}
+
+	$current_path = \Drupal::service('path.current')->getPath();
+  if (($form_id == "views_exposed_form") && ($form['#id'] == "views-exposed-form-global-search-page-1") && ($current_path == "/search")) {
+    $form['#prefix'] = "<div class='search-page-filter-form'";
+    $form['#suffix'] = "</div>";
+    $form['actions']['submit']['#suffix'] = "<div class='reset-search'><a href='search' class='reset-link'>Clear All</a></div>";
+  }	
+
+}

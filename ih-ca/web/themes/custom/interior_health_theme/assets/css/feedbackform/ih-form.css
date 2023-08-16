@@ -1,0 +1,149 @@
+/* common form layout */
+
+.ih-form select, .ih-form input {
+    outline: 0;
+}
+.ih-form .form-item {
+    margin-top: 0;
+    margin-bottom: 15px;
+    position: relative;
+    flex: 1 0 100%;
+}
+.ih-form label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translate(0px, -50%);
+}
+.ih-form .form-type-textarea label{
+    top: 20px;
+}
+.ih-form select {
+    padding: 12px 16px;
+    width: 100%;
+    border: 1px solid #4d4d4d;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent url("/themes/custom/interior_health_theme/assets/images/arrow-down.svg") no-repeat calc(100% - 20px) center;
+    border-radius: 4px;
+}
+.ih-form input, .ih-form textarea {
+    padding: 13px 16px;
+    width: 100%;
+    border: 1px solid #4d4d4d;
+    border-radius: 4px;
+    margin: 0;
+}
+.ih-form input:focus, .ih-form textarea:focus, .ih-form select:focus {
+    border: 1px solid #005aa2;
+}
+.ih-form input:focus+label,.ih-form select:focus+label, .ih-form textarea>.form-textarea-wrapper:focus+label, .ih-form .floating-label label {
+    font-size: 12px;
+    left: 16px;
+    top: 2px;
+    transition: top 0.3s;
+    color: #005aa2;
+    line-height: 16px;
+    transform: translate(0px, 0px);
+}
+.ih-form input:focus, .ih-form select:focus {
+    outline: none;
+}
+.ih-form .form-actions {
+    text-align: center;
+}
+
+.ih-form .form-item--error-message {
+    position: absolute;
+    top: 13px;
+    right: 0;
+}
+
+.ih-form .form-item--error-message::before {
+    display: none;
+}
+
+.ih-form .form-required:after {
+    background: none;
+}
+
+.ih-form .form-item--error-message .info {
+    width: 15px;
+    height: 15px;
+    background: url("/themes/custom/interior_health_theme/assets/images/error-info.svg") no-repeat center center;
+    background-size: 20px;
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: auto;
+    right: 15px;
+    cursor: pointer;
+}
+
+.ih-form .form-type-textarea .form-item--error-message .info {
+    top: 0px;
+}
+
+.ih-form .form-item--error-message .info + strong {
+    position: relative;
+    background: #d60013;
+    top: -75px;
+    right: 0px;
+    left: auto;
+    max-width: 170px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5em;
+    padding: 15px 15px 15px 15px;
+    border-radius: 10px;
+    display: none;
+}
+
+.ih-form .form-item--error-message .info + strong::after {
+    content: '';
+    width: 65px;
+    height: 20px;
+    background: #d60013;
+    position: absolute;
+    top: auto;
+    bottom: -20px;
+    right: 10px;
+    clip-path: polygon(0 0, 100% 0, 80% 0, 80% 65%, 20% 0);
+    border: 0;
+}
+
+.ih-form .form-item--error-message .close {
+    float: none;
+    width: 24px;
+    height: 24px;
+    background: #fff url("/themes/custom/interior_health_theme/assets/images/close-red.svg") no-repeat center center;
+    background-size: 15px;
+    top: -85px;
+    right: 0px;
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 1;
+    display: none;
+    border: 1px solid #d60013;
+}
+
+.ih-form .form-type-select .info {
+    right: 40px;
+}
+
+.ih-form .form-type-select .form-item--error-message .info + strong {
+     right: 25px;
+}
+.ih-form .form-type-select .close {
+    right: 20px;
+}
+
+.close:not(:disabled):not(.disabled):focus, .close:not(:disabled):not(.disabled):hover {
+    opacity: 1;
+}
+
+/* .ih-form .form-item--error-message .info:hover + strong , 
+.ih-form .form-item--error-message .info:hover + strong + .close {
+    display: block;
+} */

@@ -1,0 +1,37 @@
+<footer class="footer">
+  <div class="footer-main">
+    <div class="line-footer-top" id="line"></div>
+      <div class="container">
+        <div class="row">
+          <!-- FOOTER LEFT -->
+          {% if page.footer_left %}
+            <div class="col-12 col-lg-6 text-center footer-left">
+              {{ page.footer_left }}
+            </div>
+          {% endif %}
+          <!-- FOOTER LEFT -->
+          <!-- FOOTER RIGHT -->
+          {% if page.footer_right %}
+            <div class="col-12 col-lg-6 text-center footer-right">
+                {{ page.footer_right }}
+            </div>
+          {% endif %}
+          <!-- FOOTER RIGHT -->
+        </div>
+      </div>
+  </div>
+  <div class="footer-submain">
+    {% if page.bottom_bar %}
+      <!-- BOTTOM BAR -->
+      <div class="line-footer-bottom" id="line"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center footer-copyright">
+            {{ page.bottom_bar }}
+          </div>
+        </div>
+      </div>
+      <!-- BOTTOM BAR -->
+    {% endif %}
+  </div>
+</footer>

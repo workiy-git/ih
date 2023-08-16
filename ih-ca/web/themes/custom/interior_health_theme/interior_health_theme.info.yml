@@ -1,0 +1,30 @@
+name: Interior Health
+type: theme
+description: 'A custom theme'
+core: 8.x
+core_version_requirement: ^8 || ^9
+base theme: classy
+
+libraries:
+  - interior_health_theme/global-styling
+  - interior_health_theme/global-header
+  - interior_health_theme/global-search
+  - interior_health_theme/social-media
+  - interior_health_theme/contact-media
+
+ckeditor_stylesheets:
+  - assets/css/ckeditor.css
+
+regions:
+  top_bar: 'Top bar'
+  top_menu_bar: 'Top menu bar'
+  header_left: 'Header Left'
+  header_right: 'Header Right'
+  banner: 'Banner'
+  highlighted: 'Highlighted'
+  sidebar_first: 'Sidebar First'
+  content: 'Content'
+  sidebar_second: 'Sidebar Second'
+  footer_left: 'Footer Left'
+  footer_right: 'Footer Right'
+  bottom_bar: 'Bottom Bar'

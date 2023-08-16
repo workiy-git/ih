@@ -1,0 +1,18 @@
+name = Webform Checkbox Total
+description = A custom module that adds a total amount based on selected checkboxes in the Drupal Webform module
+core = 8.x
+dependencies[] = webform
+
+scripts[] = webform_checkbox_total.js
+
+(function($) {
+  $(document).ready(function() {
+    $(':checkbox').change(function() {
+      var total = 0;
+      $(':checkbox:checked').each(function() {
+        total += parseInt($(this).val());
+      });
+      $('#total').val(total);
+    });
+  });
+})(jQuery);

@@ -1,0 +1,142 @@
+.media-release {
+  color: #4d4d4d;
+  margin: 50px 0px;
+}
+
+.media-release-title {
+  font-size: 24px;
+  line-height: 1.33em;
+  font-weight: 600;
+}
+
+.media-para {
+  font-size: 16px;
+  line-height: 1.5em;
+  margin: 10px 0px 30px 0px;
+}
+.contact-card {
+  background: #f2f2f2;
+  padding: 30px 30px 47px 30px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+.contact-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.33em;
+  margin-bottom: 30px;
+}
+.contact-card-link {
+  font-size: 16px;
+  line-height: 1.5em;
+  display: block;
+  position: relative;
+  color: #4d4d4d;
+  padding-left: 44px;
+  margin-bottom: 15px;
+  word-break: break-all;
+}
+.contact-card-link::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: steelblue;
+  top: 0px;
+  left: 0px;
+}
+.contact-card-link:hover {
+  color: #4d4d4d;
+}
+.contact-card-number::before {
+    background: url("/themes/custom/interior_health_theme/assets/images/sprite.png") no-repeat -130px -61px;
+}
+.contact-card-mail::before {
+  background: url("/themes/custom/interior_health_theme/assets/images/email.svg") no-repeat 65%;
+  background-size: 17px;
+}
+.contact-card-message {
+  font-size: 14px;
+  line-height: 1.57em;
+  margin-top: 10px;
+}
+/* accordian styles */
+.accordian-items {
+  margin: 50px 0px;
+  color: #4d4d4d;
+}
+.accordian-items .acc-title {
+  font-family: "Montserrat-Medium";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  color: #4e4e56;
+  border-bottom: solid 1px #d1d1d1;
+  margin-bottom: 25px;
+  position: relative;
+  cursor: pointer;
+  padding-right: 30px;
+}
+.accordian-items .acc-title::after {
+  position: absolute;
+  content: "";
+  background: url("/themes/custom/interior_health_theme/assets/images/sprite.png") no-repeat -31px -96px;
+  width: 1.25rem;
+  height: 1.25rem;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease-in-out;
+  background-position: -40px 0px;
+}
+
+.accordian-items .acc-title.active::after {
+  transform: translate(-50%, -50%) rotate(270deg);
+}
+.accordian-items .acc-sub-title {
+  font-family: "Montserrat-Medium";
+  font-size: 18px;
+  line-height: 1.78em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.accordian-items .acc-para {
+  font-size: 16px;
+  line-height: 1.5em;
+  margin-bottom: 30px;
+}
+.acc-content {
+  display: none;
+}
+.accordian-items li {
+  list-style-type: none;
+}
+.accordian-items ol li {
+  list-style-type: unset;
+}
+
+@media (min-width: 992px) {
+  .media-release-title {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: bold;
+  }
+  .media-para {
+    margin-bottom: 50px;
+  }
+  .contact-cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .contact-card {
+    flex: 0 0 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+  }
+  .contact-card:nth-child(odd) {
+    margin-right: 15px;
+  }
+  .contact-card:nth-child(even) {
+    margin-left: 15px;
+  }
+}

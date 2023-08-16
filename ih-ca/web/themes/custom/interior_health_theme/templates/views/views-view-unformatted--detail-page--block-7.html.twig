@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set row_classes = [
+    default_row_class ? 'views-row',
+  ]
+%}
+{% for key,row in rows %}
+{{ drupal_block('system_breadcrumb_block') }}
+{% set myVal = 0 %}
+{% for key2,item in row.content['#row']._entity.field_topics_with_content_and_fe %}
+  {% if (item.entity.bundle != 'video') and (item.entity.bundle != 'testimonial') %}
+    {% if item.entity.field_show_in_explore_this_page.value %}
+      {% set myVal = myVal + 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if myVal > 0 %}
+  <div class="tab-link-section">
+    <div class="selectBox">
+      <div class="selectBox__value">Explore this page</div>
+      <div class="dropdown-menu">
+        {% for key2,item in row.content['#row']._entity.field_topics_with_content_and_fe %}
+          {% if (item.entity.bundle != 'video') and (item.entity.bundle != 'testimonial') %}
+            {% if item.entity.field_show_in_explore_this_page.value %}
+              <a href="#{{ item.entity.field_title.0.value|lower|preg_replace('/[^A-Za-z0-9\-]/', '-') }}" class="dropdown-item">{{ item.entity.field_title.0.value }}</a>
+            {% endif %} 
+          {% endif %}
+        {% endfor %}                 
+      </div>
+    </div>
+  </div>
+{% else %}
+  <div class="tab-link-section without-menu"></div>
+{% endif %}
+
+<div class="top-banner-header-left content-banner blue-bg-desktop">
+  <div class="top-banner-header-content text-white">
+      <h1 class="h1">{{ view.style_plugin.getField(key, 'title') }}</h1>
+      <div class="location-banner-wrapper">
+        <div class="location-desc">
+            <p class="para">{{ view.style_plugin.getField(key, 'body')|raw }}</p>
+        </div>
+      </div>
+      {% if view.style_plugin.getField(key, 'field_cta') %}
+        <div class="location-cta hub-cta">{{ view.style_plugin.getField(key, 'field_cta') }}</div>
+      {% endif %}
+  </div>
+  <div class="location-image">
+      <picture>
+          <source media="(min-width:992px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+          <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="location">
+      </picture>
+  </div>
+</div>
+{% endfor %}

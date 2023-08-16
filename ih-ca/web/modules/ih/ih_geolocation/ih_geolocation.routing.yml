@@ -1,0 +1,14 @@
+ih-geolocation.getdistances:
+  path: '/get-distances'
+  defaults:
+    _controller: '\Drupal\ih_geolocation\Controller\DistanceMatrixController::getDistances'
+    _title: 'Get Distances'
+  requirements:
+    _permission: 'access content'
+ih-geolocation.getmapkey:
+  path: '/get-mapkey'
+  defaults:
+    _controller: '\Drupal\ih_geolocation\Controller\DistanceMatrixController::getMapKey'
+    _title: 'Get Map Key'
+  requirements:
+    _permission: 'access content'

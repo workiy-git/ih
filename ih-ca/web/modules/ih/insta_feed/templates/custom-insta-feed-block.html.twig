@@ -1,0 +1,13 @@
+{% if output.noresult %}
+	<p>{{ output.noresult }}</p>
+{% else %}
+	<div class="instagram-slider">
+		{% for row in output %}
+			<div class="instagram-slide-item">
+				<a href="{{ row.image.link }}" target="_blank">
+					<img src="{{ row.image.src }}" alt="group.png" />
+				</a>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}

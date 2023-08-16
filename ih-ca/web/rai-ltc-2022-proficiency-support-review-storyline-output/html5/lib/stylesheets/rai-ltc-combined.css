@@ -1,0 +1,602 @@
+/*
+<link rel="stylesheet" type="text/css" href="http://10.18.24.52/wwwroot-shane/css/stylesheet.css"/>
+*/
+
+
+[data-acc-text~="disable_cursor"] * {
+  cursor: default;
+}
+
+/* PATHS */
+[data-acc-text~="hover_grow"] path {
+  transition: all 1s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_grow"] path:hover {
+  transform: scale(1.15);
+  stroke-width: 10;
+}
+[data-acc-text~="hover_grow"] svg {
+  transition: all 1s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_grow"] svg:hover {
+  transform: scale(1.15);
+  stroke-width: 10;
+}
+[data-acc-text~="hover_grow2"] {
+  path {
+    transition: all 1s ease;
+    transform-origin: center center
+  }
+  text {
+    animation: pulse_scaleX2 2s infinite;
+    transform-origin: center center;
+  }
+}
+[data-acc-text~="hover_grow2"] path:hover {
+  transform: scale(1.15);
+  stroke-width: 10;
+}
+[data-acc-text~="hover_grow_quick"] path {
+  transition: all 0.5s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_grow_quick"] path:hover {
+  transform: scale(1.15);
+  stroke-width: 10;
+}
+[data-acc-text~="hover_shrink"] path {
+  transition: all 1s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_shrink"] path:hover {
+  transform: scale(0.85);
+  stroke-width: 10;
+}
+[data-acc-text~="hover_shrink_quick"] path {
+  transition: all 0.5s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_shrink_quick"] path:hover {
+  transform: scale(0.9);
+  stroke-width: 10;
+}
+[data-acc-text~="hover_shrinkX2"] path {
+  transition: all 1s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_shrinkX2"] path:hover {
+  transform: scale(0.65);
+  stroke-width: 10;
+}
+
+/* Text HOVERS */
+[data-acc-text~="hover_text1"] tspan {
+  filter: drop-shadow(17px 10px 11px rgb(0 0 15 / 0.4));
+}
+[data-acc-text~="hover_text1"] tspan {
+}
+
+/* IMAGES */
+[data-acc-text~="hover_grow"] image {
+  transition: all 1s ease;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_grow"] image:hover {
+  transform: scale(1.15);
+}
+[data-acc-text~="hover_lift"] image {
+  transition: all 0.75s ease-out;
+  transform-origin: center center;
+}
+[data-acc-text~="hover_lift"] image:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(17px 10px 11px rgb(0 0 15 / 0.4));
+}
+
+/* CARDS */
+[data-acc-text~="card"] path {
+  transition: all 0.75s ease;
+  filter: drop-shadow(0px 5px 5px rgb(0 0 15 / 0.4));
+}
+[data-acc-text~="card"] path:hover {
+  filter: drop-shadow(0px 10px 11px rgb(0 0 15 / 0.4));
+}
+
+/* BUTTONS */
+[data-acc-text~="button_style1"] path {
+  transition: transform 1s ease, stroke-width 0.2s ease-out, filter 1s ease;
+  transform-origin: center center;
+  filter: drop-shadow(1px 0px 2px rgb(0 0 15 / 0.3));
+  paint-order: fill stroke markers;
+}
+[data-acc-text~="button_style1"]:not(.cursor-default) path:hover {
+  filter: drop-shadow(0px 10px 4px rgb(0 0 15 / 0.3));
+  transform: scale(1.10);
+  stroke-width: 10;
+  index: 1000;
+}
+[data-acc-text~="button_style1"] path:active {
+  transition: transform 0.5s cubic-bezier(.37,2.64,.41,.8), stroke-width 0.5s ease-out, filter 0.5s ease;
+  filter: drop-shadow(0px 5px 3px rgb(0 0 15 / 0.3));
+  transform: scale(0.98);
+  stroke-width: 5;
+}
+[data-acc-text~="button_style1"]:not(.cursor-default) path:active {
+  filter: drop-shadow(0px 5px 3px rgb(0 0 15 / 0.3));
+  transform: scale(1.05);
+  stroke-width: 5;
+}
+/* BUTTON2 */
+[data-acc-text~="button_style2"] path {
+  transition: transform 1s ease, stroke-width 0.2s ease-out, filter 1s ease;
+  transform-origin: center center;
+  filter: drop-shadow(1px 0px 2px rgb(0 0 15 / 0.3));
+  paint-order: fill stroke markers;
+}
+[data-acc-text~="button_style2"] path:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0px 10px 4px rgb(0 0 15 / 0.3));
+  stroke-width: 10;
+}
+[data-acc-text~="button_style2"].cursor-default path:hover {
+  animation-name: slide-in-bck-center, shake;
+  animation-duration: 0s, 0.5s;
+  animation-timing-function: cubic-bezier(), cubic-bezier(.36,.07,.19,.97);
+  animation-fill-mode: unset, forwards;
+  stroke-width: 5;
+}
+[data-acc-text~="button_style2"] path:active {
+  filter: drop-shadow(0px 5px 3px rgb(0 0 15 / 0.3));
+  transform: scale(1.05);
+  stroke-width: 5;
+}
+[data-acc-text~="button_style2"].cursor-default path:active {
+  filter: drop-shadow(0px 5px 3px rgb(0 0 15 / 0.3));
+  transform: scale(0.98);
+  stroke-width: 5;
+}
+
+/* EFFECTS */
+[data-acc-text~="pulse_color"] path {
+	animation: pulse_color 2s infinite;
+}
+[data-acc-text~="pulse_scale"] path, [data-acc-text~="pulse_scale"] image{
+	animation: pulse_scale 2s infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="pulse_scale_invert"] path, [data-acc-text~="pulse_scale_invert"] image{
+	animation: pulse_scale_invert 2s infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="pulse_scale_invert"]:hover path, [data-acc-text~="pulse_scale_invert"]:hover image{
+	animation-play-state: paused;
+}
+[data-acc-text~="pulse_scaleX1"] path {
+	animation: pulse_scaleX1 2s infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="pulse_scaleX2"] path {
+	animation: pulse_scaleX2 2s infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="pulse_stroke"] path {
+	animation: pulse_stroke 2s infinite;
+  paint-order: stroke fill markers;
+}
+[data-acc-text~="pulse"] path {
+	animation: pulse_stroke_scale 2s infinite;
+  paint-order: stroke fill markers;
+  transform-origin: center center;
+}
+[data-acc-text~="expand_horizontal"] path {
+	animation: expand_horizontal 2s;
+}
+
+[data-acc-text~="experiment1"] path {
+	animation: pulse_stroke_scale 2s infinite;
+  paint-order: stroke fill markers;
+  transform-origin: center center;
+}
+[data-acc-text~="pulse_text"] text {
+  animation: pulse_scaleX1 2s infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="pulse_textX2"] text {
+  animation: pulse_scaleX2 2s infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="cihi_tip_pulse"] image {
+  animation: jump 1s alternate infinite;
+  transform-origin: center center;
+}
+[data-acc-text~="cihi_tip_pulse"]:hover image {
+  animation-play-state: paused;
+}
+[data-acc-text~="shake"] image, [data-acc-text~="shake"] path {
+  animation: shake 1s cubic-bezier(.36,.07,.19,.97) infinite;
+}
+
+/* ENTERANCE ANIMATIONS */
+[data-acc-text~="slide-in-bck-center"] svg {
+  animation: slide-in-bck-center 0.7s cubic-bezier(0.64, 0.57, 0.67, 1.53);
+  animation-fill-mode: forwards;
+  transform-origin: center center;
+}
+
+[data-acc-text~="delay10s_emphasis"] svg {
+  animation-delay: 7s;
+  animation-name: emphasis_rotate;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 10;
+}
+
+[data-acc-text~="card_blur"] {
+  filter: blur(7px);
+}
+
+[data-acc-text~="popin"] svg {
+  animation: popin 1.75s cubic-bezier(0.64, 0.57, 0.67, 1.53) 1;
+}
+@keyframes popin {
+  0% {
+    opacity: 0;
+    transform: scaleX(0) scaleY(0);
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1) scaleY(1);
+  }
+}
+[data-acc-text~="zoomin_from_above"] svg {
+  animation: zoomin_from_above 1.75s ease-out 1;
+}
+@keyframes zoomin_from_above {
+  0% {
+    opacity: 0;
+    transform: scaleX(50) scaleY(100) translate(50px, -100px);
+  }
+  10% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1) scaleY(1) translateY(0, 0);
+  }
+}
+
+/* KEYFRAMEES */
+@keyframes emphasis_rotate {
+  0%, 35%, 75%, 100% {
+    transform: rotate(0deg);
+  }
+  50%{
+    transform: rotate(-15deg);
+  }
+  60% {
+    transform: rotate(15deg);
+  }
+}
+@keyframes flash_fill_red {
+  0% {
+  }
+  100% {
+    fill: red;
+  }
+}
+@keyframes pulse_color {
+  0% {
+    filter: drop-shadow(0 0 0 #d3582e);
+  }
+
+  70% {
+    filter: drop-shadow(0 0 30px #47c0d4);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 0 #f8c534);
+  }
+}
+@keyframes pulse_scale {
+  0% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}
+@keyframes pulse_scale_invert {
+  0% {
+    transform: scale(1);
+  }
+
+  70% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes pulse_scaleX1 {
+  0% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes pulse_scale_cihi_tip {
+  0% {
+    transform: scale(1);
+  }
+
+  70% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+@keyframes pulse_scaleX2 {
+  0% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}
+@keyframes pulse_stroke {
+  0% {
+    stroke-width: 1px;
+    stroke-opacity: 50%;
+  }
+
+  50% {
+    stroke-width: 25px;
+    stroke-opacity: 70%;
+  }
+
+  100% {
+    stroke-width: 50px;
+    stroke-opacity: 0%;
+  }
+}
+@keyframes pulse_stroke_scale {
+  0% {
+    transform: scale(0.95);
+    stroke-width: 1px;
+    stroke-opacity: 50%;
+  }
+  70% {
+    transform: scale(1);
+    stroke-width: 25px;
+    stroke-opacity: 70%;
+  }
+  100% {
+    transform: scale(0.95);
+    stroke-width: 50px;
+    stroke-opacity: 0%;
+  }
+}
+@keyframes expand_horizontal {
+  0% {
+    scaleX(0);
+  }
+
+  70% {
+    scaleX(0.7);
+  }
+
+  100% {
+    scaleX(1);
+  }
+}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+/**
+ * ----------------------------------------
+ * animation slide-in-bck-center
+ * ----------------------------------------
+ */
+@keyframes slide-in-bck-center {
+  0% {
+    transform: scale(0.01);
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes shockwaveJump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  50% {
+     transform: scale(0.98);
+  }
+  55% {
+    transform: scale(1.02);
+  }
+  60% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shockwave {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 2px rgba(0,0,0,0.15), inset 0 0 1px rgba(0,0,0,0.15);
+  }
+  95% {
+    box-shadow: 0 0 50px rgba(0,0,0,0), inset 0 0 30px rgba(0,0,0,0);
+  }
+  100% {
+    transform: scale(2.25);
+
+  }
+}
+@keyframes jump {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0px 0px 1px rgba(0,0,0,.75));
+  }
+  100% {
+    transform: scale(1.13);
+    filter: drop-shadow(0px 0px 3px rgba(0,0,0,.35));
+  }
+}
+@keyframes scale_up {
+  100% {
+    transform: scale(1.15);
+    filter: drop-shadow(0px 4px 5px rgba(0,0,0,.4));
+  }
+}
+
+[data-acc-text~="ac_feedback_blob"] svg {
+  filter: drop-shadow( 0 14px 28px rgba(50,0,75,0.25) ) drop-shadow( 0 10px 10px rgba(50,0,75,0.22) );
+  animation-name: ac-blob-bounce, scale-up;
+  animation-duration: 2.75s, 0.05s;
+  animation-timing-function: ease-in-out, ease-out;
+  animation-iteration-count: infinite, 1;
+  animation-direction: alternate, normal;
+  transform-origin: center center;
+}
+[data-acc-text~="ac_feedback_button"] svg {
+  transition: transform 1.25s cubic-bezier(.37,2.64,.41,.8), filter 0.25s ease-out;
+  filter: drop-shadow( 1px 3px rgba(50,0,75,0.12) ) drop-shadow( 0 1px 2px rgba(50,0,75,0.24) );
+  animation: ac-arrow-bounce 0.75s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-direction: alternate;
+}
+/* [data-acc-text~="ac_feedback_button"] svg {
+transition: transform 0.25s ease;
+  transform-origin: center center;
+  filter: drop-shadow( 0 14px 28px rgba(50,0,75,0.25) ) drop-shadow( 0 10px 10px rgba(50,0,75,0.22) );
+} */
+/* [data-acc-text~="ac_feedback_button"] path {
+} */
+[data-acc-text~="ac_feedback_button"]:hover svg {
+  transform: scale(1.25);
+}
+[data-acc-text~="blob"] svg {
+  animation: blob 0.75s ease infinite;
+  animation-direction: alternate;
+}
+[data-acc-text~="attention_pointer"] svg {
+  animation-name: scale-up, ac-blob-bounce;
+  animation-duration: 0.50s, 2.75s;
+  animation-timing-function: ease-in, ease-in-out;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
+  animation-fill-mode: forwards, unset;
+}
+[data-acc-text~="ac_scroll_indicator"] svg {
+  animation-name: scale-up, ac-scoll-indicator-bounce;
+  animation-duration: 0.50s, 1.5s;
+  animation-timing-function: ease, ease-in-out;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
+  animation-fill-mode: forwards, unset;
+}
+
+@keyframes ac-arrow-bounce {
+  from {
+    transform: translateY(10px) translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0) translateX(0) scale(0.9);
+    opacity: 1;
+  }
+}
+@keyframes ac-blob-bounce {
+  from {
+    transform: translateY(10px) translateX(0) scale(1.09);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10px) translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes ac-character {
+  from {
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(10px);
+  }
+}
+@keyframes blob {
+  from {
+    transform: rotate(0.3deg) scale(1);
+  }
+  to {
+    transform: rotate(-0.3deg) scale(0.99);
+  }
+}
+@keyframes ac-scoll-indicator-bounce {
+  from {
+    transform: translateY(-25px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes scale-up {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

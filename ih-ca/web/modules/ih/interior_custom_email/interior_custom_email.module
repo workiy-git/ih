@@ -1,0 +1,21 @@
+<?php
+
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Mail\Plugin\Mail;
+use Drupal\Core\Mail\MailFormatHelper;
+use Drupal\interior_custom_email\Controller\EmailApi;
+
+// function interior_custom_email_mail_alter(&$message) {
+//       $to = $message['to'];
+//       $subject = $message['subject'];
+
+//       $body = implode("\n\n", $message['body']);
+//       \Drupal::logger('mail_to')->notice('<pre><code>' . print_r($to, TRUE) . '</code></pre>' );
+//       \Drupal::logger('mail_subject')->notice('<pre><code>' . print_r($subject, TRUE) . '</code></pre>' );
+//       \Drupal::logger('mail_body')->notice('<pre><code>' . print_r($body, TRUE) . '</code></pre>' );
+//       \Drupal::logger('mail_id')->notice('<pre><code>' . print_r($message['id'], TRUE) . '</code></pre>' );
+
+//       $email_api = new EmailApi();
+//       $message = $email_api->emailApi($to,$subject,$body);
+// }
+

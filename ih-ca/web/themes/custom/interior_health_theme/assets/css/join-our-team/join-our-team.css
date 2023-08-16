@@ -1,0 +1,145 @@
+.join-our-team {
+  margin: 50px auto;
+  background: #4dbbc6;
+  background: -webkit-linear-gradient(
+    top,
+    #fff,
+    #fff 45%,
+    rgb(77 187 198 / 10%) 45%,
+    rgb(77 187 198 / 10%)
+  );
+  padding-bottom: 100px;
+}
+
+.join-our-team-title {
+  font-size: 40px;
+  line-height: 1em;
+  color: #4dbbc6;
+  /* color: red; */
+  opacity: 0.5;
+  font-weight: bold;
+  font-family: "Montserrat-semibold";
+  width: calc(100% - 60px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.join-our-team-sub-title {
+  font-size: 14px;
+  line-height: 1.57em;
+  color: #4d4d4d;
+  width: calc(100% - 60px);
+  margin: 16px auto 24px auto;
+  text-align: center;
+  font-family: "Montserrat";
+}
+
+.join-our-team-content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-content iframe {
+  width: 100%;
+  height: 250px;
+}
+
+.join-our-team-content .video-info {
+  background-image: linear-gradient(123deg, #25a0aa 6%, #4dbbc6 95%);
+  color: #fff;
+  z-index: 4;
+  padding: 45px;
+  border-radius: 4px;
+  width: calc(100% - 44px);
+  margin: 0 auto;
+  /*margin-top: -45px;*/
+  margin-top: 20px;
+}
+
+.video-info .video-title {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.33;
+  margin-bottom: 10px;
+}
+
+.video-info .video-description {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  margin-bottom: 20px;
+}
+
+.video-info .watch-video {
+  padding: 13px;
+  color: #4d4d4d;
+  background: #efc041;
+  display: block;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.join-our-team .row {
+  display: block;
+}
+
+.video-content article {
+  width: 100%;
+  display: block;
+}
+
+.video-info .watch-video a {
+  color: #4d4d4d;
+}
+
+@media (min-width: 992px) {
+  .join-our-team-content {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+  }
+  .join-our-team-title {
+    font-size: 100px;
+    /*line-height: 1.5em;*/
+  }
+  .join-our-team-sub-title {
+    font-size: 18px;
+    line-height: 1.33em;
+    /*margin-top: -3.5em;*/
+  }
+  .video-content {
+    flex: 1 0 50%;
+    max-width: 50%;
+    text-align: right;
+    min-height: 418px;
+  }
+
+  .video-content iframe {
+    width: 100%;
+    height: 418px;
+  }
+
+  .join-our-team-content .video-info {
+    flex: 1 0 50%;
+    width: 100%;
+    height: fit-content;
+    max-width: 450px;
+    margin-top: 0px;
+    margin-left: -45px;
+    margin-right: 0px;
+    padding-left: 70px;
+    z-index: 0;
+  }
+  .join-our-team-content .video-content
+  {
+    z-index: 2;
+  }
+  .video-info .watch-video {
+    display: inline-block;
+    min-width: 200px;
+  }
+}

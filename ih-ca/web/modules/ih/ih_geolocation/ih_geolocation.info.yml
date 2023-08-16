@@ -1,0 +1,6 @@
+name: Interior Health Geo Location
+type: module
+description: 'Interior Health Geo Location - User location'
+package: Custom
+core: 8.x
+core_version_requirement: ^8 || ^9

@@ -1,0 +1,5 @@
+services:
+  interior_health_common.redirect_event_subscriber:
+    class: Drupal\interior_health_common\EventSubscriber\RedirectEventSubscriber
+    tags:
+      - {name: event_subscriber}

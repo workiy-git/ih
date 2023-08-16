@@ -1,0 +1,57 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set row_classes = [
+    default_row_class ? 'views-row',
+  ]
+%}
+<section class="stories-ih-slider-wrapper recent-stories">
+  <div class="container">
+    <div class="stories-ih-wrapper">
+      <div class="row m-0">
+        <div class="col-12 stories-ih-slider">
+          {% for key,row in rows %}
+            <div class="slide">
+              <div class="stories-card-wrapper">
+                <div class="stories-ih-img">
+                  <a href="{{ view.style_plugin.getField(key, 'sid') }}">
+                   {{ view.style_plugin.getField(key, 'webform_submission_value_3') }}
+                  </a>
+                </div>
+                <div class="stories-ih-content">
+                 
+                  <div class="stories-ih-pre-heading">
+                    {{ view.style_plugin.getField(key, 'webform_submission_value_1') }}
+                  </div>
+                  <div class="stories-ih-heading">
+                    {{ view.style_plugin.getField(key, 'webform_submission_value_2') }}
+                  </div>
+                  <div class="stories-ih-content-para">
+                    {{ view.style_plugin.getField(key, 'webform_submission_value_4') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

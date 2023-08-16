@@ -1,0 +1,7 @@
+interior_webform_mailchimp.admin_settings:
+  path: '/admin/config/services/mailchimp'
+  defaults:
+    _form: '\Drupal\interior_webform_mailchimp\Form\mailchimpSettingsForm'
+    _title: 'MailChimp Settings'
+  requirements:
+    _permission: 'administer site configuration'

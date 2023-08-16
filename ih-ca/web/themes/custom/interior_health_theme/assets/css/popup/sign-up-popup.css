@@ -1,0 +1,244 @@
+.signup-wrapper {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    width: 80%;
+    min-height: 70%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    animation: popup 1.2s 1;
+    background: linear-gradient(
+      160deg,
+      rgba(0, 90, 162, 1) 0%,
+      rgba(0, 90, 162, 1) 35%,
+      rgba(77, 187, 198, 1) 100%
+    );
+    box-shadow: 0px 4px 0 0 #000;
+  }
+  .signup-popup {
+    padding: 30px 35px 30px 35px;
+    border-radius: 10px;
+    position: unset;
+  }
+  .signup-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent url("/themes/custom/interior_health_theme/assets/images/sprite.png")  no-repeat;
+    background-position: -70px 0px;
+  }
+  .signup-title {
+    font-size: 26px;
+    line-height: 1.33em;
+    color: #fff;
+  }
+  .signup-description {
+    font-size: 14px;
+    color: #fff;
+    margin-top: 25px;
+  }
+  .signup-footer {
+    text-align: center;
+  }
+  .button-yellow {
+    display: inline-block;
+    background: #efc041;
+    padding: 10px 21px;
+    margin: 30px 0px 30px 0;
+    border-radius: 10px;
+    color: #4d4d4d;
+    font-weight: bold;
+  }
+  .button-yellow:hover {
+    color: #4d4d4d;
+  }
+  .signup-image {
+    position: absolute;
+    bottom: -30px;
+    right: 0px;
+    max-width: 385px;
+    top: auto;
+    left: 0;
+    right: 0;
+  }
+  .signup-wrapper .quote {
+    display: none;
+  }
+  @media (min-width: 576px) {
+    .signup-image {
+      display: none;
+    }
+  }
+  @media (min-width: 768px) {
+    .signup-wrapper {
+      top: calc(100% - 50%);
+      min-height: 40%;
+      transform: translate(-50%, -50%);
+    }
+    .signup-image {
+      display: block;
+      right: auto;
+      left: 50%;
+      transform: translate(-50%, 0%);
+    }
+    .signup-description {
+      font-size: 16px;
+      margin-top: 40px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .signup-wrapper {
+      min-height: 50%;
+      max-width: 60%;
+      background: linear-gradient( 145deg, rgba(0, 90, 162, 1) 0%, rgba(0, 90, 162, 1) 35%, rgba(77, 187, 198, 1) 100%);
+    }
+    .signup-image {
+      top: auto;
+      left: auto;
+      right: -112px;
+      transform: translate(0%, 0%);
+    }
+    .signup-wrapper .quote {
+      display: block;
+      margin: 30px auto 0 0;
+      color: #b6f0fc;
+      width: 60%;
+      font-weight: 600;
+      text-align: right;
+      margin-top: 10%;
+    }
+    .signup-footer {
+      margin: 20px auto 0 0;
+      width: 60%;
+      text-align: right;
+    }
+    .signup-description {
+      margin-top: 10%;
+    }
+    .signup-popup {
+      padding-bottom: 15px;
+    }
+    .button-yellow {
+      margin: 0px;
+      width: auto;
+      text-align: center;
+    }
+    @media (orientation: portrait) {
+      .signup-wrapper {
+        min-height: 30%;
+      }
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .signup-wrapper {
+      max-width: 40%;
+      min-height: auto;
+    }
+    .signup-wrapper .quote {
+      width: 40%;
+      margin-top: 10%;
+      margin-left: 0;
+    }
+    .signup-footer {
+      margin: 20px auto 20px 0px;
+      width: 40%;
+    }
+    .signup-image {
+      max-width: 450px;
+    }
+    .button-yellow {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 1400px) {
+    .signup-wrapper {
+      max-width: 40%;
+      min-height: 60%;
+    }
+    .signup-wrapper .quote {
+      width: 39%;
+      margin-top: 15%;
+      margin-left: 0;
+    }
+    .signup-footer {
+      width: 39%;
+      margin-left: 0;
+    }
+    .signup-description {
+      margin-top: 13%;
+    }
+    .signup-image {
+      max-width: none;
+    }
+  }
+  @keyframes popup {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+
+  /*new mobile code*/
+  @media (max-width: 767px)
+  {
+    .signup-wrapper
+    {
+      min-height: unset;
+    }
+    .signup-popup
+    {
+      padding: 30px 0 0 0;
+    }
+    .signup-content
+    {
+      padding-left: 35px;
+      padding-right: 35px; 
+    }
+    .signup-title
+    {
+      font-size: 22px;
+      line-height: 32px;
+      max-height: 96px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+    .signup-description
+    {
+      line-height: 22px;
+      display: -webkit-box;
+      max-height: 220px;
+      -webkit-line-clamp: 10;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .signup-description p
+    {
+      line-height: 22px;
+    }
+    .signup-footer a
+    {
+      margin-bottom: 0;
+    }
+    .signup-image
+    {
+      position: relative;
+    }
+  }

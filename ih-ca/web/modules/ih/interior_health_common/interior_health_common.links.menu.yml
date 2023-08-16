@@ -1,0 +1,6 @@
+global_alert_setting.admin_settings:
+  title: 'Global Alert Setting'
+  description: 'Enter the Global alert information in this form.'
+  parent: system.admin_config_system
+  route_name: global_alert_setting.admin_settings
+  weight: 41

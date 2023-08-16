@@ -1,0 +1,66 @@
+{#
+/**
+ * @file
+ * Default theme implementation to standard global search popup.
+ *
+ * Available variables:
+ * - quick_links: array of quick links.
+ * - popular_topics: array of popular topics.
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="global-search-modal-wrapper">
+
+  <div class="search-bg">
+
+    <div class="global-search-modal-header">
+      <div class="logo">
+        <a href="/"><img src="/sites/default/files/logo/IH-logo-white.png"></a>
+      </div>
+      <div class="title">Search IH</div>
+      <div class="close-btn"></div>
+    </div>
+
+    <div class="container">
+
+      <div class="view-filters global-search-filter">
+
+        <!-- Render the Global search page exposed filter block -->
+        {{ drupal_block('views_exposed_filter_block:global_search-page_1') }}
+
+      </div>
+
+      <div class="global-search-links">
+          <div class="recent-search-wrapper">
+            <h4>Recent Searches</h4>
+            <span>Aborginal health</span>
+            <span>Seniors</span>
+            <span>Long-term care</span>
+          </div>
+          {% if popular_topics %}
+            <div class="popular-topics-wrapper">
+              <h4>Popular Topics</h4>
+              {% for key,row in popular_topics %}
+                <a href="{{ row.url }}">{{ row.title }}</a>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if quick_links %}
+            <div class="quick-links-wrapper">
+              <h4>Quick Links</h4>
+              {% for key,row in quick_links %}
+                <a href="{{ row.url }}">{{ row.title }}</a>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+      </div>   <!-- End of global-search-links div-->
+
+    </div>  <!-- End of container -->
+
+  </div>  <!-- End of search-bg div-->
+
+</div>

@@ -1,0 +1,200 @@
+{
+    "name": "pantheon-upstreams/drupal-project",
+    "description": "Install Drupal 9 with Composer on Pantheon.",
+    "type": "project",
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "path",
+            "url": "upstream-configuration"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/select2",
+                "version": "4.0.5",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/select2/select2/archive/4.0.5.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "bower-asset/lazysizes": "^5.3",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/address": "^1.9",
+        "drupal/addtoany": "^1.15",
+        "drupal/admin_toolbar": "^3.0",
+        "drupal/better_exposed_filters": "^5.0",
+        "drupal/block_class": "^1.3",
+        "drupal/content_moderation_notifications": "^3.3",
+        "drupal/easy_breadcrumb": "^2.0",
+        "drupal/entity_clone": "^1.0@beta",
+        "drupal/entity_export_csv": "^1.0@beta",
+        "drupal/entity_usage": "^2.0@beta",
+        "drupal/facets": "^2.0",
+        "drupal/feeds": "^3.0@alpha",
+        "drupal/feeds_tamper": "^2.0@beta",
+        "drupal/field_group": "^3.2",
+        "drupal/file_delete": "^2.0",
+        "drupal/file_replace": "^1.2",
+        "drupal/geofield": "^1.34",
+        "drupal/geolocation": "^3.7",
+        "drupal/google_analytics": "^3.1",
+        "drupal/imce": "^2.4",
+        "drupal/lazy": "^3.10",
+        "drupal/mailchimp": "^2.0",
+        "drupal/metatag": "^1.16",
+        "drupal/metatag_head_title": "^1.1",
+        "drupal/moderation_sidebar": "^1.4",
+        "drupal/node_read_time": "^1.4",
+        "drupal/nodeaccess": "^1.1",
+        "drupal/paragraphs": "^1.12",
+        "drupal/path_redirect_import": "^1.0@beta",
+        "drupal/pathauto": "^1.8",
+        "drupal/permissions_by_term": "^3.1",
+        "drupal/recaptcha": "^3.0",
+        "drupal/redirect": "^1.6",
+        "drupal/redis": "^1.5",
+        "drupal/remove_http_headers": "^1.0",
+        "drupal/reroute_email": "^2.0",
+        "drupal/scheduled_publish": "^3.9",
+        "drupal/search_api": "^1.21",
+        "drupal/search_api_autocomplete": "^1.5",
+        "drupal/seckit": "^2.0",
+        "drupal/select2": "^1.13",
+        "drupal/sendgrid_integration": "^1.7",
+        "drupal/simple_sitemap": "^3.10",
+        "drupal/sitemap": "^2.0@beta",
+        "drupal/swiftmailer": "^2.0",
+        "drupal/taxonomy_menu_ui": "^2.0",
+        "drupal/twig_tweak": "^2.9",
+        "drupal/views_bulk_operations": "^4.0",
+        "drupal/views_cm_current_state": "^2.0",
+        "drupal/views_field_view": "^1.0@beta",
+        "drupal/views_infinite_scroll": "^1.8",
+        "drupal/views_load_more": "^2.0@alpha",
+        "drupal/webform": "^6.1",
+        "drupal/webform_mailchimp": "^5.9",
+        "drupal/webform_validation": "2.0.x-dev@dev",
+        "drupal/webform_views": "^5.0@alpha",
+        "drush/drush": "^10",
+        "jquery/select2": "^4.0.5",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "pantheon-systems/search_api_pantheon": "^8",
+        "pantheon-upstreams/upstream-configuration": "*",
+        "politsin/jquery-ui-touch-punch": "^1.0"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/composer/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/private/scripts/quicksilver/{$name}/": [
+                "type:quicksilver-script"
+            ]
+        },
+        "composer-exit-on-patch-failure": true,
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "drupal-scaffold": {
+            "allowed-packages": [
+                "pantheon-systems/drupal-integrations"
+            ],
+            "locations": {
+                "web-root": "./web"
+            },
+            "file-mapping": {
+                "[project-root]/.editorconfig": false,
+                "[project-root]/pantheon.upstream.yml": false,
+                "[project-root]/.gitattributes": false
+            }
+        },
+        "patches": {
+            "drupal/better_exposed_filters": {
+                "Better Exposed filter Reset Button Ajax": "web/patches/better_exposed_filter_ajax_reset_button.patch"
+            },
+            "drupal/easy_breadcrumb": {
+                "Easy Breadcrumb on views ajax": "web/patches/easybreadcrumb.patch"
+            },
+            "drupal/recaptcha": {
+                "ReCaptcha Ajax support": "web/patches/recaptcha-ajax.patch"
+            },
+            "drupal/geolocation": {
+                "Geolocation Geocoder API fix": "web/patches/geocoder_custom.patch"
+            },
+            "drupal/content_moderation_notifications": {
+                "Content moderation notification content types fix": "web/patches/content_moderation_notification_content_types.patch"
+            },
+            "drupal/reroute_email": {
+                "EmailParser contrib fix": "web/patches/3252437-updating-eguliasemail-validator.patch"
+            },
+            "drupal/views_infinite_scroll": {
+                "Views infinite scroll core update fix": "web/patches/views_infinite_scroll-3252577-9.2.x_support_3.patch"
+            },
+            "drupal/entity_clone": {
+                "Entity Clone Permissions fix": "web/patches/entity_clone_permissions.patch",
+                "Entity Clone Nested fix": "web/patches/entity_clone_fix_nested.patch"
+            },
+            "drupal/permissions_by_term": {
+                "Permissions By Term Default role Fix": "web/patches/permission_by_term_default_value.patch"
+            },
+            "drupal/core": {
+                "File URL Generator fix": "web/patches/file-url-generator-3254245-34.patch"
+            }
+            
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4"
+        },
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "zaporylie/composer-drupal-optimizations": true,
+            "oomphinc/composer-installers-extender": true
+        }
+    }
+}
+

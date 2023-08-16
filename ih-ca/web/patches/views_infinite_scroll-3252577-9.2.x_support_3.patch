@@ -1,0 +1,65 @@
+diff --git a/js/infinite-scroll.js b/js/infinite-scroll.js
+index 48abbcb..31af211 100644
+--- a/js/infinite-scroll.js
++++ b/js/infinite-scroll.js
+@@ -44,11 +44,11 @@
+     var view = Drupal.views.instances[currentViewId];
+     // Remove once so that the exposed form and pager are processed on
+     // behavior attach.
+-    view.$view.removeOnce('ajax-pager');
+-    view.$exposed_form.removeOnce('exposed-form');
++    once.remove('ajax-pager', view.$view);
++    once.remove('exposed-form', view.$exposed_form);
+     // Make sure infinite scroll can be reinitialized.
+     var $existingPager = view.$view.find(pagerSelector);
+-    $existingPager.removeOnce('infinite-scroll');
++    once.remove('infinite-scroll', $existingPager);
+ 
+     var $newRows = $newView.find(contentWrapperSelector).children();
+     var $newPager = $newView.find(pagerSelector);
+@@ -79,8 +79,8 @@
+    */
+   Drupal.behaviors.views_infinite_scroll_automatic = {
+     attach : function (context, settings) {
+-      $(context).find(automaticPagerSelector).once('infinite-scroll').each(function () {
+-        var $pager = $(this);
++      once('infinite-scroll', automaticPagerSelector, context).forEach(function (elem) {
++        var $pager = $(elem);
+         $pager.addClass('visually-hidden');
+         var isLoadNeeded = function () {
+           return window.innerHeight + window.pageYOffset > $pager.offset().top - scrollThreshold;
+@@ -102,7 +102,7 @@
+       // other than a scroll. AJAX filters are a good example of the event needing
+       // to be destroyed earlier than above.
+       if (trigger === 'unload') {
+-        if ($(context).find(automaticPagerSelector).removeOnce('infinite-scroll').length) {
++        if (once.remove('infinite-scroll', automaticPagerSelector, context).length) {
+           $window.off(scrollEvent);
+         }
+       }
+diff --git a/views_infinite_scroll.info.yml b/views_infinite_scroll.info.yml
+index 02e10e4..6b671ae 100644
+--- a/views_infinite_scroll.info.yml
++++ b/views_infinite_scroll.info.yml
+@@ -2,7 +2,7 @@ name: Views Infinite Scroll
+ type: module
+ description: A pager which allows an infinite scroll effect for views.
+ package: Views
+-core_version_requirement: ^8.8 || ^9
++core_version_requirement: ^9.2.0
+ 
+ dependencies:
+  - drupal:views
+diff --git a/views_infinite_scroll.libraries.yml b/views_infinite_scroll.libraries.yml
+index 249790b..0dcb38a 100644
+--- a/views_infinite_scroll.libraries.yml
++++ b/views_infinite_scroll.libraries.yml
+@@ -4,7 +4,7 @@ views-infinite-scroll:
+     js/infinite-scroll.js : {}
+   dependencies:
+     - core/jquery
+-    - core/jquery.once
++    - core/once
+     - core/drupal
+     - core/drupal.debounce
+     - views/views.ajax

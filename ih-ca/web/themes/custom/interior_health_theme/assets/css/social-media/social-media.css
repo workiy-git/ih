@@ -1,0 +1,107 @@
+.social-media {
+  background: #eaeaea;
+  color: #4e4e56;
+  padding: 70px 0px;
+  width: 100%;
+}
+
+.social-media-header-title {
+  font-size: 24px;
+  line-height: 1.33em;
+  padding: 0px 30px;
+}
+
+.social-media-content .social-share {
+  display: flex;
+  list-style: none;
+  margin: 40px auto 0px;
+  justify-content: space-around;
+  padding: 0;
+}
+
+.social-share li {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-share a {
+  display: block;
+  background: #1b4f86;
+  width: 34px;
+  height: 30px;
+  border-radius: 0px;
+  background-size: cover;
+}
+
+.social-share .social-facebook {
+  background: transparent url("/themes/custom/interior_health_theme/assets/images/social-share.png") no-repeat;
+  background-position: 4px;
+  background-size: cover;
+}
+
+.social-share .social-twitter {
+  background: transparent url("/themes/custom/interior_health_theme/assets/images/social-share.png") no-repeat;
+  background-position: -32px;
+  background-size: cover;
+}
+.social-share .social-instagram {
+  background: transparent url("/themes/custom/interior_health_theme/assets/images/social-share.png") no-repeat;
+  background-position: -66px;
+  background-size: cover;
+}
+
+.social-share .social-linkedin {
+  background: transparent url("/themes/custom/interior_health_theme/assets/images/social-share.png") no-repeat;
+  background-position: -99px;
+  background-size: cover;
+}
+.social-share .social-youtube {
+  background: transparent url("/themes/custom/interior_health_theme/assets/images/social-share.png") no-repeat;
+  background-position: -134px;
+  background-size: cover;
+}
+
+
+@media (min-width: 992px) {
+  .social-media-header-title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  .social-share li {
+    width: 80px;
+    height: 80px;
+  }
+  .social-share li a {
+    width: 50px;
+    height: 50px;
+  }
+  .social-share .social-facebook {
+    background-position: 2px 0px;
+    background-size: auto;
+  }
+  
+  .social-share .social-twitter {
+    background-position: -58px 4px;
+    background-size: auto;
+  }
+  .social-share .social-instagram {
+    background-position: -116px;
+    background-size: auto;
+  }
+  
+  .social-share .social-linkedin {
+    background-position: -172px;
+    background-size: auto;
+  }
+  .social-share .social-youtube {
+    background-position: -230px;
+    background-size: auto;
+    width: 53px;
+  }
+}

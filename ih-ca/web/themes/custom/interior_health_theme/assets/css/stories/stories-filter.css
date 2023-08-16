@@ -1,0 +1,295 @@
+.stories-filter-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-image: linear-gradient(to right, #005aa2 -17%, #4dbbc6 129%);
+  padding: 30px 40px;
+  flex-wrap: wrap;
+  margin-top: 3px;
+}
+
+/* .stories-filter-wrapper .form-actions {
+  display: none;
+} */
+
+.stories-form-title {
+  font-size: 40px;
+  line-height: 1.3;
+  color: #fff;
+  font-family: "Montserrat-semibold";
+  justify-self: flex-start;
+}
+
+.stories-filter-wrapper .stories-filter {
+  background: transparent
+    url(/themes/custom/interior_health_theme/assets/images/white-filter.svg)
+    no-repeat center center;
+  width: 45px;
+  height: 45px;
+  border: 0;
+  align-self: center;
+}
+
+.stories-filter-wrapper .form-item select,
+.stories-filter-wrapper .form-item input {
+  border: 0;
+  outline: none;
+  padding: 20px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  background-color: rgb(0 0 0 / 40%);
+  margin: 0px;
+  line-height: revert;
+  color: #fff;
+  width: 100%;
+  margin: 15px 0px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.stories-filter-wrapper .form-item input::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+.stories-filter-wrapper .form-item {
+  position: relative;
+  margin: 0px;
+  flex: 1 0 100%;
+}
+
+.stories-filter-wrapper .stories-search,
+.stories-filter-wrapper .service-form-category::after {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  border: 0px;
+  outline: 0px;
+  transform: translate(0%, -50%);
+  width: 26px;
+  height: 24px;
+  margin: 0px;
+  color: transparent;
+  background: transparent
+    url(/themes/custom/interior_health_theme/assets/images/sprite.png);
+  background-position: -106px -58px;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* .stories-filter-wrapper .service-form-category::after {
+  content: "";
+  background: transparent
+    url(/themes/custom/interior_health_theme/assets/images/arrow-down-filled.svg)
+    no-repeat center;
+  right: 18px;
+} */
+
+.stories-filter-wrapper .service-form-category {
+  margin-bottom: 16px;
+}
+
+.stories-filter-wrapper .service-form-category select {
+  background: rgb(0 0 0 / 40%) url(/themes/custom/interior_health_theme/assets/images/arrow-down-filled.svg) no-repeat calc(100% - 20px);
+  padding-right: 35px;
+  cursor: pointer;
+}
+.stories-filter-wrapper .service-form-category .ih_drop_down {
+  margin-bottom: 0px;
+}
+
+.stories-filter-wrapper .service-form-category .select__trigger {
+  background: rgb(0 0 0 / 40%);
+  color: #fff;
+  font-weight: 600;
+  padding: 18px 5px 18px 10px;
+}
+.stories-filter-wrapper .service-form-category .select__trigger span {
+  margin-top: 0px;
+}
+.stories-filter-wrapper .service-form-category .ih_drop_down .arrow {
+  background: transparent url(/themes/custom/interior_health_theme/assets/images/arrow-down-filled.svg) no-repeat ;
+  height: 20px;
+}
+.stories-filter-wrapper .service-form-category .ih_drop_down .open .arrow {
+  transform: rotate(180deg) translate(10px, 3px);
+}
+
+.stories-filter-wrapper .form-item input {
+  margin: 0px;
+  padding-right: 40px;
+  width: 100%;
+}
+
+.stories-filter-wrapper select::placeholder,
+.stories-filter-wrapper input::placeholder {
+  color: #fff;
+}
+
+.stories-filter-wrapper form {
+  display: none;
+  flex: 1 0 100%;
+  padding: 35px 0 10px;
+}
+
+.stories-filter-wrapper .service-form-keyword {
+  width: 100%;
+}
+
+.stories-filter-wrapper .form--inline {
+  display: flex;
+  flex-wrap: wrap;
+}
+.stories-filter-wrapper option {
+  background: #fff;
+  color: #4d4d4d;
+  font-weight: 500;
+  line-height: 2em;
+  font-family: "Montserrat";
+}
+
+.stories-filter-wrapper option:checked {
+  color: #005aa2;
+}
+
+.stories-filter-wrapper option:hover,
+.stories-filter-wrapper option:focus,
+.stories-filter-wrapper option:active,
+.stories-filter-wrapper option:checked {
+  background: #eaeaea;
+}
+
+/* stories page breadcrumbs */
+
+.view-blog-topic-listing-page .breadsrumb {
+  margin: 45px auto;
+}
+.view-blog-topic-listing-page .breadsrumb ul {
+  display: flex;
+}
+.view-blog-topic-listing-page .breadsrumb-item a,
+.view-blog-topic-listing-page .breadsrumb-item {
+  font-size: 12px;
+  line-height: 22px;
+  color: #005aa2;
+  list-style-type: none;
+}
+.view-blog-topic-listing-page .breadsrumb-item a {
+  padding-right: 7px;
+  margin-right: 10px;
+}
+.view-blog-topic-listing-page .breadsrumb-item a:after {
+  content: "/";
+  position: absolute;
+  display: inline-block;
+  padding-left: 7px;
+  color: #4dbbc6;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.view-blog-topic-listing-page .h2 {
+  color: #4d4d4d;
+  margin: auto;
+}
+
+.view-blog-topic-listing-page .blog-category {
+  padding: 100px 45px 0;
+}
+
+.view-blog-topic-listing-page .stories-ih-slider-wrapper.recent-stories {
+  padding: 30px 25px 0px;
+}
+.stories-filter-wrapper .service-form-keyword .field-suffix
+{
+  display: none;
+}
+.stories-filter-wrapper .service-form-keyword input
+{
+  border-radius: 4px 0 0 4px;
+  padding-right: 20px;
+}
+.stories-filter-wrapper .form-actions
+{
+  width: 65px;
+  min-width: 65px;
+  border-radius: 0 4px 4px 0;
+  flex: 0 0 65px;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  background: #205f71;
+}
+.stories-filter-wrapper .service-form-keyword {
+  flex: 1 0 calc(100% - 65px);
+}
+.stories-filter-wrapper .form-actions .form-submit
+{
+  width: 24px;
+  height: 24px;
+  font-size: 0px;
+  background-color: transparent;
+  background-image: url(/themes/custom/interior_health_theme/assets/images/sprite.png);
+  background-position: -106px -58px;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  margin: 5px 0;
+}
+@media (min-width: 992px) {
+  .stories-filter-wrapper {
+    padding: 50px 40px;
+  }
+  .stories-filter-wrapper .form--inline {
+    flex-wrap: nowrap;
+  }
+  .stories-filter-wrapper form {
+    display: block;
+    flex: 1 0 auto;
+    padding: 0;
+  }
+  .stories-filter-wrapper .form-item select,
+  .stories-filter-wrapper .form-item input {
+    margin: 0;
+  }
+  .stories-filter-wrapper .service-form-keyword input {
+    padding-right: 0px;
+  }
+
+  .stories-filter-wrapper .service-form-category {
+    flex: 1 0 45%;
+    padding-left: 10%;
+    padding-right: 15px;
+    max-width: 45%;
+  }
+  .stories-filter-wrapper .service-form-keyword {
+    width: 100%;
+    flex: 1 0 48%;
+    max-width: 48%;
+  }
+
+  .view-blog-topic-listing-page .blog-category {
+    padding: 0;
+  }
+
+  .view-blog-topic-listing-page .stories-ih-slider-wrapper.recent-stories {
+    padding: 30px 0px 0px;
+  }
+
+  .stories-filter-wrapper .service-form-category {
+    margin-bottom: 0px;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .stories-form-title {
+    font-size: 27px;
+    align-self: center;
+  }
+  .stories-filter {
+    width: 35px;
+    background-size: contain;
+  }
+}

@@ -1,0 +1,72 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+<section class="home-services">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-7 services-left">
+        <div class="ih-services-bg"></div>
+        <div class="slider slider-for">
+          {% for key, row in rows %}
+            {%
+              set row_classes = [
+                default_row_class ? 'views-row',
+                'ih-services-img'
+              ]
+            %}
+            <div{{ row.attributes.addClass(row_classes) }}>
+              <picture>
+                <source media="(min-width:768px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+                <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="">
+              </picture>
+              <div class="ih-services-caption">
+                <h2 class="h2">{{ view.style_plugin.getField(key, 'name') }}</h2>
+                <p>{{ view.style_plugin.getField(key, 'description__value') }}</p>
+                <a href="{{ view.style_plugin.getField(key, 'tid') }}" class="ih-link d-flex d-lg-none">Read More</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="view-footer d-block d-lg-none">
+          {% if rows|length > 0 %}
+            {{ view.style_plugin.getField(0, 'nothing_1') }}
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-12 col-lg-5 services-right">
+      {% if rows|length > 0 %}
+        {{ view.style_plugin.getField(0, 'nothing') }}
+      {% endif %}
+        <div class="slider slider-nav d-none d-lg-block">
+          {% for key, row in rows %}
+            <div class="hover-text">{{ view.style_plugin.getField(key, 'name') }}</div>
+          {% endfor %}
+        </div>
+        <div class="view-footer d-none d-lg-block">
+          {% if rows|length > 0 %}
+            {{ view.style_plugin.getField(0, 'nothing_1') }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

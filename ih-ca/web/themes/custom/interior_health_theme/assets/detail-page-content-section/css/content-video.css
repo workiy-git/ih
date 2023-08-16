@@ -1,0 +1,248 @@
+.content-vedio-wapper {
+    display: flex;
+    align-items: center;
+    background: #FCF2D9ed;
+    width: 100%;
+    margin: 30px 0;
+    border-radius: 10px;
+    padding: 50px 30px;
+}
+
+.content-vedio {
+    flex: 1 0 60%;
+    position: relative;
+}
+ 
+.content-vedio img {
+    padding: 15px 15px;
+    z-index: 3;
+    width: 100%;
+    position: relative;
+}
+
+
+.content-vedio-text {
+    flex: 1 0 40%;
+    text-align: left;
+    padding: 0 15px;
+}
+
+.content-vedio-heading {
+    color: #4d4d4d;
+    margin-bottom: 15px;
+}
+
+.content-vedio-para {
+    font-size: 16px;
+    line-height: 24px;
+    color: #4d4d4d;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+}
+
+  
+  .primary-default {
+    font-size: 16px;
+    display: inline-block;
+
+    color: #fff;
+    padding: 13px 40px;
+    margin: 25px 10px 25px 0;
+    border-radius: 7px;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, #005aa2 0%, #4dbbc6 50%, #005aa2 50%,#005aa2 150% );
+    transition: 0.5s;
+  }
+
+    .primary-default:hover {
+      color: #fff;
+      background-position: right center;
+    }
+
+    .ih-contents-bg
+    {
+      display: inline-block;
+      width: 85%;
+      height: 85%;
+      background: linear-gradient(to right, #efc041 16%, #f9d67a 83%);
+      position: absolute;
+      z-index: 1;
+      bottom: 0;
+      left: 0px;
+      border-radius: 5px;
+    }
+  
+    .content-vedio:before {
+        background-image: url(/themes/custom/interior_health_theme/assets/images/play-icon-small.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        width: 18px;
+        height: 26px;
+        z-index: 4;
+        display: inline-block;
+        position: absolute;
+        left: 45%;
+        top: 45%;
+        content: '';
+        cursor: pointer;
+        background-color: rgb(255 255 255 / 66%);
+        padding: 30px;
+        border-radius: 50px;
+    }
+
+
+    .content-vedio .field--name-field-media-oembed-video {
+        width: 100%;
+        padding: 8px 15px;
+        z-index: 4;
+    }
+    
+    .content-vedio .media-oembed-content {
+        width: 100%;
+        height: 400px;
+    }
+    
+
+    
+@media (min-width:992px) {
+    .windchimes-glb {
+        position: relative;
+    }
+    
+    .windchimes-glb.top:before {
+        content: "";
+        position: absolute;
+        width: 76px;
+        height: 405px;
+        opacity: 0.15;
+        background: #005aa2;
+        z-index: 1;
+        left: 0px;
+        top: 0px;
+    }
+    
+    .windchimes-glb.top div:before {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 365px;
+        background: linear-gradient(to left, #4dbbc6 100%, #005aa2 0%);
+        opacity: 0.15;
+        left: 0;
+        z-index: 2;
+    }
+    
+    .windchimes-glb.top div:after{
+        left: 90px;
+        content: "";
+        position: absolute;
+        width: 54px;
+        height: 244px;
+        background: #edbf3f;
+        opacity: 0.09;
+        z-index: 3;
+    }
+    
+    .windchimes-glb.bottom:after {
+        content: "";
+        position: absolute;
+        width: 26px;
+        height: 232px;
+        opacity: 0.28;
+        background: #edbf3f;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .windchimes-glb.bottom div:before {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 297px;
+        background: #005aa2;
+        opacity: 0.5;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .windchimes-glb.bottom div::after {
+        content: "";
+        position: absolute;
+        width: 118px;
+        height: 144px;
+        background-image: linear-gradient(to left, #4dbbc6 65%, #005aa2 0%);
+        opacity: 0.5;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .windchimes-glb.bottom:before {
+        right: 0px;
+        bottom: 0px;
+    }
+    .content-vedio .windchimes-glb.top:before {
+        left: 15px;
+        top: 15px;
+        height: 305px;
+        z-index: 99;
+    }
+    
+    .content-vedio .windchimes-glb.top div:before {
+        left: 15px;
+        top: 15px;
+        height: 265px;
+        z-index: 99;
+    }
+    
+    .content-vedio .windchimes-glb.top div:after {
+        left: 110px;
+        top: 15px;
+        height: 144px;
+        z-index: 99;
+    }
+    
+    .content-vedio .windchimes-glb.bottom:after {
+        right: 15px;
+        bottom: 15px;
+        height: 132px;
+        z-index: 9;
+    }
+    
+    .content-vedio .windchimes-glb.bottom div:before {
+        right: 15px;
+        bottom: 15px;
+        height: 197px;
+        z-index: 9;
+    }
+    
+    .content-vedio .windchimes-glb.bottom div::after {
+        right: 15px;
+        bottom: 15px;
+        height: 144px;
+        z-index: 9;
+    }
+
+    .content-vedio .windchimes-glb.top,
+    .content-vedio .windchimes-glb.bottom{
+        display:none;
+    }
+}    
+
+@media (max-width:991px) {
+    .content-vedio-wapper {
+        display: block;
+        padding: 20px 15px;
+    }
+    
+    .content-vedio-text {
+        margin-top: 30px;
+    }
+
+    .content-vedio-wapper .content-vedio-heading {
+    font-size: 24px;
+    line-height: 32px;
+}
+
+}

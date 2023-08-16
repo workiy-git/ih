@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * Theme override for a select element.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the <select> tag.
+ * - options: The <option> element children.
+ *
+ * @see template_preprocess_select()
+ */
+#}
+{% apply spaceless %}
+  {% if additional_class %}
+    <div class="ih_drop_down {{ additional_class }}">
+  {% else %}
+    <div class="ih_drop_down">
+  {% endif %}
+    <div class="select">
+      <div class="select__trigger">
+        <span class="all"></span>
+        <div class="arrow"></div>
+      </div>
+      <div class="custom-options">
+        {% for option in options %}
+          {% if option.type == 'optgroup' %}
+            <optgroup label="{{ option.label }}">
+              {% for sub_option in option.options %}
+                <span data-value = "{{ sub_option.value }}" class="custom-option {{ option.selected ? 'selected' }}">{{ sub_option.label }}</span>
+              {% endfor %}
+            </optgroup>
+          {% elseif option.type == 'option' %}
+            <span data-value = "{{ option.value }}" class="custom-option {{ option.selected ? 'selected' }}">{{ option.label }}</span>
+          {% endif %}
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  <select{{ attributes }}>
+    {% for option in options %}
+      {% if option.type == 'optgroup' %}
+        <optgroup label="{{ option.label }}">
+          {% for sub_option in option.options %}
+            <option value="{{ sub_option.value }}"{{ sub_option.selected ? ' selected="selected"' }}>{{ sub_option.label }}</option>
+          {% endfor %}
+        </optgroup>
+      {% elseif option.type == 'option' %}
+        <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' }}>{{ option.label }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+{% endapply %}

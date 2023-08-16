@@ -1,0 +1,6 @@
+name: Views Content Moderation State Custom Bulk operation
+type: module
+description: 'Interior Health Common Module'
+package: Custom
+core: 8.x
+core_version_requirement: ^8 || ^9

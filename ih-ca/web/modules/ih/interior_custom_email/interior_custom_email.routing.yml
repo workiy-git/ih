@@ -1,0 +1,15 @@
+emailform.admin:
+  path: '/admin/config/email-form'
+  defaults: 
+    _form: '\Drupal\interior_custom_email\Form\EmailForm'
+    _title: 'Email Form'
+  requirements: 
+    _permission: 'administer site configuration'
+
+custom_mailinterface.check:
+  path: '/email-api-check'
+  defaults:
+    _controller: '\Drupal\interior_custom_email\Controller\EmailApi::emailApi'
+    _title: 'Mail Interface Check'
+  requirements:
+    _permission: 'access content'

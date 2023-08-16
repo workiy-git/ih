@@ -1,0 +1,105 @@
+.footer  {
+    margin-bottom: 62px;
+}
+.footer-main {
+    background-color: #1b4f86;
+    padding: 70px 0;
+}
+.footer-logo {
+    text-align: left;
+}
+.footer-logo img
+{
+    width: 250px;
+    height: auto;
+}
+.footer-description p {
+    text-align: left;
+    font-size: 14px;
+    line-height: 26px;
+    color: #fff;
+    padding-top: 30px;
+}
+.footer-left {
+    padding: 0px 40px 0 40px;
+}
+.footer-copyright p {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: left;
+}
+.footer-copyright {
+    padding: 15px 0px;
+}
+.footermain .menu li.menu-item a {
+    color: #fff;
+    padding: 7px 0;
+    display: block;
+    font-size: 12px;
+}
+.footer-main .region-footer-right {
+    padding: 60px 100px 0 30px;
+}
+#block-socialmediaicons ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: space-around;
+}
+#block-socialmediaicons ul li {
+    padding: 0px 20px;
+}
+div#block-socialmediaicons {
+    border-top: 1px solid  #4dbbc6;
+    padding: 20px 0 0;
+    margin: 20px 0 0;
+    width: 100%;
+}
+#block-socialmediaicons ul li:last-child {
+    padding-right: 0;
+}
+#block-socialmediaicons ul li:first-child {
+    padding-left: 0;
+}
+.footer-main .region-footer-right nav:first-child {
+    padding-left: 0;
+}
+.footer-main .region-footer-right nav ul.menu {
+    margin: 0;
+}
+.footer a, .footer ul.menu a.is-active {
+    color: #fff;
+    font-family: 'Montserrat-semibold';
+    font-size: 12px;
+    line-height: 3.3em;
+    display: block;
+}
+.footer .menu-item {
+    padding-top: 0px;
+}
+.footer .region-bottom-bar p a {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: left;
+    color: #212529;
+    display: inline-block;
+    font-weight: normal;
+    text-decoration: underline;
+    font-family: 'Montserrat-Regular';
+}
+
+.footer-description p a {
+    display: contents;
+    font-size: 14px;
+    line-height: 26px;
+}
+
+@media (min-width: 992px) {
+    .footer  {
+        margin-bottom: 0px;
+    }
+    .footer-main .region-footer-right {
+        padding: 80px 100px 0 30px;
+    }
+}

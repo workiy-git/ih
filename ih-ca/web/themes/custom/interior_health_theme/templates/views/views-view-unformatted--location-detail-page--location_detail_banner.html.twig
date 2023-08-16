@@ -1,0 +1,102 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+{% for key,row in rows %}
+  {%
+    set row_classes = [
+      default_row_class ? 'views-row',
+    ]
+  %}
+  {# {% set banner_class = view.style_plugin.getField(key, 'field_fax') ? 'with-apn': '' %} #}
+<div class="top-banner-header-section navigator">
+  {{ drupal_block('system_breadcrumb_block') }}
+  <div class="tab-link-section">
+   <div class="tab-link-item"><a href="#tab-about">About</a></div>
+   <div class="tab-link-item"><a href="#detail-resources">Resources</a></div>
+   <div class="tab-link-item"><a href="#detail-faq">FAQs</a></div>
+   <div class="tab-link-item"><a href="#detail-location">Gallery</a></div>
+  </div>
+  <div class="top-banner-header-left blue-bg-desktop {{ banner_class }}">
+    <div class="top-banner-header-content text-white">
+      <h1 class="h1">{{ view.style_plugin.getField(key, 'title') }}</h1>
+      <div class="location-banner-wrapper">
+        <div class="location-desc">
+          {{ view.style_plugin.getField(key, 'field_address_info') }}
+          <a class="yellow-btn" href="#show-map">Show Map</a>
+        </div>
+        <div class="location-links">
+          <ul>
+            {% if view.style_plugin.getField(key, 'field_phone') %}
+              <li class="location-item">
+                <a href="tel:{{ view.style_plugin.getField(key, 'field_phone') }}">
+                  <span class="icon icon-phone"></span>
+                  {{ view.style_plugin.getField(key, 'field_phone') }}(main)
+                </a>
+              </li>
+            {% endif %}
+            {% if view.style_plugin.getField(key, 'field_fax') %}
+              <li class="location-item">
+                <a href="fax:{{ view.style_plugin.getField(key, 'field_fax') }}">
+                  <span class="icon icon-fax"></span>
+                  {{ view.style_plugin.getField(key, 'field_fax') }}
+                </a>
+              </li>
+            {% endif %}
+            {% if view.style_plugin.getField(key, 'field_email') %}
+              <li class="location-item location-mail">
+                <a href="mailto:{{ view.style_plugin.getField(key, 'field_email') }}" class="mail-link">
+                  <span class="icon icon-mail"></span>
+                  {{ view.style_plugin.getField(key, 'field_email') }}
+                </a>
+              </li>
+            {% endif %}
+              {% if view.style_plugin.getField(key, 'field_address_geofield_proximity')|trim != "Distance: 0.0km" %}
+              <li class="location-item">
+                <div>
+                  <span class="icon icon-location-health"></span>
+                  <span>{{ view.style_plugin.getField(key, 'field_address_geofield_proximity') }}</span>
+                </div>
+              </li>
+            {% endif %}
+            <li class="location-item"><a href="https://maps.google.com/maps?z=15&t=m&hl=en&q={{ view.style_plugin.getField(key, 'title') }} {{ view.style_plugin.getField(key, 'field_address_info_address_line1') }}{{ view.style_plugin.getField(key, 'field_address_info_address_line2') }}{{ view.style_plugin.getField(key, 'field_address_info_locality') }}{{ view.style_plugin.getField(key, 'field_address_info_postal_code') }}" target="_blank"><span class="icon icon-location"></span>Get Directions</a></li>
+            {% if view.style_plugin.getField(key, 'field_emergency_hours') %}
+              <li class="location-item"><a href = "#tab-visiting-hours" class = "hours">Hours</a></li>
+            {% endif %}
+         </ul>
+        </div>
+      </div>
+    </div>
+    <div class="location-image">
+      <picture>
+         <source media="(min-width:768px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+         <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="location">
+      </picture>
+      <div class="windchimes-glb bottom">
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="location-map" id="show-map">
+ {{ view.style_plugin.getField(key, 'view') }}
+</div>
+{% endfor %}

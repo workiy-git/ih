@@ -1,0 +1,29 @@
+/* @media print {
+    @page {
+        margin: 0;
+   }
+    body, html {
+        margin-top: 0px;
+        padding-top: 0px;
+   }
+    #block-interior-health-theme-local-tasks, header ,.footer, .highlighted, .page-node-type-webform .webform-details-toggle-state-wrapper, .page-node-type-webform .add-to-any-wrapper, .ih-webform #captcha, .ih-webform .form-actions input[type="submit"], ::-webkit-scrollbar {
+        display: none !important;
+   }
+    .webform-ajax-form-wrapper * {
+        display: block;
+   }
+    .incident-detail-wrapper.js-form-wrapper.form-wrapper, #edit-details-of-incident-what-occurred-leading-up-to-the-incident-det, #edit-lorem-ipsum1 {
+        padding-top: 30px;
+        page-break-before: left;
+   }
+    .ih-webform .custom-table-row > div {
+        max-width: 33% !important;
+        flex: 1 0 100% !important;
+   }
+    .ih-webform .custom-table-row .form-type-date input, .ih-webform .custom-table-row .form-type-webform-time input {
+        width: 75%;
+   }
+    .ih-webform table tr {
+        display: flex;
+   }
+} */

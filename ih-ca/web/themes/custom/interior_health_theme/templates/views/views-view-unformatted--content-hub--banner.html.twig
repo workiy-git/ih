@@ -1,0 +1,67 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set row_classes = [
+    default_row_class ? 'views-row',
+  ]
+%}
+{% if argument == 1 %}
+  {%
+    set wrapper_class = 'diaster-header-banner'
+  %}
+{% elseif argument == 2 %}
+  {%
+    set wrapper_class = 'career-header-banner'
+  %}
+{% endif %}
+{% for key,row in rows %}
+  {{ drupal_block('system_breadcrumb_block') }}
+  <div class="top-banner-header-left content-banner blue-bg-desktop {{ wrapper_class }}">
+    <div class="top-banner-header-content text-white d-none d-lg-block">
+      {% if view.style_plugin.getField(key, 'name') %}
+        <h1 class="h1">{{ view.style_plugin.getField(key, 'name') }}</h1>
+      {% endif %}
+      <div class="location-banner-wrapper">
+        {% if view.style_plugin.getField(key, 'description__value') %}
+          <div class="location-desc">
+            <p class="para">{{ view.style_plugin.getField(key, 'description__value') }}</p>
+            {% if view.style_plugin.getField(key, 'nothing_1') %}
+              {{ view.style_plugin.getField(key, 'nothing_1') }}
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      {% if view.style_plugin.getField(key, 'field_cta') %}
+        <div class="location-cta hub-cta">{{ view.style_plugin.getField(key, 'field_cta') }}</div>
+      {% endif %}
+      {% if view.style_plugin.getField(key, 'nothing') %}
+        <div class="careers-signup">{{ view.style_plugin.getField(key, 'nothing') }}</div>
+      {% endif %}
+    </div>
+    {% if view.style_plugin.getField(key, 'field_media_image') or view.style_plugin.getField(key, 'field_media_image_1') %}
+      <div class="location-image">
+        <picture>
+          <source media="(min-width:992px)" srcset="{{ view.style_plugin.getField(key, 'field_media_image') }}">
+          <img src="{{ view.style_plugin.getField(key, 'field_media_image_1') }}" alt="location">
+        </picture>
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}

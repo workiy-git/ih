@@ -1,0 +1,14 @@
+diff --git a/modules/geolocation_google_maps/src/Plugin/geolocation/Geocoder/GoogleGeocodingAPI.php b/modules/geolocation_google_maps/src/Plugin/geolocation/Geocoder/GoogleGeocodingAPI.php
+index 928c963..11b94a8 100644
+--- a/modules/geolocation_google_maps/src/Plugin/geolocation/Geocoder/GoogleGeocodingAPI.php
++++ b/modules/geolocation_google_maps/src/Plugin/geolocation/Geocoder/GoogleGeocodingAPI.php
+@@ -83,6 +83,9 @@ class GoogleGeocodingAPI extends GoogleGeocoderBase {
+    */
+   public function geocode($address) {
+     $config = \Drupal::config('geolocation_google_maps.settings');
++    if(empty($address)) {
++      return FALSE;
++    }
+     $query_params = [
+       'address' => $address,
+     ];
